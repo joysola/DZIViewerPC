@@ -1,0 +1,376 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.MaterialSpecimen"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:MaterialSpecViewModel}"
+                      d:DesignHeight="1000"
+                      d:DesignWidth="900">
+    <Border Grid.Row="0"
+            Padding="5"
+            Style="{StaticResource BorderRegion}">
+        <Border.Resources>
+            <cv:CalculateLengthConverter x:Key="CalculateLengthConverter" />
+            <cv:CalculateParamConverter x:Key="CalculateParamConverter" />
+            <cv:DataGridIndexConverter x:Key="DataGridIndexConverter" />
+            <fcv:EmbedPrintStatusConverter x:Key="EmbedPrintStatusConverter" />
+            <fcv:MaterialDelayBtnVisiConverter x:Key="MaterialDelayBtnVisiConverter" />
+            <SolidColorBrush x:Key="GridBackground"
+                             Color="White" />
+        </Border.Resources>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Panel.ZIndex="99">
+                <Button Style="{StaticResource ButtonPrimary}"
+                        Content="延缓取材说明"
+                        VerticalAlignment="Top"
+                        Visibility="{Binding MaterialType,Converter={StaticResource MaterialDelayBtnVisiConverter}}"
+                        Command="{Binding MaterDelayCommand}" />
+                <Button Style="{StaticResource ButtonPrimary}"
+                        Margin="5,0,5,0"
+                        VerticalAlignment="Top"
+                        Content="标本信息维护"
+                        Command="{Binding MaintainCommand}" />
+            </StackPanel>
+            <hc:TabControl Grid.RowSpan="2"
+                           IsAnimationEnabled="True"
+                           IsDraggable="False">
+                <hc:TabItem Header="标本取材"
+                            IsSelected="True">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="120" />
+                            <RowDefinition Height="4*" />
+                            <RowDefinition Height="2*" />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0"
+                                Padding="5"
+                                Style="{StaticResource BorderRegion}">
+                            <Expander IsExpanded="True"
+                                      Header="包埋盒打印：">
+                                <Grid Background="{StaticResource GridBackground}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <hc:ComboBox Grid.Column="0"
+                                                 ItemsSource="{Binding SpecList}"
+                                                 SelectedItem="{Binding SelectedSpec}"
+                                                 DisplayMemberPath="Name"
+                                                 SelectedValuePath="ID"
+                                                 ShowClearButton="True"
+                                                 hc:InfoElement.Title="送检部位："
+                                                 hc:InfoElement.Placeholder="请选择送检部位" />
+                                    <hc:TextBox Grid.Column="1"
+                                                IsEnabled="False"
+                                                Text="{Binding SelectedSpec.Number}"
+                                                Margin="5,0,0,0"
+                                                TextType="Int"
+                                                ShowClearButton="True"
+                                                hc:InfoElement.Title="材块数："
+                                                hc:InfoElement.Placeholder="请输入材块数" />
+                                    <hc:TextBox Grid.Column="2"
+                                                Text="{Binding ComboNum}"
+                                                Margin="5,0,0,0"
+                                                TextType="Int"
+                                                ShowClearButton="True"
+                                                hc:InfoElement.Title="连打数量："
+                                                hc:InfoElement.Placeholder="请输入连打数量" />
+                                    <hc:TextBox Grid.Column="3"
+                                                Text="{Binding CurUser.RealName}"
+                                                IsEnabled="False"
+                                                Margin="5,0,0,0"
+                                                hc:InfoElement.Title="取材医生："
+                                                hc:InfoElement.Placeholder="请选择取材医生" />
+                                    <StackPanel Grid.Column="4"
+                                                Orientation="Horizontal">
+                                        <Button Grid.Column="4"
+                                                x:Name="printBtn"
+                                                Style="{StaticResource ButtonPrimary}"
+                                                VerticalAlignment="Bottom"
+                                                Margin="5,0,0,0"
+                                                Content="打号"
+                                                Command="{Binding PrintCodeCommand}" />
+                                        <Button Grid.Column="4"
+                                                Style="{StaticResource ButtonPrimary}"
+                                                Margin="5,0,5,0"
+                                                VerticalAlignment="Bottom"
+                                                Content="增加"
+                                                Command="{Binding AddCommand}" />
+                                        <Button Style="{StaticResource ButtonPrimary}"
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Bottom"
+                                                Content="测试扫码"
+                                                Command="{Binding ScanCodeCommand}"
+                                                Visibility="Collapsed" />
+                                    </StackPanel>
+                                </Grid>
+                            </Expander>
+                        </Border>
+                        <Border Grid.Row="1"
+                                Padding="5"
+                                Style="{StaticResource BorderRegion}">
+                            <Expander IsExpanded="True"
+                                      x:Name="EmbedBoxExp"
+                                      Header="包埋盒列表：">
+                                <Grid x:Name="TotalGrid"
+                                      Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Path=ActualHeight, Converter={StaticResource CalculateParamConverter},ConverterParameter=35.0}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="66*" />
+                                        <ColumnDefinition Width="371*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0"
+                                          x:Name="TopGrid"
+                                          Grid.ColumnSpan="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.5*" />
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="0.8*"/>
+                                            <ColumnDefinition Width="0.4*" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0"
+                                                    Orientation="Horizontal">
+                                            <TextBlock Text="待包埋数：" />
+                                            <TextBlock Text="{Binding UnEmbedCount}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1"
+                                                    Orientation="Horizontal">
+                                            <TextBlock x:Name="dwTB"
+                                                       Text="取材进度：" />
+                                            <ProgressBar Style="{StaticResource ProgressBarInfo}"
+                                                         HorizontalAlignment="Center"
+                                                         Value="{Binding ProcessValue}">
+                                                <ProgressBar.Width>
+                                                    <MultiBinding Converter="{StaticResource CalculateLengthConverter}">
+                                                        <Binding Path="ActualWidth"
+                                                                 RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=StackPanel}" />
+                                                        <Binding Path="ActualWidth"
+                                                                 ElementName="dwTB" />
+                                                    </MultiBinding>
+                                                </ProgressBar.Width>
+                                            </ProgressBar>
+                                        </StackPanel>
+                                        <hc:TextBox Grid.Column="2"
+                                                    Text="{Binding ScanCodeStr,UpdateSourceTrigger=PropertyChanged}"
+                                                    Margin="5,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    hc:InfoElement.Placeholder="请扫码或输入进行确认"
+                                                    ShowClearButton="True">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="PreviewKeyUp">
+                                                    <ei:CallMethodAction TargetObject="{Binding}"
+                                                                         MethodName="ScanCode_PreviewKeyUp" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </hc:TextBox>
+                                        <Button Grid.Column="3"
+                                                Style="{StaticResource ButtonPrimary}"
+                                                Content="一键确认"
+                                                Command="{Binding AutoScanAllCodesCommand}"/>
+                                        <hc:ComboBox Grid.Column="4"
+                                                     ItemsSource="{Binding PostscriptDict}"
+                                                     SelectedValue="{Binding SampTiss.PostScript}"
+                                                     VerticalAlignment="Center"
+                                                     Margin="5,0,5,0"
+                                                     DisplayMemberPath="dictValue"
+                                                     SelectedValuePath="dictKey"
+                                                     ShowClearButton="True"
+                                                     hc:TitleElement.TitlePlacement="Left"
+                                                     hc:InfoElement.Title="附言："
+                                                     hc:InfoElement.Placeholder="请选择附言" />
+                                    </Grid>
+                                    <DataGrid Grid.Row="1"
+                                              x:Name="EmbedGrid"
+                                              Style="{StaticResource TransDataGrid}"
+                                              ItemsSource="{Binding EmbedBoxList}"
+                                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                              MinHeight="250"
+                                              Margin="5"
+                                              EnableRowVirtualization="False"
+                                              SelectionMode="Single"
+                                              Grid.ColumnSpan="2">
+                                        <DataGrid.RowStyle>
+                                            <Style TargetType="DataGridRow"
+                                                   BasedOn="{StaticResource CommonDataGridRowWithLineStyle}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding DrawMaterStatus}"
+                                                                 Value="1">
+                                                        <Setter Property="Background"
+                                                                Value="#2FB3CC" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGrid.RowStyle>
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Width="*"
+                                                                    Header="序号">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock HorizontalAlignment="Center"
+                                                                   Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridRow}, Converter={StaticResource DataGridIndexConverter}}" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Width="*"
+                                                                Header="蜡块号"
+                                                                Binding="{Binding WaxBlockNum}" />
+                                            <DataGridTextColumn Width="2*"
+                                                                Header="送检部位"
+                                                                Binding="{Binding Name}">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell"
+                                                           BasedOn="{StaticResource CommonDataGridCellStyle}">
+                                                        <Setter Property="ToolTip"
+                                                                Value="{Binding Name}" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Width="2*"
+                                                                Header="取材部位"
+                                                                Binding="{Binding DrawMaterPlace}">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell"
+                                                           BasedOn="{StaticResource CommonDataGridCellStyle}">
+                                                        <Setter Property="ToolTip"
+                                                                Value="{Binding DrawMaterPlace}" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Width="1.5*"
+                                                                Header="取材人员"
+                                                                Binding="{Binding DrawMaterUserName}">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell"
+                                                           BasedOn="{StaticResource CommonDataGridCellStyle}">
+                                                        <Setter Property="ToolTip"
+                                                                Value="{Binding DrawMaterUserName}" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Width="2.2*"
+                                                                Header="取材时间"
+                                                                Binding="{Binding DrawMaterTime,StringFormat='yyyy-MM-dd HH:mm:ss'}" />
+                                            <DataGridTextColumn Width="*"
+                                                                Header="打印状态"
+                                                                Binding="{Binding PrintStatus,Converter={StaticResource EmbedPrintStatusConverter}}" />
+                                            <DataGridTextColumn Width="*"
+                                                                Header="备注"
+                                                                Binding="{Binding Remark}">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell"
+                                                           BasedOn="{StaticResource CommonDataGridCellStyle}">
+                                                        <Setter Property="ToolTip"
+                                                                Value="{Binding Remark}" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTemplateColumn Width="1.5*"
+                                                                    Header="操作">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Button Style="{StaticResource ButtonPrimary}"
+                                                                    Margin="5,0,0,0"
+                                                                    hc:IconElement.Geometry="{StaticResource WindowRestoreGeometry}"
+                                                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=DataGrid},Path=DataContext.EditBoxCommand}"
+                                                                    CommandParameter="{Binding}" />
+                                                            <Button Style="{StaticResource ButtonDanger}"
+                                                                    Margin="5,0,0,0"
+                                                                    hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=DataGrid},Path=DataContext.DeleteBoxCommand}"
+                                                                    CommandParameter="{Binding}" />
+                                                            <Button Style="{StaticResource ButtonPrimary}"
+                                                                    Margin="5,0,0,0"
+                                                                    hc:IconElement.Geometry="{StaticResource DownloadGeometry}"
+                                                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid},Path=DataContext.PrintBoxCommand}"
+                                                                    CommandParameter="{Binding}" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </Expander>
+                        </Border>
+                        <Border Grid.Row="2"
+                                Padding="5"
+                                Style="{StaticResource BorderRegion}">
+                            <Expander IsExpanded="True">
+                                <Expander.Header>
+                                    <Grid x:Name="customHeader"
+                                          Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Path=ActualWidth}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0"
+                                                   Text="肉眼所见："
+                                                   HorizontalAlignment="Left" />
+                                        <StackPanel Grid.Column="1"
+                                                    Orientation="Horizontal">
+                                            <Button  Style="{StaticResource ButtonPrimary}"
+                                                     Content="语音转换"
+                                                     Visibility="Collapsed" />
+                                            <Button  Style="{StaticResource ButtonPrimary}"
+                                                     Margin="5,0,0,0"
+                                                     Content="语音记录"
+                                                     Visibility="Collapsed" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Expander.Header>
+                                <hc:TextBox Text="{Binding SampTiss.NakedEyes,UpdateSourceTrigger=PropertyChanged}"
+                                            Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Path=ActualHeight, Converter={StaticResource CalculateParamConverter},ConverterParameter=35.0}"
+                                            Margin="0,0,0,15"
+                                            VerticalScrollBarVisibility="Auto"
+                                            TextWrapping="Wrap"
+                                            AcceptsReturn="True"
+                                            HorizontalContentAlignment="Left"
+                                            VerticalContentAlignment="Top"
+                                            MaxLength="1000" />
+                            </Expander>
+                        </Border>
+                    </Grid>
+                </hc:TabItem>
+                <hc:TabItem Header="大体图像"
+                            x:Name="imgView">
+                    <hc:TabItem.ContextMenu>
+                        <ContextMenu x:Name="cntM"
+                                     Foreground="Transparent"
+                                     BorderBrush="Transparent"
+                                     Background="Transparent"
+                                     Placement="Bottom" />
+                    </hc:TabItem.ContextMenu>
+                    <Expander Header="大体所见图像："
+                              IsExpanded="True">
+                        <local:MaterialTissImg Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Path=ActualHeight, Converter={StaticResource CalculateParamConverter},ConverterParameter=35.0}"
+                                               DataContext="{Binding MaterialTissImgVM}" />
+                    </Expander>
+                </hc:TabItem>
+            </hc:TabControl>
+        </Grid>
+    </Border>
+</base:BaseUserControl>

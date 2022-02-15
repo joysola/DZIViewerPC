@@ -1,0 +1,129 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.ComWordDict"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:ComWordDictViewModel}"
+                      d:DesignHeight="250"
+                      d:DesignWidth="600">
+    <Grid>
+        <Grid.Resources>
+            <sys:Double x:Key="DefaultHeight">30</sys:Double>
+            <cv:DataGridIndexConverter x:Key="DataGridIndexConverter" />
+            <fcv:SexIntConverter x:Key="SexIntConverter" />
+            <fcv:ComWordConverter x:Key="ComWordConverter" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal"
+                    Margin="5,0,5,0">
+            <hc:TextBox Text="{Binding Content}"
+                        MinWidth="150"
+                        Height="{StaticResource DefaultHeight}"
+                        hc:InfoElement.Placeholder="请输入关键词"
+                        ShowClearButton="True" />
+            <hc:ComboBox ItemsSource="{Binding ComWordTypeDict}"
+                         SelectedValue="{Binding TypeID}"
+                         MinWidth="150"
+                         Margin="5,0,0,0"
+                         FontSize="12"
+                         VerticalAlignment="Center"
+                         DisplayMemberPath="Name"
+                         SelectedValuePath="ID"
+                         hc:InfoElement.Placeholder="请选择类型"
+                         ShowClearButton="True" />
+            <Button Style="{StaticResource ButtonPrimary}"
+                    Margin="5,0,0,0"
+                    Content="搜索"
+                    Command="{Binding QueryCommand}" />
+            <Button Style="{StaticResource ButtonPrimary}"
+                    Margin="5,0,0,0"
+                    Content="类型"
+                    hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                    Command="{Binding AddTypeCommand}" />
+            <Button Style="{StaticResource ButtonPrimary}"
+                    Margin="5,0,0,0"
+                    hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                    Content="常用词"
+                    Command="{Binding AddCommand}" />
+        </StackPanel>
+        <DataGrid Grid.Row="1"
+                  SelectedItem="{Binding SelectedComWord}"
+                  Style="{StaticResource TransDataGrid}"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  MinHeight="250"
+                  Margin="5,10,5,5"
+                  ItemsSource="{Binding ComWordList}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding FetchComWordCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="*"
+                                        Header="序号"
+                                        IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock HorizontalAlignment="Center"
+                                           Margin="5,0,0,0"
+                                           Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridRow}, Converter={StaticResource DataGridIndexConverter}}">
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Width="2*"
+                                    Header="类型">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource ComWordConverter}">
+                            <Binding Path="TypeID" />
+                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                     Path="DataContext.ComWordTypeDict" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="4*"
+                                    Header="标本名称"
+                                    Binding="{Binding Content}" />
+
+                <DataGridTemplateColumn Width="2*"
+                                        Header="操作">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource ButtonPrimary}"
+                                        Content="编辑"
+                                        Margin="5,0,0,0"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid},Path=DataContext.EditCommand}"
+                                        CommandParameter="{Binding}" />
+                                <Button Style="{StaticResource ButtonDanger}"
+                                        Margin="5,0,0,0"
+                                        Content="删除"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=DataGrid},Path=DataContext.DeleteCommand}"
+                                        CommandParameter="{Binding}" />
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</base:BaseUserControl>

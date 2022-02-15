@@ -1,0 +1,30 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.TreeMenu"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      mc:Ignorable="d"
+                      d:DesignHeight="1100"
+                      d:DesignWidth="300">
+    <Grid>
+        <TreeView x:Name="treeView" BorderThickness="1" BorderBrush="{StaticResource CommomThemeColor}"
+                    Margin="5"
+                    ItemsSource="{Binding TreeViewData.RootNodes}"
+                  IsEnabled="{Binding TreeViewIsEnable}"
+                    VerticalContentAlignment="Center">
+            <TreeView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource ModernTreeViewItem}"
+                        TargetType="TreeViewItem">
+                    <!--绑定每个Item的DataContext的IsSelected-->
+                    <Setter Property="IsSelected"
+                            Value="{Binding IsSelected}" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding ChildNodes}" />
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </Grid>
+</base:BaseUserControl>

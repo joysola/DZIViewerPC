@@ -1,0 +1,218 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.ProdDoctAdQuery"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:ProdDoctAdQueryViewModel}"
+                      d:DesignHeight="1000"
+                      d:DesignWidth="900">
+    <Grid>
+        <Grid.Resources>
+            <fcv:SexNormalConverter x:Key="SexNormalConverter" />
+            <fcv:MarkerVisiConverter x:Key="MarkerVisiConverter" />
+            <fcv:TechAdvSampStatusConverter x:Key="TechAdvSampStatusComverter" />
+            <fcv:AddTestVisiConverter x:Key="AddTestVisiConverter" />
+            <sys:Double x:Key="GridFont">12</sys:Double>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal">
+            <hc:ComboBox Grid.Column="0"
+                         SelectedValue="{Binding QueryModel.ProductID}"
+                         ItemsSource="{Binding ProductDict}"
+                         Margin="5,0,0,0"
+                         MinWidth="150"
+                         VerticalAlignment="Center"
+                         DisplayMemberPath="name"
+                         SelectedValuePath="id"
+                         hc:InfoElement.Placeholder="请选择检查项目"
+                         ShowClearButton="True" />
+            <hc:TextBox Grid.Column="1"
+                        Text="{Binding QueryModel.Name}"
+                        Margin="5,0,0,0"
+                        MinWidth="150"
+                        VerticalAlignment="Center"
+                        hc:InfoElement.Placeholder="实验室编号/姓名"
+                        ShowClearButton="True">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewKeyUp">
+                        <ei:CallMethodAction TargetObject="{Binding}"
+                                             MethodName="QueryPreviewKeyUp" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </hc:TextBox>
+            <hc:DatePicker  SelectedDate="{Binding QueryModel.StartTime}"
+                            Margin="5,0,0,0"
+                            MinWidth="150"
+                            VerticalAlignment="Center"
+                            hc:InfoElement.Placeholder="医嘱申请起期"
+                            ShowClearButton="True" />
+            <TextBlock Text="-" />
+            <hc:DatePicker SelectedDate="{Binding QueryModel.EndTime}"
+                           MinWidth="150"
+                           VerticalAlignment="Center"
+                           hc:InfoElement.Placeholder="医嘱申请止期"
+                           ShowClearButton="True" />
+            <Button Grid.Column="2"
+                    Style="{StaticResource ButtonPrimary}"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Left"
+                    Content="搜索"
+                    Command="{Binding QueryCommand}" />
+        </StackPanel>
+        <DataGrid Grid.Row="1"
+                  Style="{StaticResource TransDataGrid}"
+                  SelectedItem="{Binding SelectedModel}"
+                  ItemsSource="{Binding SampleList}"
+                  SelectedIndex="0"
+                  Margin="5,0,5,0"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  MinHeight="450"
+                  EnableRowVirtualization="False"
+                  SelectionMode="Single">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow"
+                       BasedOn="{StaticResource CommonDataGridRowWithLineStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Status}"
+                                     Value="0">
+                            <Setter Property="Background"
+                                    Value="#FFFF99" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}"
+                                     Value="1">
+                            <Setter Property="Background"
+                                    Value="#66FFCC" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell"
+                       BasedOn="{StaticResource CommonDataGridCellStyle}">
+                    <Setter Property="FontSize"
+                            Value="{StaticResource GridFont}" />
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="*"
+                                        Header="实验室编号">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding LabCode}" />
+                                <!--<Border Visibility="{Binding Marker,Converter={StaticResource MarkerVisiConverter}}"
+                                        Background="#FF6600"
+                                        CornerRadius="5"
+                                        Padding="3">
+                                    <TextBlock Text=" 加 "
+                                               Foreground="White"
+                                               VerticalAlignment="Center"
+                                               FontWeight="Bold" />
+                                </Border>-->
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*"
+                                        Header="基本信息">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding PatientName}"
+                                           FontSize="{StaticResource GridFont}" />
+                                <TextBlock Text="/"
+                                           FontSize="{StaticResource GridFont}" />
+                                <TextBlock Text="{Binding Sex,Converter={StaticResource SexNormalConverter}}"
+                                           FontSize="{StaticResource GridFont}" />
+                                <TextBlock Text="/"
+                                           FontSize="{StaticResource GridFont}" />
+                                <TextBlock Text="{Binding Age}"
+                                           FontSize="{StaticResource GridFont}" />
+                                <TextBlock Text="岁"
+                                           FontSize="{StaticResource GridFont}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*"
+                                        Header="检查项目">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Border Background="#FF6600"
+                                        CornerRadius="5"
+                                        Padding="3"
+                                        Visibility="{Binding AddTest,Converter={StaticResource AddTestVisiConverter}}">
+                                    <TextBlock Text=" 加 "
+                                               Foreground="White"
+                                               FontWeight="Bold" />
+                                </Border>
+                                <TextBlock VerticalAlignment="Center"
+                                           Text="{Binding ProductName}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*"
+                                        Header="科室/医生">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Dept}" />
+                                <TextBlock Text="/" />
+                                <TextBlock Text="{Binding DoctorName}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="1.2*"
+                                    Header="医嘱时间"
+                                    Binding="{Binding AdviceTime,StringFormat='yyyy-MM-dd HH:mm:ss'}" />
+                <DataGridTextColumn Width="0.7*"
+                                    Header="执行状态"
+                                    Binding="{Binding Status,Converter={StaticResource TechAdvSampStatusComverter}}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <ctl:Pagination Grid.Row="2"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,50,0"
+                        CurrentPage="{Binding PageModel.PageIndex}"
+                        TotalPage="{Binding PageModel.TotalPage}"
+                        TotalNum="{Binding PageModel.TotalNum}"
+                        PageSize="{Binding PageModel.PageSize, Mode=TwoWay}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="FirstPage">
+                    <i:InvokeCommandAction Command="{Binding FirstPageCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="PreviousPage">
+                    <i:InvokeCommandAction Command="{Binding PreviousPageCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="NextPage">
+                    <i:InvokeCommandAction Command="{Binding NextPageCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="LastPage">
+                    <i:InvokeCommandAction Command="{Binding LastPageCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="PaginPageChanged">
+                    <i:InvokeCommandAction Command="{Binding PaginPageChangedCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ctl:Pagination>
+    </Grid>
+</base:BaseUserControl>

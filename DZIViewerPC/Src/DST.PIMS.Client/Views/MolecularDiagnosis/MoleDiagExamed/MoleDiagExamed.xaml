@@ -1,0 +1,313 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.MoleDiagExamed"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:ei="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+                      xmlns:helper="clr-namespace:DST.Common.Helper;assembly=DST.Common"
+                      xmlns:converter="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      mc:Ignorable="d"
+                      d:DesignHeight="1000"
+                      d:DesignWidth="1800">
+
+    <base:BaseUserControl.Resources>
+        <helper:BindingProxy x:Key="BindingProxy"
+                             Data="{Binding}" />
+        <converter:TrialStatusConverter x:Key="TrialStatusConverter" />
+        <converter:HpvStatusConverter x:Key="HpvStatusConverter" />
+        <converter:SexNormalConverter x:Key="SexNormalConverter" />
+        <converter:AddTestConverter x:Key="AddTestConverter" />
+    </base:BaseUserControl.Resources>
+    
+    <Grid Background="White">
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="PreviewKeyDown">
+                <ei:CallMethodAction MethodName="Query_PreviewKeyDown"
+                                     TargetObject="{Binding}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center">
+            <hc:DatePicker Margin="5,0,0,0"
+                           SelectedDate="{Binding CurExamedQueryModel.startInspectionTime, UpdateSourceTrigger=PropertyChanged}"
+                           hc:InfoElement.Placeholder="请选择送检起期"
+                           MinWidth="150"
+                           ShowClearButton="True" />
+            <TextBlock Text="-" />
+            <hc:DatePicker SelectedDate="{Binding CurExamedQueryModel.endInspectionTime, UpdateSourceTrigger=PropertyChanged}"
+                           hc:InfoElement.Placeholder="请选择送检止期"
+                           MinWidth="150"
+                           ShowClearButton="True" />
+            <hc:DatePicker Margin="5,0,0,0"
+                           SelectedDate="{Binding CurExamedQueryModel.startReceivingTime, UpdateSourceTrigger=PropertyChanged}"
+                           hc:InfoElement.Placeholder="请选择接收起期"
+                           MinWidth="150"
+                           ShowClearButton="True" />
+            <TextBlock Text="-" />
+            <hc:DatePicker SelectedDate="{Binding CurExamedQueryModel.endReceivingTime, UpdateSourceTrigger=PropertyChanged}"
+                           hc:InfoElement.Placeholder="请选择接收止期"
+                           MinWidth="150"
+                           ShowClearButton="True" />
+
+            <hc:ComboBox Margin="5,0,0,0"
+                         ItemsSource="{Binding ProductDict}"
+                         SelectedValue="{Binding CurExamedQueryModel.productId, UpdateSourceTrigger=PropertyChanged}"
+                         DisplayMemberPath="name"
+                         SelectedValuePath="id"
+                         MinWidth="120"
+                         hc:InfoElement.Placeholder="请选择检查项目"
+                         ShowClearButton="True" />
+            
+            <hc:ComboBox Margin="5,0,0,0"
+                         SelectedValue="{Binding CurExamedQueryModel.trialStatus, UpdateSourceTrigger=PropertyChanged}"
+                         ItemsSource="{Binding TrialStatusList}"
+                         DisplayMemberPath="dictValue"
+                         SelectedValuePath="dictKey"
+                         MinWidth="120"
+                         hc:InfoElement.Placeholder="实验状态"
+                         ShowClearButton="True" />
+            <hc:ComboBox Margin="5,0,0,0"
+                         SelectedValue="{Binding CurExamedQueryModel.importStatus, UpdateSourceTrigger=PropertyChanged}"
+                         ItemsSource="{Binding HpvStatusList}"
+                         DisplayMemberPath="dictValue"
+                         SelectedValuePath="dictKey"
+                         MinWidth="120"
+                         hc:InfoElement.Placeholder="数据导入状态"
+                         ShowClearButton="True" />
+            <hc:ComboBox Margin="5,0,0,0"
+                         SelectedValue="{Binding CurExamedQueryModel.reportLargeResult, UpdateSourceTrigger=PropertyChanged}"
+                         ItemsSource="{Binding LargeResultList}"
+                         DisplayMemberPath="dictValue"
+                         SelectedValuePath="dictKey"
+                         MinWidth="120"
+                         hc:InfoElement.Placeholder="检测结果"
+                         ShowClearButton="True" />
+            <hc:TextBox Text="{Binding CurExamedQueryModel.patientName, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="5,0,0,0"
+                        MinWidth="150"
+                        hc:InfoElement.Placeholder="请输入姓名"
+                        ShowClearButton="True" />
+            <hc:TextBox Text="{Binding CurExamedQueryModel.laboratoryCode, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="5,0,0,0"
+                        MinWidth="150"
+                        hc:InfoElement.Placeholder="请输入实验编号"
+                        ShowClearButton="True" />
+            <Button Style="{StaticResource ButtonPrimary}"
+                    Margin="15,0,0,0"
+                    Content="搜索" 
+                    Command="{Binding QueryCommand}"/>
+        </StackPanel>
+        
+        <DataGrid Grid.Row="1"
+                  Style="{StaticResource TransDataGrid}"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  MinHeight="450"
+                  Margin="5"
+                  EnableRowVirtualization="False"
+                  ItemsSource="{Binding CurExamedReturnModel.records}"
+                  SelectedValue="{Binding CurSelectedModel}"
+                  LoadingRow="DataGrid_LoadingRow">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="0.8*"
+                                        Header="序号"
+                                        IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="ckbSelectedAll"
+                                          Foreground="{StaticResource ColumnHeaderTextBrush}"
+                                          VerticalAlignment="Center"
+                                          IsChecked="{Binding Data.SelectAll, Mode = TwoWay, Source= {StaticResource BindingProxy}}"
+                                          HorizontalContentAlignment="Center"
+                                          Margin="5,0,0,0"
+                                          HorizontalAlignment="Left" />
+                                <TextBlock Text="序号"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Margin="5,0,0,0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox HorizontalAlignment="Left"
+                                          IsChecked="{Binding DataContext.IsSelected, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}}"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Margin="5,0,0,0" />
+                                <TextBlock HorizontalAlignment="Center"
+                                           Margin="5,0,0,0"
+                                           Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="2.1*"
+                                    Header="实验室编号"
+                                    Binding="{Binding laboratoryCode}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding laboratoryCode}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Width="1.5*"
+                                    Header="基本信息">
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <ToolTip>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding patientName}" />
+                                            <TextBlock Text="/" />
+                                            <TextBlock Text="{Binding age}" />
+                                            <TextBlock Text="岁/" />
+                                            <TextBlock Text="{Binding sex, Converter={StaticResource SexNormalConverter}}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding patientName}" />
+                                <TextBlock Text="/" />
+                                <TextBlock Text="{Binding age}" />
+                                <TextBlock Text="岁/" />
+                                <TextBlock Text="{Binding sex, Converter={StaticResource SexNormalConverter}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="1.5*"
+                                        Header="检查项目">
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding productName}" />
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Border Visibility="{Binding addTest,Converter={StaticResource AddTestConverter}}"
+                                        Background="#FFF08302"
+                                        CornerRadius="5"
+                                        Margin="5,0,0,0"
+                                        Padding="3">
+                                    <TextBlock Text=" 加 "
+                                               Foreground="White"
+                                               VerticalAlignment="Center"
+                                               FontWeight="Bold" />
+                                </Border>
+                                <TextBlock Text="{Binding productName}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Width="*"
+                                    Header="取样时间"
+                                    Binding="{Binding gatherTime, StringFormat=yyyy-MM-dd}" />
+
+                <DataGridTextColumn Width="1.5*"
+                                    Header="登记接收时间"
+                                    Binding="{Binding receiverTime, StringFormat=yyyy-MM-dd HH:mm:ss}" />
+
+                <DataGridTextColumn Width="1.5*"
+                                    Header="送检时间"
+                                    Binding="{Binding inspectionTime, StringFormat=yyyy-MM-dd HH:mm:ss}" />
+                <DataGridTextColumn Width="2*"
+                                    Header="检测结果"
+                                    Binding="{Binding reportResult}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding reportResult}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="*"
+                                    Header="实验状态"
+                                    Binding="{Binding trialStatus, Converter={StaticResource TrialStatusConverter}}" />
+                <DataGridTextColumn Width="*"
+                                    Header="导入状态"
+                                    Binding="{Binding importStatus, Converter={StaticResource HpvStatusConverter}}" />
+                <DataGridTextColumn Width="1.5*"
+                                    Header="导入时间"
+                                    Binding="{Binding importTime, StringFormat=yyyy-MM-dd HH:mm:ss}" />
+
+                <DataGridTemplateColumn Width="2.3*"
+                                        Header="操作">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource ButtonPrimary}"
+                                        Margin="5,0,0,0"
+                                        Content="查看"
+                                        Command="{Binding DataContext.DetailCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                <Button Style="{StaticResource ButtonPrimary}"
+                                        Margin="5,0,0,0"
+                                        Content="重新取样"
+                                        Command="{Binding DataContext.ReviewCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}"/>
+                                <Button Style="{StaticResource ButtonPrimary}"
+                                        Margin="5,0,0,0"
+                                        Content="标记复测"
+                                        Command="{Binding DataContext.RepeatedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <ctl:Pagination Grid.Row="2"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,50,0"
+                        CurrentPage="{Binding PageModel.PageIndex}"
+                        TotalNum="{Binding PageModel.TotalNum}"
+                        TotalPage="{Binding PageModel.TotalPage}"
+                        PageSize="{Binding PageModel.PageSize, Mode=TwoWay}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="FirstPage">
+                    <i:InvokeCommandAction Command="{Binding FirstPageCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="PreviousPage">
+                    <i:InvokeCommandAction Command="{Binding PreviousPageCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="NextPage">
+                    <i:InvokeCommandAction Command="{Binding NextPageCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="LastPage">
+                    <i:InvokeCommandAction Command="{Binding LastPageCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="PaginPageChanged">
+                    <i:InvokeCommandAction Command="{Binding PaginPageChangedCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ctl:Pagination>
+    </Grid>
+</base:BaseUserControl>

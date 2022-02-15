@@ -1,0 +1,184 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.PhysDistReceiptBarcode"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:ei="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+                      xmlns:converter="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      mc:Ignorable="d"
+                      d:DesignHeight="600"
+                      d:DesignWidth="1600">
+    <base:BaseUserControl.Resources>
+        <converter:SexNormalConverter x:Key="SexNormalConverter" />
+        <converter:ScreenConverter x:Key="ScreenConverter" />
+    </base:BaseUserControl.Resources>
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal"
+                    Margin="5,10,5,5">
+            <TextBlock Text="*"
+                       Foreground="Red" />
+            <TextBlock Text="物流单号：" />
+
+            <hc:TextBox Text="{Binding QueryExpressModel.mailNo, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="5,0,0,0"
+                        Name="tbMailNo"
+                        hc:InfoElement.Placeholder="请扫码物流单号"
+                        ShowClearButton="True"
+                        MinWidth="200"
+                        PreviewKeyUp="TextBox_PreviewKeyUp" />
+
+            <TextBlock Text="条码号："
+                       Margin="50,0,0,0" />
+            <hc:TextBox Text="{Binding QueryExpressModel.barCode, UpdateSourceTrigger=PropertyChanged}"
+                        Name="tbBarcode"
+                        Margin="5,0,0,0"
+                        hc:InfoElement.Placeholder="请扫码条码号"
+                        ShowClearButton="True"
+                        MinWidth="200">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewKeyUp">
+                        <ei:CallMethodAction MethodName="PreviewKeyUp"
+                                             TargetObject="{Binding}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </hc:TextBox>
+        </StackPanel>
+
+        <DataGrid Grid.Row="1"
+                  Style="{StaticResource TransDataGrid}"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  MinHeight="300"
+                  Margin="5"
+                  EnableRowVirtualization="False"
+                  ItemsSource="{Binding AllScanSignList}"
+                  LoadingRow="DataGrid_LoadingRow">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="*"
+                                        Header="序号"
+                                        IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock HorizontalAlignment="Center"
+                                           Margin="5,0,0,0"
+                                           Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="2*"
+                                        Header="医院/医生">
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <ToolTip>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding hospitalName}" />
+                                            <TextBlock Text="/" />
+                                            <TextBlock Text="{Binding doctorName}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding hospitalName}" />
+                                <TextBlock Text="/" />
+                                <TextBlock Text="{Binding doctorName}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="1.5*"
+                                    Header="姓名"
+                                    Binding="{Binding patientName}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding patientName}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="*"
+                                    Header="年龄"
+                                    Binding="{Binding age}" />
+                <DataGridTextColumn Width="*"
+                                    Header="性别"
+                                    Binding="{Binding sex, Converter={StaticResource SexNormalConverter}}" />
+                <DataGridTextColumn Width="2*"
+                                    Header="联系电话"
+                                    Binding="{Binding phone}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding phone}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="*"
+                                    Header="负责人"
+                                    Binding="{Binding salesUserName}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding salesUserName}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="*"
+                                    Header="活动类型"
+                                    Binding="{Binding screen, Converter={StaticResource ScreenConverter}}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding screen, Converter={StaticResource ScreenConverter}}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="2*"
+                                    Header="检查项目"
+                                    Binding="{Binding productName}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding productName}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="2*"
+                                    Header="备注"
+                                    Binding="{Binding remark}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding remark}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="2.5*"
+                                    Header="取样时间"
+                                    Binding="{Binding gatherTime, StringFormat=yyyy-MM-dd HH:mm:ss}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</base:BaseUserControl>

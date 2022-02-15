@@ -1,0 +1,313 @@
+﻿<UserControl x:Class="DST.PIMS.Framework.Controls.WhiteBalance"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:DST.PIMS.Framework.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="380"
+             d:DesignWidth="300"
+             MinWidth="300">
+    <Border CornerRadius="5"
+            BorderBrush="{StaticResource ThirdlyTextBrush}"
+            BorderThickness="1"
+            Background="White">
+        <Border.Resources>
+            <Style TargetType="Expander"
+                   BasedOn="{StaticResource ExpanderBaseStyle}">
+                <Setter Property="Margin"
+                        Value="5,5,5,0" />
+                <Setter Property="Padding"
+                        Value="0,5,0,0" />
+            </Style>
+            <Style TargetType="Slider"
+                   BasedOn="{StaticResource SliderBaseStyle}">
+                <Setter Property="Background"
+                        Value="{StaticResource ThirdlyTextBrush}" />
+                <Setter Property="hc:TipElement.Visibility"
+                        Value="Visible" />
+            </Style>
+            <fcv:WhiteBalancePercentageConverter x:Key="WhiteBalancePercentageConverter" />
+        </Border.Resources>
+        <StackPanel>
+            <Expander IsExpanded="True"
+                      Margin="5,10,5,0">
+                <Expander.Header>
+                    <TextBlock Text="颜色"
+                               FontWeight="Bold"
+                               FontSize="18" />
+                </Expander.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="2*"
+                                           MinWidth="80" />
+                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Red:"
+                               Margin="0,0,5,0"
+                               HorizontalAlignment="Right" />
+                    <Slider Grid.Row="0"
+                            Grid.Column="1"
+                            x:Name="RedSlider"
+                            VerticalAlignment="Center"
+                            Minimum="-1"
+                            Maximum="1"
+                            hc:TipElement.Placement="Top"
+                            Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:WhiteBalance},Path=Red}" />
+                    <hc:CircleProgressBar Grid.Row="0"
+                                          Grid.Column="2"
+                                          ShowText="False"
+                                          ArcThickness="10"
+                                          Height="25"
+                                          Width="25"
+                                          Margin="2"
+                                          Style="{StaticResource ProgressBarDangerCircle}">
+                        <hc:CircleProgressBar.Value>
+                            <MultiBinding Converter="{StaticResource WhiteBalancePercentageConverter}">
+                                <Binding Path="Minimum"
+                                         ElementName="RedSlider"
+                                         Mode="OneWay" />
+                                <Binding Path="Maximum"
+                                         ElementName="RedSlider"
+                                         Mode="OneWay" />
+                                <Binding Path="Value"
+                                         ElementName="RedSlider"
+                                         Mode="OneWay" />
+                            </MultiBinding>
+                        </hc:CircleProgressBar.Value>
+                    </hc:CircleProgressBar>
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               HorizontalAlignment="Right"
+                               Margin="0,0,5,0"
+                               Text="Green:" />
+                    <Slider Grid.Row="1"
+                            Grid.Column="1"
+                            x:Name="GreenSlider"
+                            VerticalAlignment="Center"
+                            Minimum="-1"
+                            Maximum="1"
+                            hc:TipElement.Placement="Top"
+                            Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:WhiteBalance},Path=Green}" />
+                    <hc:CircleProgressBar Grid.Row="1"
+                                          Grid.Column="2"
+                                          ShowText="False"
+                                          ArcThickness="10"
+                                          Height="25"
+                                          Width="25"
+                                          Margin="2"
+                                          Style="{StaticResource ProgressBarSuccessCircle}">
+                        <hc:CircleProgressBar.Value>
+                            <MultiBinding Converter="{StaticResource WhiteBalancePercentageConverter}">
+                                <Binding Path="Minimum"
+                                         ElementName="GreenSlider"
+                                         Mode="OneWay" />
+                                <Binding Path="Maximum"
+                                         ElementName="GreenSlider"
+                                         Mode="OneWay" />
+                                <Binding Path="Value"
+                                         ElementName="GreenSlider"
+                                         Mode="OneWay" />
+                            </MultiBinding>
+                        </hc:CircleProgressBar.Value>
+                    </hc:CircleProgressBar>
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="0"
+                               HorizontalAlignment="Right"
+                               Margin="0,0,5,0"
+                               Text="Blue:" />
+                    <Slider Grid.Row="2"
+                            Grid.Column="1"
+                            x:Name="BlueSlider"
+                            VerticalAlignment="Center"
+                            Minimum="-1"
+                            Maximum="1"
+                            hc:TipElement.Placement="Top"
+                            Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:WhiteBalance},Path=Blue}" />
+                    <hc:CircleProgressBar Grid.Row="2"
+                                          Grid.Column="2"
+                                          ShowText="False"
+                                          ArcThickness="10"
+                                          Height="25"
+                                          Width="25"
+                                          Margin="2">
+                        <hc:CircleProgressBar.Value>
+                            <MultiBinding Converter="{StaticResource WhiteBalancePercentageConverter}">
+                                <Binding Path="Minimum"
+                                         ElementName="BlueSlider"
+                                         Mode="OneWay" />
+                                <Binding Path="Maximum"
+                                         ElementName="BlueSlider"
+                                         Mode="OneWay" />
+                                <Binding Path="Value"
+                                         ElementName="BlueSlider"
+                                         Mode="OneWay" />
+                            </MultiBinding>
+                        </hc:CircleProgressBar.Value>
+                    </hc:CircleProgressBar>
+                </Grid>
+            </Expander>
+            <Expander IsExpanded="True"
+                      Margin="5,10,5,0">
+                <Expander.Header>
+                    <TextBlock Text="对比度亮度"
+                               FontWeight="Bold"
+                               FontSize="18" />
+                </Expander.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"
+                                          MinWidth="80" />
+                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="亮度:"
+                               HorizontalAlignment="Right"
+                               Margin="0,0,5,0" />
+                    <Slider Grid.Row="0"
+                            Grid.Column="1"
+                            x:Name="BrightSlider"
+                            VerticalAlignment="Center"
+                            Minimum="-1"
+                            Maximum="1"
+                            hc:TipElement.Placement="Top"
+                            Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:WhiteBalance},Path=Brightness}" />
+                    <hc:CircleProgressBar Grid.Row="0"
+                                          Grid.Column="2"
+                                          ShowText="False"
+                                          ArcThickness="10"
+                                          Height="25"
+                                          Width="25"
+                                          Margin="2"
+                                          Style="{StaticResource ProgressBarInfoCircle}">
+                        <hc:CircleProgressBar.Value>
+                            <MultiBinding Converter="{StaticResource WhiteBalancePercentageConverter}">
+                                <Binding Path="Minimum"
+                                         ElementName="BrightSlider"
+                                         Mode="OneWay" />
+                                <Binding Path="Maximum"
+                                         ElementName="BrightSlider"
+                                         Mode="OneWay" />
+                                <Binding Path="Value"
+                                         ElementName="BrightSlider"
+                                         Mode="OneWay" />
+                            </MultiBinding>
+                        </hc:CircleProgressBar.Value>
+                    </hc:CircleProgressBar>
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Margin="0,0,5,0"
+                               HorizontalAlignment="Right"
+                               Text="对比度:" />
+                    <Slider Grid.Row="1"
+                            Grid.Column="1"
+                            x:Name="ContrastSlider"
+                            VerticalAlignment="Center"
+                            Minimum="0"
+                            Maximum="2"
+                            hc:TipElement.Placement="Top"
+                            Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:WhiteBalance},Path=Contrast}" />
+                    <hc:CircleProgressBar Grid.Row="1"
+                                          Grid.Column="2"
+                                          ShowText="False"
+                                          ArcThickness="10"
+                                          Height="25"
+                                          Width="25"
+                                          Margin="2"
+                                          Style="{StaticResource ProgressBarInfoCircle}">
+                        <hc:CircleProgressBar.Value>
+                            <MultiBinding Converter="{StaticResource WhiteBalancePercentageConverter}">
+                                <Binding Path="Minimum"
+                                         ElementName="ContrastSlider"
+                                         Mode="OneWay" />
+                                <Binding Path="Maximum"
+                                         ElementName="ContrastSlider"
+                                         Mode="OneWay" />
+                                <Binding Path="Value"
+                                         ElementName="ContrastSlider"
+                                         Mode="OneWay" />
+                            </MultiBinding>
+                        </hc:CircleProgressBar.Value>
+                    </hc:CircleProgressBar>
+                </Grid>
+            </Expander>
+            <Expander IsExpanded="True"
+                      Margin="5,10,5,0">
+                <Expander.Header>
+                    <TextBlock Text="伽马因子"
+                               FontWeight="Bold"
+                               FontSize="18" />
+                </Expander.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"
+                                          MinWidth="80" />
+                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               HorizontalAlignment="Right"
+                               Text="伽马因子:"
+                               Margin="0,0,5,0" />
+                    <Slider Grid.Row="1"
+                            Grid.Column="1"
+                            x:Name="GammaSlider"
+                            VerticalAlignment="Center"
+                            Minimum="0.5"
+                            Maximum="3.5"
+                            hc:TipElement.Placement="Top"
+                            Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:WhiteBalance},Path=Gamma}" />
+                    <hc:CircleProgressBar Grid.Row="1"
+                                          Grid.Column="2"
+                                          ShowText="False"
+                                          ArcThickness="10"
+                                          Height="25"
+                                          Width="25"
+                                          Margin="2"
+                                          Style="{StaticResource ProgressBarInfoCircle}">
+                        <hc:CircleProgressBar.Value>
+                            <MultiBinding Converter="{StaticResource WhiteBalancePercentageConverter}">
+                                <Binding Path="Minimum"
+                                         ElementName="GammaSlider"
+                                         Mode="OneWay" />
+                                <Binding Path="Maximum"
+                                         ElementName="GammaSlider"
+                                         Mode="OneWay" />
+                                <Binding Path="Value"
+                                         ElementName="GammaSlider"
+                                         Mode="OneWay" />
+                            </MultiBinding>
+                        </hc:CircleProgressBar.Value>
+                    </hc:CircleProgressBar>
+                </Grid>
+            </Expander>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button Style="{StaticResource ButtonBaseStyle}"
+                        Background="{StaticResource ThirdlyTextBrush}"
+                        hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                        Content="取消" 
+                        Click="Cancel_Click"/>
+                <Button Style="{StaticResource ButtonPrimary}"
+                        hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"
+                        Content="重置"
+                        Margin="10,15,0,15"
+                        Click="ResetBtn_Click" />
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

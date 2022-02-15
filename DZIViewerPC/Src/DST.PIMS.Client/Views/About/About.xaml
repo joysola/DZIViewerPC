@@ -1,0 +1,61 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.About"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:AboutViewModel}"
+                      d:DesignHeight="320"
+                      d:DesignWidth="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="6*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!--<TextBlock Grid.Row="0"
+                   Text="迪赛特 样本标记系统"
+                   Margin="10"
+                   FontWeight="Bold"
+                   FontSize="18" />-->
+        <Image  Grid.Row="1"
+                Source="/Images/logo.jpg"
+                Stretch="Fill"
+                Margin="10,0,10,0" />
+        <TextBlock Grid.Row="2"
+                   Text="{Binding VersionEngInfo}"
+                   VerticalAlignment="Bottom"
+                   Margin="10,0,0,0" />
+        <Separator Grid.Row="3"
+                   Background="Black"
+                   Margin="0,3,0,3" />
+        <StackPanel Grid.Row="4"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    Margin="10,0,0,0">
+            <TextBlock Text="客户端版本号： "
+                       Foreground="Red" />
+            <TextBlock x:Name="tbVersion" />
+        </StackPanel>
+        <StackPanel Grid.Row="5"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    Margin="10,0,0,0">
+            <TextBlock Text="服务端版本号： "
+                       Foreground="Red" />
+            <TextBlock Text="{Binding WebVersion}" />
+        </StackPanel>
+    </Grid>
+</base:BaseUserControl>

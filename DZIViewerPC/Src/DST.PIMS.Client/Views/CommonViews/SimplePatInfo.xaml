@@ -1,0 +1,115 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.SimplePatInfo"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel.Test;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:TestViewModel}"
+                      d:DesignHeight="300"
+                      d:DesignWidth="350">
+    <Grid>
+        <Grid.Resources>
+            <Style x:Key="StackPanelMargin"
+                   TargetType="StackPanel">
+                <Style.Setters>
+                    <Setter Property="Margin"
+                            Value="5,5,5,0" />
+                </Style.Setters>
+            </Style>
+        </Grid.Resources>
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0"
+                            Style="{StaticResource StackPanelMargin}"
+                            Orientation="Horizontal">
+                    <TextBlock  Text="病理号：" />
+                    <TextBlock Text="{Binding CdModel.Pathology_No}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1"
+                            Style="{StaticResource StackPanelMargin}"
+                            Orientation="Horizontal">
+                    <TextBlock  Text="病例库：" />
+                    <TextBlock Text="{Binding CdModel.PathCaseBase}" />
+                </StackPanel>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal"
+                        Style="{StaticResource StackPanelMargin}">
+                <TextBlock  Text="患者信息：" />
+                <TextBlock Text="{Binding CdModel.PatInfos}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        Style="{StaticResource StackPanelMargin}">
+                <TextBlock  Text="申请时间：" />
+                <TextBlock Text="{Binding CdModel.Apply_Date}" />
+            </StackPanel>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0"
+                            Style="{StaticResource StackPanelMargin}"
+                            Orientation="Horizontal">
+                    <TextBlock  Text="送检科室：" />
+                    <TextBlock Text="{Binding CdModel.Inspect_Dept}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1"
+                            Style="{StaticResource StackPanelMargin}"
+                            Orientation="Horizontal">
+                    <TextBlock  Text="送检医生：" />
+                    <TextBlock Text="{Binding CdModel.Inspect_Doc}" />
+                </StackPanel>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal"
+                        Style="{StaticResource StackPanelMargin}">
+                <TextBlock  Text="标本类型："
+                            FontWeight="Bold" />
+                <TextBlock Text="{Binding CdModel.Sample_Type}"
+                           FontWeight="Bold" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        Style="{StaticResource StackPanelMargin}">
+                <TextBlock  Text="送检样本名称："
+                            FontWeight="Bold" />
+                <TextBlock Text="{Binding CdModel.Sample_Name}"
+                           FontWeight="Bold" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        Style="{StaticResource StackPanelMargin}">
+                <TextBlock  Text="临床诊断："
+                            FontWeight="Bold" />
+                <TextBlock Text="{Binding CdModel.Diagnosis}"
+                           FontWeight="Bold" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        Style="{StaticResource StackPanelMargin}">
+                <TextBlock  Text="肉眼所见："
+                            VerticalAlignment="Top"
+                            FontWeight="Bold" />
+                <TextBlock Text="{Binding CdModel.ThingsbyEyes}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           TextWrapping="Wrap"
+                           FontWeight="Bold" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</base:BaseUserControl>

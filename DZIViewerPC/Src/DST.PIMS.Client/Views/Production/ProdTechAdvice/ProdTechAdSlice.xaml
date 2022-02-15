@@ -1,0 +1,170 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.ProdTechAdSlice"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      xmlns:helper="clr-namespace:DST.Common.Helper;assembly=DST.Common"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:ProdTechAdSliceViewModel}"
+                      d:DesignHeight="1000"
+                      d:DesignWidth="900">
+    <Grid>
+        <Grid.Resources>
+            <cv:CalculateLengthConverter x:Key="CalculateLengthConverter" />
+            <cv:CalculateParamConverter x:Key="CalculateParamConverter" />
+            <cv:DataGridIndexConverter x:Key="DataGridIndexConverter" />
+            <fcv:EmbedPrintStatusConverter x:Key="EmbedPrintStatusConverter" />
+            <fcv:MaterialDelayBtnVisiConverter x:Key="MaterialDelayBtnVisiConverter" />
+            <fcv:DrawMaterStatusConverter x:Key="DrawMaterStatusConverter" />
+            <fcv:MarkerConverter x:Key="MarkerConverter" />
+            <fcv:TechAdvTypeConverter x:Key="TechAdvTypeComverter" />
+            <fcv:BoolToVisibilityReverseConverter x:Key="BoolToVisibilityReverseConverter" />
+            <SolidColorBrush x:Key="GridBackground"
+                             Color="White" />
+            <helper:BindingProxy x:Key="proxy"
+                                 Data="{Binding}" />
+        </Grid.Resources>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <local:QueryPathTitle DataContext="{Binding QueryPathTitleVM}" />
+            <Grid Grid.Row="1">
+                <Border Grid.Row="0"
+                        Padding="5"
+                        Style="{StaticResource BorderRegion}">
+                    <Expander IsExpanded="True"
+                              x:Name="EmbedBoxExp"
+                              Header="医嘱详情：">
+                        <Grid x:Name="TotalGrid"
+                              Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Path=ActualHeight, Converter={StaticResource CalculateParamConverter},ConverterParameter=35.0}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+                            <DataGrid Grid.Row="0"
+                                      Style="{StaticResource TransDataGrid}"
+                                      ItemsSource="{Binding SliceList}"
+                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                      MinHeight="250"
+                                      Margin="5"
+                                      EnableRowVirtualization="False"
+                                      SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="0.8*"
+                                                            Header="序号">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding IsSelected,UpdateSourceTrigger=PropertyChanged}" />
+                                                    <TextBlock HorizontalAlignment="Center"
+                                                               Margin="5,0,0,0"
+                                                               Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridRow}, Converter={StaticResource DataGridIndexConverter}}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Width="*"
+                                                        Header="技术医嘱"
+                                                        Binding="{Binding AdviceType,Converter={StaticResource TechAdvTypeComverter}}" />
+                                    <DataGridTextColumn Width="1.5*"
+                                                        Header="送检部位"
+                                                        Binding="{Binding InspecPlace}">
+                                        <DataGridTextColumn.CellStyle>
+                                            <Style TargetType="DataGridCell"
+                                                   BasedOn="{StaticResource CommonDataGridCellStyle}">
+                                                <Setter Property="ToolTip"
+                                                        Value="{Binding InspecPlace}" />
+                                            </Style>
+                                        </DataGridTextColumn.CellStyle>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Width="1.5*"
+                                                        Header="取材部位"
+                                                        Binding="{Binding DrawMaterPlace}">
+                                        <DataGridTextColumn.CellStyle>
+                                            <Style TargetType="DataGridCell"
+                                                   BasedOn="{StaticResource CommonDataGridCellStyle}">
+                                                <Setter Property="ToolTip"
+                                                        Value="{Binding DrawMaterPlace}" />
+                                            </Style>
+                                        </DataGridTextColumn.CellStyle>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Width="*"
+                                                        Header="切片号"
+                                                        Binding="{Binding SliceShortNum}" />
+                                    <DataGridTextColumn Width="*"
+                                                        Header="打印状态"
+                                                        Binding="{Binding PrintStatus,Converter={StaticResource EmbedPrintStatusConverter}}" />
+                                    <DataGridTextColumn Width="*"
+                                                        Header="蜡块号"
+                                                        Binding="{Binding WaxBlockNum}" />
+                                    <!--<DataGridTextColumn Width="1.2*"
+                                                        Header="标记物/染色">
+                                        <DataGridTextColumn.Binding>
+                                            <MultiBinding Converter="{StaticResource MarkerConverter}">
+                                                <Binding Path="Marker" />
+                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                         Path="DataContext.SpecStainSetList" />
+                                            </MultiBinding>
+                                        </DataGridTextColumn.Binding>
+                                    </DataGridTextColumn>-->
+                                    <DataGridTemplateColumn Width="*"
+                                                            Visibility="{Binding Data.IsCell, Converter={StaticResource BoolToVisibilityReverseConverter}, Source={StaticResource proxy}}">
+                                        <DataGridTemplateColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="操作" />
+                                                    <Button Style="{StaticResource ButtonPrimary}"
+                                                            Margin="5,0,0,0"
+                                                            hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid},Path=DataContext.AddSliceCommand}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.HeaderTemplate>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Style="{StaticResource ButtonPrimary}"
+                                                            hc:IconElement.Geometry="{StaticResource WindowRestoreGeometry}"
+                                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid},Path=DataContext.EditCommand}"
+                                                            CommandParameter="{Binding}" />
+                                                    <Button Style="{StaticResource ButtonDanger}"
+                                                            Margin="5,0,0,0"
+                                                            hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid},Path=DataContext.DeleteCommand}"
+                                                            CommandParameter="{Binding}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <StackPanel Grid.Row="1"
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Right">
+                                <Button Style="{StaticResource ButtonPrimary}"
+                                        Visibility="{Binding IsCell,Converter={StaticResource BoolToVisibilityReverseConverter}}"
+                                        Content="打印选中切片"
+                                        Command="{Binding PrintSelectCommand}" />
+                                <Button Style="{StaticResource ButtonPrimary}"
+                                        Margin="10,0,5,0"
+                                        Content="打印全部"
+                                        Command="{Binding PrintAllCommand}" />
+                            </StackPanel>
+                        </Grid>
+                    </Expander>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</base:BaseUserControl>

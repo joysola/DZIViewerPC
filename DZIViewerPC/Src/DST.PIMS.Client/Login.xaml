@@ -1,0 +1,232 @@
+﻿<Window x:Class="DST.PIMS.Client.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+        xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+        xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+        xmlns:ei="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+        xmlns:local="clr-namespace:DST.PIMS.Client"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:LoginViewModel}"
+        Title="数字化病理科系统"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Icon="Images/a4z28-xygp9-002.ico"
+        Background="Transparent"
+        Height="800"
+        Width="1200">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="PreviewKeyDown">
+            <ei:CallMethodAction MethodName="Login_PreviewKeyDown"
+                                 TargetObject="{Binding}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Border>
+        <Border.Background>
+            <ImageBrush ImageSource="/DST.PIMS.Client;component/Images/LoginBackground.png" />
+        </Border.Background>
+        <Grid>
+            <Grid.Resources>
+                <fcv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+                <fcv:BoolToVisibilityReverseConverter x:Key="BoolToVisibilityReverseConverter" />
+                <Brush x:Key="brush">#168bc0</Brush>
+                <cv:DataGridIndexConverter x:Key="DataGridIndexConverter" />
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Button Style="{StaticResource ButtonBaseStyle}"
+                    Visibility="{Binding IsLoading,Converter={StaticResource BoolToVisibilityReverseConverter}}"
+                    Focusable="False"
+                    Margin="0,20,25,0"
+                    Background="Transparent"
+                    Foreground="Black"
+                    HorizontalAlignment="Right"
+                    hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                    Click="Close_Click" />
+            <Border  Grid.RowSpan="2"
+                     Height="430"
+                     Width="456"
+                     CornerRadius="8"
+                     Background="White">
+                <!--<Border.Effect>
+                <DropShadowEffect BlurRadius="6"
+                                  ShadowDepth="10"
+                                  Opacity="0.5" />
+            </Border.Effect>-->
+                <Grid x:Name="grid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1.2*" />
+                        <RowDefinition Height="0.8*" />
+                        <RowDefinition Height="0.7*" />
+                        <RowDefinition Height="0.8*" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3.5*" />
+                        <ColumnDefinition Width="0.5*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Row="1"
+                                Grid.ColumnSpan="3"
+                                Grid.RowSpan="4"
+                                Visibility="{Binding IsLoading,Converter={StaticResource BoolToVisibilityConverter}}">
+                        <hc:LoadingLine Margin="30"
+                                        Foreground="{StaticResource brush}"
+                                        Style="{StaticResource LoadingLineLarge}" />
+                        <hc:LoadingLine Margin="30"
+                                        Foreground="{StaticResource brush}"
+                                        Style="{StaticResource LoadingLineLarge}" />
+                        <hc:LoadingLine Margin="30"
+                                        Foreground="{StaticResource brush}"
+                                        Style="{StaticResource LoadingLineLarge}" />
+                    </StackPanel>
+                    <TextBlock Grid.Row="0"
+                               Grid.ColumnSpan="3"
+                               Text="DST数字化病理科系统"
+                               HorizontalAlignment="Center"
+                               FontSize="28"
+                               Foreground="{StaticResource brush}"
+                               FontWeight="Bold" />
+                    <StackPanel Grid.Row="1"
+                                Grid.Column="0"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right">
+                        <!--<TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Text="用户名："
+                           HorizontalAlignment="Right"
+                           />-->
+                        <Image Source="/DST.PIMS.Client;component/Images/LoginUser2.png"
+                               Width="20"
+                               Height="20"
+                               Margin="0,5,0,15"
+                               Visibility="{Binding IsLoading,Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                    </StackPanel>
+                    <hc:TextBox Grid.Row="1"
+                                Grid.Column="1"
+                                x:Name="tb"
+                                TabIndex="0"
+                                Margin="20,10,20,15"
+                                Text="{Binding LoginModel.UserName,UpdateSourceTrigger=PropertyChanged}"
+                                hc:InfoElement.HorizontalAlignment="Right"
+                                hc:InfoElement.Placeholder="请输入用户账号"
+                                hc:TitleElement.VerticalAlignment="Center"
+                                ShowClearButton="True"
+                                Visibility="{Binding IsLoading,Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                <i:InvokeCommandAction Command="{Binding UserNameFocus}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </hc:TextBox>
+                    <Popup x:Name="pop"
+                           IsOpen="{Binding IsHisOpen}"
+                           Placement="Bottom"
+                           PlacementTarget="{Binding ElementName=tb}"
+                           LostFocus="Pop_LostFocus">
+                        <DataGrid Style="{StaticResource TransDataGrid}"
+                                  ItemsSource="{Binding HistoryLoginInfos}"
+                                  Width="{Binding ElementName=tb,Path=ActualWidth}"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  HeadersVisibility="None"
+                                  SelectionMode="Single">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonUp">
+                                    <i:InvokeCommandAction Command="{Binding SelectHisLogin}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid},Path=SelectedItem}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="用户名"
+                                                    Width="4*"
+                                                    Binding="{Binding UserName}" />
+                                <DataGridTemplateColumn Header="操作"
+                                                        Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{StaticResource ButtonDanger}"
+                                                    hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid},Path=DataContext.RemoveHisLogin}"
+                                                    CommandParameter="{Binding}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Popup>
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                HorizontalAlignment="Right">
+                        <!--<TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Text="密码："
+                           HorizontalAlignment="Right"
+                           Visibility="{Binding IsLoading,Converter={StaticResource BoolToVisibilityReverseConverter}}" />-->
+                        <Image Source="/DST.PIMS.Client;component/Images/Password2.png"
+                               Width="20"
+                               Height="20"
+                               Margin="0,5,0,15"
+                               Visibility="{Binding IsLoading,Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                    </StackPanel>
+                    <!--注意开启IsSafeEnabled后，UnsafePassword可以绑定密码-->
+                    <hc:PasswordBox Grid.Row="2"
+                                    Grid.Column="1"
+                                    x:Name="pw"
+                                    UnsafePassword="{Binding LoginModel.Password,UpdateSourceTrigger=PropertyChanged}"
+                                    IsSafeEnabled="False"
+                                    TabIndex="1"
+                                    Margin="20,5,20,15"
+                                    ShowClearButton="True"
+                                    ShowEyeButton="True"
+                                    hc:TitleElement.VerticalAlignment="Center"
+                                    hc:InfoElement.Placeholder="请输入密码"
+                                    Visibility="{Binding IsLoading,Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                    <CheckBox Grid.Row="3"
+                              IsChecked="{Binding IsRememberPw}"
+                              Content="记住用户名"
+                              Focusable="False"
+                              Margin="20,5,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Grid.Column="1"
+                              Visibility="{Binding IsLoading,Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                    <Button Grid.Row="4"
+                            Focusable="False"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Style="{StaticResource ButtonPrimary}"
+                            Background="{StaticResource brush}"
+                            Width="320"
+                            Margin="15,0,0,0"
+                            Height="45"
+                            FontSize="15"
+                            Content="立即登录"
+                            Visibility="{Binding IsLoading,Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding LoginCommand}"
+                                                       CommandParameter="{Binding ElementName=pw}" />
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="PreviewKeyDown">
+                                <ei:CallMethodAction MethodName="Login_PreviewKeyDown"
+                                                     TargetObject="{Binding}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,63 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.RegReSamp_Withdraw"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:RegReSamp_WithdrawViewModel}"
+                      d:DesignHeight="250"
+                      d:DesignWidth="500">
+    <Grid>
+        <Grid.Resources>
+            <GridLength x:Key="titleWidth">90</GridLength>
+            <cv:SystemIconConverter x:Key="SystemIconConverter" />
+        </Grid.Resources>
+        <StackPanel VerticalAlignment="Center">
+            
+            <hc:ComboBox Style="{StaticResource ComboBoxAppRegister}"
+                         ItemsSource="{Binding ReSampWithdrawReasonDict}"
+                         SelectedValue="{Binding ReSamp.Reason}"
+                         SelectedValuePath="dictKey"
+                         DisplayMemberPath="dictValue"
+                         hc:TitleElement.TitleWidth="{StaticResource titleWidth}"
+                         hc:TitleElement.Title="撤销原因："
+                         hc:InfoElement.Placeholder="请选择撤销原因"
+                         hc:InfoElement.Necessary="True"
+                         ShowClearButton="True" />
+            <hc:TextBox Style="{StaticResource TextBoxAppRegister}"
+                        Text="{Binding ReSamp.Remark}"
+                        Height="70"
+                        hc:TitleElement.Title="描述："
+                        hc:InfoElement.Placeholder="请输入描述"
+                        hc:TitleElement.TitleWidth="{StaticResource titleWidth}"
+                        ShowClearButton="True"
+                        VerticalContentAlignment="Top"
+                        HorizontalContentAlignment="Left"
+                        VerticalScrollBarVisibility="Auto"
+                        TextWrapping="Wrap"
+                        AcceptsReturn="True"
+                        MaxLength="200" />
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,10,0">
+                <Button Style="{StaticResource ButtonBaseStyle}"
+                        Background="{StaticResource ThirdlyTextBrush}"
+                        Content="取消"
+                        Command="{Binding CancelCommand}" />
+                <Button Style="{StaticResource ButtonPrimary}"
+                        Margin="5,0,0,0"
+                        Content="确认"
+                        Command="{Binding OKCommand}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</base:BaseUserControl>

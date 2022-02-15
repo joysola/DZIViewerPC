@@ -1,0 +1,130 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.ImgViewerManager"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:frm="clr-namespace:DST.PIMS.Framework.Controls;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      d:DataContext="{d:DesignInstance Type=vm:ImgViewerManagerViewModel}"
+                      mc:Ignorable="d"
+                      d:DesignHeight="850"
+                      d:DesignWidth="1200">
+    <Grid x:Name="grid"
+          MouseDown="ClosePopups">
+        <Grid.Resources>
+            <fcv:ImgViewerDetailPopwidthConverter x:Key="ImgViewerDetailPopwidthConverter" />
+            <fcv:ImgVwrDtlPopMaxWidthConverter x:Key="ImgVwrDtlPopMaxWidthConverter" />
+            <fcv:ImgViewerMarginConverter x:Key="ImgViewerMarginConverter" />
+            <fcv:WhiteBalanceWidthConverter x:Key="WhiteBalanceWidthConverter" />
+            <fcv:CutScanListWidthConverter x:Key="CutScanListWidthConverter" />
+            <frm:ImgDX9Effect x:Key="shader"
+                              Red="{Binding ElementName=WhtBlnc,Path=Red,Mode=OneWay}"
+                              Green="{Binding ElementName=WhtBlnc,Path=Green,Mode=OneWay}"
+                              Blue="{Binding ElementName=WhtBlnc,Path=Blue,Mode=OneWay}"
+                              Brightness="{Binding ElementName=WhtBlnc,Path=Brightness,Mode=OneWay}"
+                              Contrast="{Binding ElementName=WhtBlnc,Path=Contrast,Mode=OneWay}"
+                              Gamma="{Binding ElementName=WhtBlnc,Path=Gamma,Mode=OneWay}" />
+            <sys:Double x:Key="wbWidthParam">0.2</sys:Double>
+            <sys:Double x:Key="cslWidthParam">0.2</sys:Double>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Panel.ZIndex="5"
+              MouseDown="ClosePopups">
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource ButtonPrimary}"
+                        x:Name="CutScanBtn"
+                        Margin="5,0,5,0"
+                        Content="切片列表"
+                        Click="CutScanBtn_Click" />
+                <Button Style="{StaticResource ButtonPrimary}"
+                        Margin="5,0,5,0"
+                        Content="相关检查" />
+                <Button Style="{StaticResource ButtonPrimary}"
+                        Margin="5,0,5,0"
+                        Content="预览报告" />
+                <Button Style="{StaticResource ButtonPrimary}"
+                        Margin="5,0,5,0"
+                        Content="申请单" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Style="{StaticResource ButtonPrimary}"
+                        hc:IconElement.Geometry="{StaticResource PageModeGeometry}"
+                        Content="诊断报告单"
+                        Margin="5,0,5,0"
+                        Click="ImgDetailBtn_Click" />
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="imgsGrid"
+              Grid.Row="1"
+              Panel.ZIndex="-5"
+              MouseDown="ClosePopups">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <local:ImageViewer Grid.Row="1"
+                               Grid.ColumnSpan="3"
+                               Margin="1"
+                               x:Name="imgViewer"
+                               AnnoInfos="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=base:BaseUserControl},Path=DataContext.ImgViewModel.AnnoInfos,Mode=OneWayToSource}"
+                               DataContext="{Binding ImgViewModel}" />
+            <Border Grid.Column="1"
+                    Margin="1,0,1,0"
+                    Height="{Binding ElementName=imgViewer,Path=ActualHeight}"
+                    x:Name="lineBorder"
+                    Background="{StaticResource PrimaryBrush}"
+                    Visibility="Collapsed" />
+            <local:ImageViewer Grid.Column="2"
+                               x:Name="imgViewer2"
+                               Margin="1"
+                               Visibility="Collapsed"
+                               Height="{Binding RelativeSource={RelativeSource Mode=Self},Path=ActualWidth}"
+                               AnnoInfos="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=base:BaseUserControl},Path=DataContext.ImgViewModel2.AnnoInfos,Mode=OneWayToSource}"
+                               DataContext="{Binding ImgViewModel2}" />
+        </Grid>
+        <Popup x:Name="ImgDetailPop"
+               PlacementTarget="{Binding ElementName=imgsGrid}"
+               Placement="Relative">
+            <Popup.HorizontalOffset>
+                <MultiBinding Converter="{StaticResource ImgViewerDetailPopwidthConverter}">
+                    <Binding Path="ActualWidth"
+                             ElementName="imgsGrid" />
+                    <Binding Path="ActualWidth"
+                             ElementName="imgViewDetail" />
+                </MultiBinding>
+            </Popup.HorizontalOffset>
+            <local:ImgViewerDetail x:Name="imgViewDetail"
+                                   MaxWidth="{Binding ElementName=imgViewer,Converter={StaticResource ImgVwrDtlPopMaxWidthConverter},Path=ActualWidth}"
+                                   Height="{Binding ElementName=imgViewer,Path=ActualHeight}"
+                                   CurAnnoBase="{Binding ElementName=imgViewer,Path=CurAnnoBase,Mode=OneWayToSource}"
+                                   DataContext="{Binding ImgViewerDetailVM}" />
+        </Popup>
+        <Popup x:Name="CutScanPop"
+               Width="{Binding ElementName=imgsGrid,Path=ActualWidth,Converter={StaticResource CutScanListWidthConverter},ConverterParameter={StaticResource cslWidthParam}}"
+               PlacementTarget="{Binding ElementName=CutScanBtn}"
+               Placement="Bottom">
+            <frm:CutScanList ItemsSource="{Binding ImgViewerDetailVM.ImgViewDetail.CutScanVOList}"
+                             DisplayMemberPath="SliceImgUrl"
+                             SelectedItem="{Binding SelectedCutScan,Mode=OneWayToSource}"
+                             SelectedItemList="{Binding SelectedCutScanList}"
+                             IsSpliting="{Binding IsSpliting,Mode=OneWayToSource}"
+                             Background="White"
+                             StartSplitScreen="CutScanList_StartSplitScreen"
+                             CancelScreen="CutScanList_CancelScreen" />
+        </Popup>
+    </Grid>
+</base:BaseUserControl>

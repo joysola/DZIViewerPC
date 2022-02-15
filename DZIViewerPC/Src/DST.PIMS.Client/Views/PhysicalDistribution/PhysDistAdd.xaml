@@ -1,0 +1,262 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.PhysDistAdd"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:ei="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+                      mc:Ignorable="d"
+                      d:DesignHeight="700"
+                      d:DesignWidth="1500">
+    <Grid>
+        <Grid.Resources>
+            <cv:CalculateParamConverter x:Key="CalculateParamConverter" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal">
+            <hc:TextBox Text="{Binding CurExpressDetail.mailNo}"
+                        Style="{StaticResource TextBoxRegister}"
+                        hc:TitleElement.VerticalAlignment="Center"
+                        hc:InfoElement.Placeholder="请输入快递单号"
+                        hc:TitleElement.Title="快递单号："
+                        hc:InfoElement.Necessary="True"
+                        ShowClearButton="True"
+                        Margin="0"
+                        Height="35"
+                        MinWidth="300"/>
+
+            <hc:DatePicker SelectedDate="{Binding CurExpressDetail.deliveryDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=yyyy-MM-dd}"
+                           Style="{StaticResource DatePickerRegister}"
+                           hc:TitleElement.VerticalAlignment="Center"
+                           hc:InfoElement.Placeholder="请输入发货日期"
+                           hc:TitleElement.Title="发货日期："
+                           hc:InfoElement.Necessary="True"
+                           ShowClearButton="True"
+                           Margin="0"
+                           Height="35"
+                           MinWidth="300"/>
+  
+            <hc:TextBox Text="{Binding CurExpressDetail.hospitalName, Mode=TwoWay}"
+                        Style="{StaticResource TextBoxRegister}"
+                        hc:TitleElement.VerticalAlignment="Center"
+                        hc:InfoElement.Placeholder="请选择送检医院"
+                        hc:TitleElement.Title="送检医院："
+                        hc:InfoElement.Necessary="True"
+                        ShowClearButton="False"
+                        Margin="0"
+                        Height="35"
+                        MinWidth="300"
+                        IsReadOnly="True"
+                        GotFocus="TextBox_GotFocus">
+            </hc:TextBox>
+
+            <TextBlock Text="样本数量："
+                       Margin="50,0,0,0" />
+            <TextBlock Text="{Binding CurExpressDetail.amount, UpdateSourceTrigger=PropertyChanged}"
+                       VerticalAlignment="Center" />
+        </StackPanel>
+
+        <DataGrid x:Name="dgExpressPathology" Grid.Row="1"
+                  Style="{StaticResource TransDataGrid}"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  MinHeight="300"
+                  Margin="5"
+                  EnableRowVirtualization="False"
+                  ItemsSource="{Binding CurExpressDetail.expressPathologyVOList}"
+                  SelectedItem="{Binding CurSelectedExpressPathology}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="1.5*"
+                                        x:Name="co26"
+                                        Header="病理号">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding code}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="1.5*"
+                                        x:Name="col2"
+                                        Header="送检医生">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <hc:ComboBox SelectedValue="{Binding doctorId, UpdateSourceTrigger=PropertyChanged}"
+                                         Width="{Binding ElementName=col2 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=10}"
+                                         ItemsSource="{Binding RelativeSource ={RelativeSource AncestorType=DataGrid}, Path=DataContext.DoctorList}"
+                                         SelectedValuePath="ID"
+                                         DisplayMemberPath="Name"
+                                         hc:InfoElement.Placeholder="请选择送检医生"
+                                         ShowClearButton="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+                <DataGridTemplateColumn Width="1.2*"
+                                        x:Name="col3"
+                                        Header="患者姓名">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <hc:TextBox Text="{Binding patientName, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="{Binding ElementName=col3 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=10}"
+                                        hc:InfoElement.Placeholder="请输入患者姓名"
+                                        ShowClearButton="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="0.7*"
+                                        x:Name="col4"
+                                        Header="年龄">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <hc:TextBox Text="{Binding age, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, TargetNullValue={x:Static sys:String.Empty}}"
+                                        hc:InfoElement.Placeholder="年龄"
+                                        Width="{Binding ElementName=col4 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=10}"
+                                        InputMethod.IsInputMethodEnabled="False" 
+                                        PreviewTextInput="TextBox_PreviewTextInput"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="1*"
+                                        x:Name="col5"
+                                        Header="性别">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <hc:ComboBox SelectedValue="{Binding sex, UpdateSourceTrigger=PropertyChanged}"
+                                         ItemsSource="{Binding DataContext.SexDict,RelativeSource ={RelativeSource AncestorType=DataGrid}}"
+                                         Width="{Binding ElementName=col5 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=10}"
+                                         DisplayMemberPath="dictValue"
+                                         SelectedValuePath="dictKey"
+                                         hc:InfoElement.Placeholder="性别"
+                                         hc:InfoElement.Necessary="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="2*"
+                                        x:Name="col6"
+                                        Header="联系方式">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <hc:TextBox Text="{Binding phone, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="{Binding ElementName=col6 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=1}"
+                                        hc:InfoElement.Placeholder="联系方式"
+                                        TextType="Digits"
+                                        ShowClearButton="True"
+                                        InputMethod.IsInputMethodEnabled="False"
+                                        PreviewTextInput="TextBox_PreviewTextInput_1" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="3*"
+                                        x:Name="col7"
+                                        Header="检查项目">
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding productNames}" />
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid Width="{Binding ElementName=col7 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=10}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="40" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           Text="{Binding productNames, UpdateSourceTrigger=PropertyChanged}"
+                                           VerticalAlignment="Center" />
+                                <Button Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource ButtonPrimary}"
+                                        hc:IconElement.Geometry="{StaticResource DropperGeometry}"
+                                        Command="{Binding DataContext.EditItemCommand,RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="2*"
+                                        x:Name="col8"
+                                        Header="住院号/门诊号">
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding inpatientNumber}" />
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <hc:TextBox Text="{Binding inpatientNumber, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="{Binding ElementName=col8 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=10}"
+                                        hc:InfoElement.Placeholder="住院号/门诊号"
+                                        ShowClearButton="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+               
+                <DataGridTemplateColumn Width="*"
+                                        x:Name="col9"
+                                        Header="床位号">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <hc:TextBox Text="{Binding bedNumber, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="{Binding ElementName=col9 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=10}"
+                                        hc:InfoElement.Placeholder="床位号"
+                                        ShowClearButton="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="1.5*"
+                                        Header="操作">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource ButtonPrimary}"
+                                        Content="新增"
+                                        Command="{Binding DataContext.CopyCommand,RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                <Button Style="{StaticResource ButtonPrimary}"
+                                        Margin="5,0,0,0"
+                                        Content="删除"
+                                        Command="{Binding DataContext.DeleteCommand,RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2"
+                    Margin="5"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+
+            <Button Style="{StaticResource ButtonBaseStyle}"
+                    Foreground="White"
+                    Background="{StaticResource ThirdlyTextBrush}"
+                    Content="取消"
+                    Command="{Binding CancelCommand}"
+                    HorizontalAlignment="Right" />
+            <Button Style="{StaticResource ButtonPrimary}"
+                    Margin="15,0,5,0"
+                    Content="确认"
+                    Command="{Binding SaveCommand}" />
+        </StackPanel>
+
+    </Grid>
+</base:BaseUserControl>

@@ -1,0 +1,40 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.RegisterMain"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      d:DataContext="{d:DesignInstance Type=vm:RegisterMainViewModel}"
+                      mc:Ignorable="d"
+                      d:DesignHeight="1100"
+                      d:DesignWidth="1800">
+    <Grid>
+        <Grid.Resources>
+            <cv:CalcualteLengthbyTempCtlConverter x:Key="CalcualteLengthbyTempCtlConverter" />
+            <cv:CalculateParamConverter x:Key="CalculateParamConverter" />
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <local:RegisterSample x:Name="registerSapmle"
+                              DataContext="{Binding RegSampViewModel}"
+                              Grid.Column="0" />
+        <Expander Grid.Column="1"
+                  Header="登记列表"
+                  IsExpanded="True">
+            <local:RegisterQuery x:Name="registerQuery"
+                                 Grid.Column="1"
+                                 DataContext="{Binding RegQueryViewModel}"
+                                 Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Path=ActualHeight,Converter={StaticResource CalculateParamConverter},ConverterParameter=35}" />
+            <!--Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Converter={StaticResource CalcualteLengthbyTempCtlConverter},ConverterParameter=BorderHeader}"-->
+
+        </Expander>
+    </Grid>
+</base:BaseUserControl>

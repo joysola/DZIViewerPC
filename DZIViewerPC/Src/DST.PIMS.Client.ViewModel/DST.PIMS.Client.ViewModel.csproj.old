@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9826989D-E614-4B8A-8410-812EE8B33F63}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DST.PIMS.Client.ViewModel</RootNamespace>
+    <AssemblyName>DST.PIMS.Client.ViewModel</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\..\Lib\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras">
+      <HintPath>..\..\Lib\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform">
+      <HintPath>..\..\Lib\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="HandyControl, Version=3.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\HandyControl\HandyControl.dll</HintPath>
+    </Reference>
+    <Reference Include="HSPrint, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\HsjPrint\HSPrint.dll</HintPath>
+    </Reference>
+    <Reference Include="HttpClientExtension">
+      <HintPath>..\..\Lib\HttpClientEx\HttpClientExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="MVVMExtension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\MVVMExtension\MVVMExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\DST.PIMS_joysola\DST.PIMS\Lib\ApiClient\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="About\AboutViewModel.cs" />
+    <Compile Include="Allocation\AllocationMainViewModel.cs" />
+    <Compile Include="Allocation\ImageViewerViewModel.cs" />
+    <Compile Include="Allocation\ImgViewerDetailViewModel.cs" />
+    <Compile Include="Allocation\ImgViewerManagerViewModel.cs" />
+    <Compile Include="CustomBaseViewModel.cs" />
+    <Compile Include="Embedding\EmbeddingConfigurationViewModel.cs" />
+    <Compile Include="Embedding\EmbeddingMainViewModel.cs" />
+    <Compile Include="Embedding\EmbedSpecimenViewModel.cs" />
+    <Compile Include="ImageViewerPC\ImageViewerPCViewModel.cs" />
+    <Compile Include="ImageViewerPC\ImgVwMngViewModel.cs" />
+    <Compile Include="ImageViewerPC\ImgVwViewModel.cs" />
+    <Compile Include="Login\LoginViewModel.cs" />
+    <Compile Include="MainLayout\TitleBarViewModel.cs" />
+    <Compile Include="MainLayout\ToolBarViewModel.cs" />
+    <Compile Include="Material\MaterialAllQueryViewModel.cs" />
+    <Compile Include="Material\MaterialCoreViewModel.cs" />
+    <Compile Include="Material\MaterialDelayViewModel.cs" />
+    <Compile Include="Material\MaterialMainViewModel.cs" />
+    <Compile Include="Material\MaterialSpecViewModel.cs" />
+    <Compile Include="Material\MaterialTissImgViewModel.cs" />
+    <Compile Include="Material\MaterialToolsViewModel.cs" />
+    <Compile Include="Material\Material_EditViewModel.cs" />
+    <Compile Include="Material\Material_SpecEditViewModel.cs" />
+    <Compile Include="MolecularDiagnosis\MolecularDiagnosisMainViewModel.cs" />
+    <Compile Include="MolecularDiagnosis\MoleDiagBarcodeConfigViewModel.cs" />
+    <Compile Include="MolecularDiagnosis\MoleDiagBarcodeViewModel.cs" />
+    <Compile Include="MolecularDiagnosis\MoleDiagCheckConfirmViewModel.cs" />
+    <Compile Include="MolecularDiagnosis\MoleDiagCheckViewModel.cs" />
+    <Compile Include="MolecularDiagnosis\MoleDiagExamed\MoleDiagDetailViewModel.cs" />
+    <Compile Include="MolecularDiagnosis\MoleDiagExamed\MDE_ReSampViewModel.cs" />
+    <Compile Include="MolecularDiagnosis\MoleDiagExamed\MoleDiagExamedViewModel.cs" />
+    <Compile Include="MolecularDiagnosis\MoleDiagResultConfirmViewModel.cs" />
+    <Compile Include="PhysicalDistribution\PhysDistAddEditItemViewModel.cs" />
+    <Compile Include="PhysicalDistribution\PhysDistAddViewModel.cs" />
+    <Compile Include="PhysicalDistribution\PhysDistClinManifViewModel.cs" />
+    <Compile Include="PhysicalDistribution\PhysDistInfoViewModel.cs" />
+    <Compile Include="PhysicalDistribution\PhysDistMainViewModel.cs" />
+    <Compile Include="PhysicalDistribution\PhysDistPreTreatBarcodeViewModel.cs" />
+    <Compile Include="PhysicalDistribution\PhysDistPreTreatViewModel.cs" />
+    <Compile Include="PhysicalDistribution\PhysDistReceiptBarcodeViewModel.cs" />
+    <Compile Include="PhysicalDistribution\PhysDistReceiptEditViewModel.cs" />
+    <Compile Include="PhysicalDistribution\PhysDistReceiptHumanViewModel.cs" />
+    <Compile Include="PhysicalDistribution\PhysDistReceiptViewModel.cs" />
+    <Compile Include="PhysicalDistribution\PhysDistSigninViewModel.cs" />
+    <Compile Include="PhysicalDistribution\PhysDistSupplementBarcodeViewModel.cs" />
+    <Compile Include="Production\ProdDoctAdvice\ProdDoctAdQueryViewModel.cs" />
+    <Compile Include="Production\ProdDoctAdvice\ProdDoctAdSliceViewModel.cs" />
+    <Compile Include="Production\ProdDoctAdvice\ProdDoctAdviceViewModel.cs" />
+    <Compile Include="Production\ProdDoctAdvice\ProdDoctAd_EditViewModel.cs" />
+    <Compile Include="Production\ProdSliceListViewModel.cs" />
+    <Compile Include="Production\ProdTechAdvice\ProdTechAdQueryViewModel.cs" />
+    <Compile Include="Production\ProdTechAdvice\ProdTechAdSliceViewModel.cs" />
+    <Compile Include="Production\ProdTechAdvice\ProdTechAdviceViewModel.cs" />
+    <Compile Include="Production\ProdTechAdvice\ProdTechAd_EditViewModel.cs" />
+    <Compile Include="Production\ProductSpecimen\ProdSpecViewModel.cs" />
+    <Compile Include="Production\ProductSpecimen\ProdSpec_AddViewModel.cs" />
+    <Compile Include="Production\ProductSpecimen\ProdSpec_EditViewModel.cs" />
+    <Compile Include="Production\ProdTCTListViewModel.cs" />
+    <Compile Include="Production\ProductionConfigurationViewModel.cs" />
+    <Compile Include="Production\ProductionMainViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Register\RegisterAllQueryViewModel.cs" />
+    <Compile Include="Register\RegisterDeliveryViewModel.cs" />
+    <Compile Include="Register\RegisterMainViewModel.cs" />
+    <Compile Include="Register\RegisterQueryViewModel.cs" />
+    <Compile Include="Register\RegisterReSample\RegReSampleViewModel.cs" />
+    <Compile Include="Register\RegisterReSample\RegReSamp_QueryViewModel.cs" />
+    <Compile Include="Register\RegisterReSample\RegReSamp_RelateViewModel.cs" />
+    <Compile Include="Register\RegisterReSample\RegReSamp_WithdrawViewModel.cs" />
+    <Compile Include="Register\RegisterSampleViewModel.cs" />
+    <Compile Include="ReportSystem\ReportChargeBackViewModel.cs" />
+    <Compile Include="ReportSystem\ReportEmergencyViewModel.cs" />
+    <Compile Include="ReportSystem\RepoSysMainViewModel.cs" />
+    <Compile Include="Scan\ReceiveByScanViewModel.cs" />
+    <Compile Include="Scan\ScanCellViewModel.cs" />
+    <Compile Include="Scan\ScanCommonViewModel.cs" />
+    <Compile Include="Scan\ScanListViewModel.cs" />
+    <Compile Include="Scan\ScanMainViewModel.cs" />
+    <Compile Include="Scan\ScanSpecAdviceViewModel.cs" />
+    <Compile Include="Scan\ScanTechAdviceViewModel.cs" />
+    <Compile Include="SystemManage\SMD_EditViewModel.cs" />
+    <Compile Include="SystemManage\SMH_DeptsViewModel.cs" />
+    <Compile Include="SystemManage\SMH_EditUserViewModel.cs" />
+    <Compile Include="SystemManage\SMH_EditViewModel.cs" />
+    <Compile Include="SystemManage\SMR_EditViewModel.cs" />
+    <Compile Include="SystemManage\SMR_MenusViewModel.cs" />
+    <Compile Include="SystemManage\SMR_RolesViewModel.cs" />
+    <Compile Include="SystemManage\SysManaHospViewModel.cs" />
+    <Compile Include="SystemManage\SysManaRoleViewModel.cs" />
+    <Compile Include="SystemManage\SysManaDocViewModel.cs" />
+    <Compile Include="SystemManage\SysManaViewModel.cs" />
+    <Compile Include="Test\TestViewModel.cs" />
+    <Compile Include="Tools\AppImgView\AppFrmMaintainViewModel.cs" />
+    <Compile Include="Tools\AppImgView\AppFrmViewModel.cs" />
+    <Compile Include="Tools\AppImgView\AppImgViewMaintainViewModel.cs" />
+    <Compile Include="Tools\AppImgView\AppImgViewViewModel.cs" />
+    <Compile Include="Tools\Config\CommonConfigViewModel.cs" />
+    <Compile Include="Tools\Config\CustomConfigurationViewModel.cs" />
+    <Compile Include="Tools\CommonWords\ComWordDictViewModel.cs" />
+    <Compile Include="Tools\CommonWords\CWD_AddTypeViewModel.cs" />
+    <Compile Include="Tools\CommonWords\CWD_EditViewModel.cs" />
+    <Compile Include="Tools\CommonWords\CWD_SimpleEditViewModel.cs" />
+    <Compile Include="Tools\HospitalDictViewModel.cs" />
+    <Compile Include="Tools\ModifyPasswordViewModel.cs" />
+    <Compile Include="Tools\Config\PrintSetting\HSJPrintSettingViewModel.cs" />
+    <Compile Include="Tools\Config\PrintSetting\PrintSettingViewModel.cs" />
+    <Compile Include="Tools\Config\PrintSetting\TSCBarcodeSettingViewModel.cs" />
+    <Compile Include="Tools\QueryPathListViewModel.cs" />
+    <Compile Include="Tools\QueryPathTitleViewModel.cs" />
+    <Compile Include="Tools\RequestDocViewModel.cs" />
+    <Compile Include="Tools\ReportShowViewModel.cs" />
+    <Compile Include="Tools\Config\PrintSetting\TSCPrintSettingViewModel.cs" />
+    <Compile Include="Upload\TreeMenuViewModel.cs" />
+    <Compile Include="Upload\UploadConfigurationViewModel.cs" />
+    <Compile Include="Upload\UploadLogViewModel.cs" />
+    <Compile Include="Upload\UploadScanImgViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DST.ApiClient\DST.ApiClient.csproj">
+      <Project>{f6fff03f-d0e0-40fa-9186-06839625e3a6}</Project>
+      <Name>DST.ApiClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DST.Common\DST.Common.csproj">
+      <Project>{3ebd0b0e-a6c8-4526-8397-673278c94db0}</Project>
+      <Name>DST.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DST.Controls\DST.Controls.csproj">
+      <Project>{66cf816f-de66-4dee-9647-c3d6ea7d84ee}</Project>
+      <Name>DST.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DST.Database\DST.Database.csproj">
+      <Project>{1a8f072c-a480-4219-9bd5-5612fa73f28b}</Project>
+      <Name>DST.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DST.PIMS.Framework\DST.PIMS.Framework.csproj">
+      <Project>{a315953e-be43-4773-b0c4-8be9406f0cc1}</Project>
+      <Name>DST.PIMS.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nico.Common\Nico.Common.csproj">
+      <Project>{23e4ad65-3294-4745-9f36-ce51c8f24495}</Project>
+      <Name>Nico.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nico.DeepZoomSource\Nico.DeepZoomSource.csproj">
+      <Project>{20c1ed27-910c-4bc5-a9a0-a98605abfb64}</Project>
+      <Name>Nico.DeepZoomSource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\lib\HttpClientEx\AspectInjector.2.4.2\build\netstandard2.0\AspectInjector.targets" Condition="Exists('..\..\lib\HttpClientEx\AspectInjector.2.4.2\build\netstandard2.0\AspectInjector.targets')" />
+</Project>

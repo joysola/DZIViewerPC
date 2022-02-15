@@ -1,0 +1,87 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.SMH_Edit"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:SMH_EditViewModel}"
+                      d:DesignHeight="250"
+                      d:DesignWidth="400">
+    <Grid>
+        <StackPanel Margin="5">
+            <hc:TextBox Margin="0,15,20,0"
+                        Style="{StaticResource TextBoxRegister}"
+                        Text="{Binding DeptDetail.DeptName}"
+                        hc:TitleElement.Title="科室名称："
+                        hc:InfoElement.Placeholder="请填写科室名称"
+                        hc:InfoElement.Necessary="True"
+                        hc:TitleElement.VerticalAlignment="Center" />
+            <Grid Margin="0,15,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <hc:ComboBox Margin="0"
+                             IsEnabled="False"
+                             ItemsSource="{Binding AllDepts}"
+                             SelectedValuePath="ID"
+                             DisplayMemberPath="DeptName"
+                             SelectedValue="{Binding DeptDetail.ParentID}"
+                             Style="{StaticResource ComboBoxRegister}"
+                             hc:InfoElement.Placeholder="请选择上级科室"
+                             hc:TitleElement.Title="上级科室："
+                             ShowClearButton="False" />
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal">
+                    <Button HorizontalAlignment="Left"
+                            Margin="5,0,0,0"
+                            Style="{StaticResource ButtonPrimary}"
+                            hc:IconElement.Geometry="{StaticResource DragVerticalGeometry}"
+                            Command="{Binding EditParentDept}" />
+                    <Button Style="{StaticResource ButtonDanger}"
+                            Margin="5,0,0,0"
+                            hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                            Command="{Binding ClearParentCommand}" />
+                </StackPanel>
+            </Grid>
+            <!--<hc:TextBox Margin="0,15,20,0"
+                        Style="{StaticResource TextBoxRegister}"
+                        Text="{Binding DeptDetail.ParentName}"
+                        hc:TitleElement.Title="上级科室："
+                        hc:InfoElement.Placeholder="请选择上级科室"
+                        hc:TitleElement.VerticalAlignment="Center">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding EditParentDept}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </hc:TextBox>-->
+            <hc:TextBox Margin="0,15,20,0"
+                        Style="{StaticResource TextBoxRegister}"
+                        Text="{Binding DeptDetail.Telephone}"
+                        hc:TitleElement.Title="科室电话："
+                        hc:InfoElement.Placeholder="请填写科室电话"
+                        hc:TitleElement.VerticalAlignment="Center" />
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,15,20,0"
+                        HorizontalAlignment="Right">
+                <Button Style="{StaticResource ButtonBaseStyle}"
+                        Background="{StaticResource ThirdlyTextBrush}"
+                        Content="取消"
+                        Command="{Binding CancelCommand}" />
+                <Button Style="{StaticResource ButtonPrimary}"
+                        Margin="10,0,0,0"
+                        Content="确定"
+                        Command="{Binding OKCommand}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</base:BaseUserControl>

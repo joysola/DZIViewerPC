@@ -1,0 +1,100 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.CommonConfig"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      mc:Ignorable="d"
+                      d:DesignHeight="300"
+                      d:DesignWidth="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.7*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Socket监听开关："
+                   Grid.Column="0"
+                   Grid.Row="0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center" />
+
+        <ToggleButton Grid.Row="0"
+                      Margin="10,0,0,0"
+                      Grid.Column="1"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Center"
+                      IsChecked="{Binding SocketSwitch}"
+                      Style="{StaticResource ToggleButtonSwitch}" />
+
+        <TextBlock Text="Socket服务IP："
+                   Grid.Column="0"
+                   Grid.Row="1"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center" />
+
+        <StackPanel Grid.Row="1"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+
+            <TextBox HorizontalAlignment="Left"
+                     Name="tbIp"
+                     Width="150"
+                     Height="35"
+                     Text="{Binding SocketServerIP}" />
+        </StackPanel>
+
+        
+        <TextBlock Text="Socket监听端口："
+                   Grid.Column="0"
+                   Grid.Row="2"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center" />
+
+        <StackPanel Grid.Row="2"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+
+            <TextBox HorizontalAlignment="Left"
+                     Name="tbPort"
+                     Width="150"
+                     Height="35"
+                     Text="{Binding SocketPort}"/>
+
+            <Button Content="测试"
+                    Style="{StaticResource ButtonPrimary}"
+                    Command="{Binding TestPortCommand}"
+                    Margin="10,0,0,0" />
+        </StackPanel>
+
+        <TextBlock Text="默认打印机："
+                   Grid.Column="0"
+                   Grid.Row="3"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center" />
+
+        <StackPanel Grid.Row="3"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+
+            <TextBox HorizontalAlignment="Left"
+                     Width="150"
+                     Height="35"
+                     Name="tbPrintName"
+                     Text="{Binding DefaultPrinterName}" />
+        </StackPanel>
+
+
+    </Grid>
+</base:BaseUserControl>

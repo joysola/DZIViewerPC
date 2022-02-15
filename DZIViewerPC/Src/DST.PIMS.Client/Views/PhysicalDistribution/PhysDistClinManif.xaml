@@ -1,0 +1,199 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.PhysDistClinManif"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:converter="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:ei="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+                      mc:Ignorable="d"
+                      d:DesignHeight="600"
+                      d:DesignWidth="900">
+    <base:BaseUserControl.Resources>
+        <converter:SexNormalConverter x:Key="SexNormalConverter" />
+    </base:BaseUserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition />
+            <RowDefinition Height="150" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <hc:TextBox Text="{Binding PatientName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource TextBoxRegister}"
+                    HorizontalAlignment="Left"
+                    hc:TitleElement.VerticalAlignment="Center"
+                    hc:InfoElement.Placeholder="请输入患者姓名"
+                    hc:TitleElement.Title="患者姓名："
+                    ShowClearButton="True"
+                    Margin="0"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Height="35"
+                    Width="300"
+                    Name="tbName">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewKeyUp">
+                    <ei:CallMethodAction MethodName="PreviewKeyUp"
+                                         TargetObject="{Binding}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </hc:TextBox>
+
+        <DataGrid Grid.Row="1"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  Style="{StaticResource TransDataGrid}"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  MinHeight="300"
+                  Margin="5"
+                  EnableRowVirtualization="False"
+                  ItemsSource="{Binding ClinManifList}"
+                  SelectedItem="{Binding CurSelected}"
+                  LoadingRow="DataGrid_LoadingRow">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="0.7*"
+                                        Header="序号"
+                                        IsReadOnly="True">
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock HorizontalAlignment="Center"
+                                           Margin="5,0,0,0"
+                                           Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Width="2*"
+                                    Header="医院"
+                                    Binding="{Binding hospitalName}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding hospitalName}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Width="2*"
+                                    Header="接收时间"
+                                    Binding="{Binding receiverTime, StringFormat=yyyy-MM-dd HH:mm:ss}" />
+
+                <DataGridTemplateColumn Width="1.5*"
+                                        Header="患者基本信息">
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <ToolTip>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding patientName}" />
+                                            <TextBlock Text="/" />
+                                            <TextBlock Text="{Binding age}" />
+                                            <TextBlock Text="岁/" />
+                                            <TextBlock Text="{Binding sex, Converter={StaticResource SexNormalConverter}}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding patientName}" />
+                                <TextBlock Text="/" />
+                                <TextBlock Text="{Binding age}" />
+                                <TextBlock Text="岁/" />
+                                <TextBlock Text="{Binding sex, Converter={StaticResource SexNormalConverter}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+                <DataGridTextColumn Width="1.3*"
+                                    Header="病理号"
+                                    Binding="{Binding code}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding code}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Width="2*"
+                                    Header="检查项目"
+                                    Binding="{Binding productNames}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding productNames}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock Text="临床表现："
+                   VerticalAlignment="Top"
+                   Margin="20,10,0,0"
+                   Grid.Row="2"
+                   Grid.Column="0" />
+        <hc:TextBox Text="{Binding CurSelected.clinicalDiagnosis, UpdateSourceTrigger=PropertyChanged}"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="0,10,10,0"
+                    VerticalScrollBarVisibility="Auto"
+                    TextWrapping="Wrap"
+                    AcceptsReturn="True"
+                    HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Top"
+                    MaxLength="1000"
+                    Name="tbCliDia">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewKeyDown">
+                    <ei:CallMethodAction MethodName="Save_PreviewKeyDown"
+                                         TargetObject="{Binding}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </hc:TextBox>
+
+        <StackPanel Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="5"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+
+            <Button Style="{StaticResource ButtonBaseStyle}"
+                    Foreground="White"
+                    Background="{StaticResource ThirdlyTextBrush}"
+                    Content="关闭"
+                    Command="{Binding CancelCommand}"
+                    HorizontalAlignment="Right" />
+            <Button Style="{StaticResource ButtonPrimary}"
+                    Margin="15,0,5,0"
+                    Content="保存"
+                    Command="{Binding SaveCommand}" />
+        </StackPanel>
+    </Grid>
+</base:BaseUserControl>

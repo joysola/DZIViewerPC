@@ -1,0 +1,156 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.CytoDiagPathDiag"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel.Test;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:TestViewModel}"
+                      d:DesignHeight="650"
+                      d:DesignWidth="350">
+    <Grid>
+        <Grid.Resources>
+            <SolidColorBrush x:Key="GridBackGround"
+                             Color="Transparent" />
+            <cv:CalculateParamConverter x:Key="CalculateParamConverter" />
+            <cv:CalculateLengthConverter x:Key="CalculateLengthConverter" />
+            <cv:CalcualteLengthbyTempCtlConverter x:Key="CalcualteLengthbyTempCtlConverter" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="3*" />
+
+        </Grid.RowDefinitions>
+        <Expander Grid.Row="0"
+                  Header="TBS诊断："
+                  IsExpanded="True">
+            <local:ImgVisionScrollViewer ItemsSource="{Binding CdModel.ImgList}" />
+        </Expander>
+        <Expander Grid.Row="1"
+                  Header="镜下所见："
+                  IsExpanded="True"
+                  x:Name="expanderScope"
+                  Expanded="expanderScope_Expanded">
+            <hc:ScrollViewer VerticalScrollBarVisibility="Visible"
+                             HorizontalScrollBarVisibility="Hidden"
+                             IsInertiaEnabled="True"
+                             x:Name="scrollViewerScope"
+                             Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander},Converter={StaticResource CalcualteLengthbyTempCtlConverter},ConverterParameter=BorderHeader}">
+                <StackPanel>
+                    <hc:ComboBox ItemsSource="{Binding AdviceState_Dict}"
+                                 SelectedValue="{Binding CdModel.Inspect_Dept}"
+                                 DisplayMemberPath="Value"
+                                 SelectedValuePath="Key"
+                                 Style="{StaticResource ComboBoxRegister}"
+                                 hc:InfoElement.Placeholder="请选择样本满意度"
+                                 hc:TitleElement.Title="样本满意度："
+                                 hc:InfoElement.Necessary="True"
+                                 ShowClearButton="True" />
+                    <hc:ComboBox ItemsSource="{Binding AdviceState_Dict}"
+                                 SelectedValue="{Binding CdModel.Inspect_Dept}"
+                                 DisplayMemberPath="Value"
+                                 SelectedValuePath="Key"
+                                 Style="{StaticResource ComboBoxRegister}"
+                                 hc:InfoElement.Placeholder="请选择细胞量"
+                                 hc:TitleElement.Title="细胞量："
+                                 hc:InfoElement.Necessary="True"
+                                 ShowClearButton="True" />
+                    <hc:ComboBox ItemsSource="{Binding AdviceState_Dict}"
+                                 SelectedValue="{Binding CdModel.Inspect_Dept}"
+                                 DisplayMemberPath="Value"
+                                 SelectedValuePath="Key"
+                                 Style="{StaticResource ComboBoxRegister}"
+                                 hc:InfoElement.Placeholder="请选择炎性程度"
+                                 hc:TitleElement.Title="炎性程度："
+                                 hc:InfoElement.Necessary="True"
+                                 ShowClearButton="True" />
+                    <hc:ComboBox ItemsSource="{Binding AdviceState_Dict}"
+                                 SelectedValue="{Binding CdModel.Inspect_Dept}"
+                                 DisplayMemberPath="Value"
+                                 SelectedValuePath="Key"
+                                 Style="{StaticResource ComboBoxRegister}"
+                                 hc:InfoElement.Placeholder="请选择鳞状上皮"
+                                 hc:TitleElement.Title="鳞状上皮："
+                                 hc:InfoElement.Necessary="True"
+                                 ShowClearButton="True" />
+                    <hc:ComboBox ItemsSource="{Binding AdviceState_Dict}"
+                                 SelectedValue="{Binding CdModel.Inspect_Dept}"
+                                 DisplayMemberPath="Value"
+                                 SelectedValuePath="Key"
+                                 Style="{StaticResource ComboBoxRegister}"
+                                 hc:InfoElement.Placeholder="请选择颈管细胞"
+                                 hc:TitleElement.Title="颈管细胞："
+                                 hc:InfoElement.Necessary="True"
+                                 ShowClearButton="True" />
+                    <hc:ComboBox ItemsSource="{Binding AdviceState_Dict}"
+                                 SelectedValue="{Binding CdModel.Inspect_Dept}"
+                                 DisplayMemberPath="Value"
+                                 SelectedValuePath="Key"
+                                 Style="{StaticResource ComboBoxRegister}"
+                                 hc:InfoElement.Placeholder="请选择化生细胞"
+                                 hc:TitleElement.Title="化生细胞："
+                                 hc:InfoElement.Necessary="True"
+                                 ShowClearButton="True" />
+                    <hc:ComboBox ItemsSource="{Binding AdviceState_Dict}"
+                                 SelectedValue="{Binding CdModel.Inspect_Dept}"
+                                 DisplayMemberPath="Value"
+                                 SelectedValuePath="Key"
+                                 Style="{StaticResource ComboBoxRegister}"
+                                 hc:InfoElement.Placeholder="请选择微生物项目"
+                                 hc:TitleElement.Title="微生物项目："
+                                 hc:InfoElement.Necessary="True"
+                                 ShowClearButton="True" />
+                    <hc:ComboBox ItemsSource="{Binding AdviceState_Dict}"
+                                 SelectedValue="{Binding CdModel.Inspect_Dept}"
+                                 DisplayMemberPath="Value"
+                                 SelectedValuePath="Key"
+                                 Style="{StaticResource ComboBoxRegister}"
+                                 hc:InfoElement.Placeholder="请选择病毒感染"
+                                 hc:TitleElement.Title="病毒感染："
+                                 hc:InfoElement.Necessary="True"
+                                 ShowClearButton="True" />
+                    <hc:ComboBox ItemsSource="{Binding AdviceState_Dict}"
+                                 SelectedValue="{Binding CdModel.Inspect_Dept}"
+                                 DisplayMemberPath="Value"
+                                 SelectedValuePath="Key"
+                                 Style="{StaticResource ComboBoxRegister}"
+                                 ctl:RegisterElement.TitleWarp="Wrap"
+                                 ctl:RegisterElement.InputControlHeight="40"
+                                 hc:InfoElement.Placeholder="请选择鳞状上皮细胞分析"
+                                 hc:TitleElement.Title="鳞状上皮细胞分析："
+                                 hc:InfoElement.Necessary="True"
+                                 ShowClearButton="True" />
+                    <hc:ComboBox ItemsSource="{Binding AdviceState_Dict}"
+                                 SelectedValue="{Binding CdModel.Inspect_Dept}"
+                                 DisplayMemberPath="Value"
+                                 SelectedValuePath="Key"
+                                 Style="{StaticResource ComboBoxRegister}"
+                                 ctl:RegisterElement.TitleWarp="Wrap"
+                                 ctl:RegisterElement.InputControlHeight="40"
+                                 hc:InfoElement.Placeholder="请选择腺上皮细胞分析"
+                                 hc:TitleElement.Title="腺上皮细胞分析："
+                                 hc:InfoElement.Necessary="True"
+                                 ShowClearButton="True" />
+                    <hc:TextBox Text="{Binding CdModel.Sample_Type}"
+                                Style="{StaticResource TextBoxRegister}"
+                                hc:InfoElement.Placeholder="请选择补充意见"
+                                hc:TitleElement.Title="补充意见：" />
+                    <hc:TextBox Text="{Binding CdModel.Sample_Type}"
+                                Style="{StaticResource TextBoxRegister}"
+                                hc:InfoElement.Placeholder="请选择异常备注"
+                                hc:TitleElement.Title="异常备注：" />
+
+                </StackPanel>
+
+            </hc:ScrollViewer>
+        </Expander>
+
+    </Grid>
+</base:BaseUserControl>

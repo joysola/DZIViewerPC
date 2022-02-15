@@ -1,0 +1,132 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.HSJPrintSetting"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:HSJPrintSettingViewModel}"
+                      d:DesignHeight="300"
+                      d:DesignWidth="500">
+    <Grid>
+        <Grid.Resources>
+            <fcv:PrintProdCCBConverter x:Key="PrintProdCCBConverter" />
+            <fcv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </Grid.Resources>
+        <StackPanel Margin="5,10,5,10">
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.7*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="选择设备："
+                           Grid.Column="0"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <hc:ComboBox Grid.Column="1"
+                             SelectedValue="{Binding Setting.HSJPrint.PrintType,UpdateSourceTrigger=PropertyChanged}"
+                             ItemsSource="{Binding HsjPrintTypeList}"
+                             DisplayMemberPath="dictValue"
+                             SelectedValuePath="dictKey"
+                             hc:InfoElement.Placeholder="请选择设备"
+                             hc:InfoElement.Necessary="True"
+                             Margin="10,0,0,0"
+                             MinWidth="250"
+                             HorizontalAlignment="Left"
+                             HorizontalContentAlignment="Left"
+                             VerticalAlignment="Center" />
+            </Grid>
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.7*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="选择模板："
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <StackPanel Orientation="Horizontal"
+                            Grid.Column="1">
+                    <hc:TextBox HorizontalAlignment="Left"
+                                Name="tbTemplate"
+                                Margin="10,0,0,0"
+                                MinWidth="250"
+                                IsReadOnly="True"
+                                VerticalAlignment="Center"
+                                Text="{Binding Setting.HSJPrint.TemplateFile,UpdateSourceTrigger=PropertyChanged}" />
+                    <Button Style="{StaticResource ButtonPrimary}"
+                            Margin="10,0,0,0"
+                            hc:IconElement.Geometry="{StaticResource DragVerticalGeometry}"
+                            VerticalAlignment="Center"
+                            Command="{Binding SelectTempFileCommand}" />
+                </StackPanel>
+            </Grid>
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.7*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="对接目录："
+                           Grid.Column="0"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <StackPanel Orientation="Horizontal"
+                            Grid.Column="1">
+                    <hc:TextBox HorizontalAlignment="Left"
+                                MinWidth="250"
+                                Margin="10,0,0,0"
+                                Name="tbListenPath"
+                                IsReadOnly="True"
+                                VerticalAlignment="Center"
+                                Text="{Binding Setting.HSJPrint.ScanDir,UpdateSourceTrigger=PropertyChanged}" />
+                    <Button Grid.Column="1"
+                            Style="{StaticResource ButtonPrimary}"
+                            Margin="10,0,0,0"
+                            hc:IconElement.Geometry="{StaticResource DragVerticalGeometry}"
+                            VerticalAlignment="Center"
+                            Command="{Binding SelectFilePathCommand}" />
+                </StackPanel>
+            </Grid>
+            <Grid Margin="0,0,0,10"
+                  Visibility="{Binding Setting.IsMix,Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.7*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="选择检验项目："
+                           Grid.Column="0"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <!--SelectedValues="{Binding HSJPrint.Products,UpdateSourceTrigger=PropertyChanged}"-->
+                <hc:CheckComboBox  Grid.Column="1"
+                                   Margin="10,0,0,0"
+                                   MinWidth="250"
+                                   ItemsSource="{Binding ProductDict}"
+                                   SelectedValuePath="id"
+                                   DisplayMemberPath="name"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   hc:InfoElement.Placeholder="请选择检查项目"
+                                   ShowClearButton="True"
+                                   SelectedValues="{Binding Setting.HSJPrint.Products, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Loaded">
+                            <ei:CallMethodAction TargetObject="{Binding}"
+                                                 MethodName="CheckComboBox_Loaded" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </hc:CheckComboBox>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</base:BaseUserControl>

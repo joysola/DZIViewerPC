@@ -1,0 +1,174 @@
+﻿<local:AnnoBase x:Class="DST.PIMS.Framework.Controls.AnnoRect"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:local="clr-namespace:DST.PIMS.Framework.Controls"
+                mc:Ignorable="d"
+                d:DesignHeight="100"
+                d:DesignWidth="100">
+    <!--MouseEnter="RectMouseEnter"
+          MouseLeave="RectMouseLeave"-->
+    <Grid >
+        <Grid.Resources>
+            <Style TargetType="Thumb"
+                   x:Key="CornerThumbStyle">
+                <Setter Property="Width"
+                        Value="{Binding  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:AnnoRect},Path=CornerWidth}" />
+                <Setter Property="Height"
+                        Value="{Binding  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:AnnoRect},Path=CornerWidth}" />
+                <Setter Property="BorderBrush"
+                        Value="{Binding  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:AnnoRect},Path=ThumbBrush}" />
+                <Setter Property="BorderThickness"
+                        Value="3" />
+                <Setter Property="Visibility"
+                        Value="{Binding  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:AnnoRect},Path=ThumbVisibility}" />
+                <Setter Property="Background"
+                        Value="Transparent" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}">
+                            <Border SnapsToDevicePixels="True"
+                                    Width="{TemplateBinding Width}"
+                                    Height="{TemplateBinding Height}"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <!--<EventSetter Event="DragCompleted"
+                             Handler="DragCompleted" />
+                <EventSetter Event="DragDelta"
+                             Handler="ResetLocation" />-->
+            </Style>
+            <Style TargetType="{x:Type Thumb}"
+                   x:Key="AreaThumbStyle">
+                <!--置于底层-->
+                <Setter Property="Canvas.ZIndex"
+                        Value="-1" />
+                <Setter Property="BorderBrush"
+                        Value="{Binding  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:AnnoRect},Path=BorderBrush}" />
+                <Setter Property="BorderThickness"
+                        Value="{Binding  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:AnnoRect},Path=StrokeThickness}" />
+                <Setter Property="Background"
+                        Value="Transparent" />
+                <Setter Property="Padding"
+                        Value="0" />
+                <Setter Property="Margin"
+                        Value="0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}">
+                            <Rectangle Margin="0"
+                                       Name="MainRect"
+                                       Stroke="{Binding RelativeSource={RelativeSource TemplatedParent},Path=BorderBrush}"
+                                       StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent},Path=BorderThickness.Top}"
+                                       Fill="{TemplateBinding Background}"
+                                       SnapsToDevicePixels="True"
+                                       Stretch="Fill" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <!--<EventSetter Event="DragCompleted"
+                             Handler="DragCompleted" />
+                <EventSetter Event="DragDelta"
+                             Handler="ResetLocation" />-->
+            </Style>
+            <!--<Style TargetType="Rectangle"
+                   x:Key="MainRect">
+                <Setter Property="StrokeThickness"
+                        Value="{Binding  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:AnnoRect},Path=StrokeThickness}" />
+                <Setter Property="Stroke"
+                        Value="{Binding  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:AnnoRect},Path=BorderBrush}" />
+            </Style>-->
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <!--<Rectangle Margin="3"
+                   x:Name="MainRect"
+                   Fill="Transparent"
+                   Style="{StaticResource MainRect}"
+                   MouseEnter="RectMouseEnter"
+                   MouseLeave="RectMouseLeave"
+                   MouseLeftButtonDown="Select_MouseDown" />-->
+        <local:CustomThumb Style="{StaticResource CornerThumbStyle}"
+                           x:Name="ThumbLT"
+                           DragDirection="LeftTop"
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Cursor="SizeNWSE" />
+        <local:CustomThumb Style="{StaticResource CornerThumbStyle}"
+                           x:Name="ThumbT"
+                           DragDirection="Top"
+                           Grid.Row="0"
+                           Grid.Column="1"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Cursor="SizeNS" />
+        <local:CustomThumb Style="{StaticResource CornerThumbStyle}"
+                           x:Name="ThumbRT"
+                           DragDirection="RightTop"
+                           Grid.Row="0"
+                           Grid.Column="2"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Top"
+                           Cursor="SizeNESW" />
+        <local:CustomThumb Style="{StaticResource CornerThumbStyle}"
+                           x:Name="ThumbL"
+                           DragDirection="Left"
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Cursor="SizeWE" />
+        <local:CustomThumb Style="{StaticResource AreaThumbStyle}"
+                           x:Name="MainRect"
+                           DragDirection="Center"
+                           Grid.RowSpan="3"
+                           Grid.ColumnSpan="3"
+                           Cursor="SizeAll" />
+        <local:CustomThumb Style="{StaticResource CornerThumbStyle}"
+                           x:Name="ThumbR"
+                           DragDirection="Right"
+                           Grid.Row="1"
+                           Grid.Column="2"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Cursor="SizeWE" />
+        <local:CustomThumb Style="{StaticResource CornerThumbStyle}"
+                           x:Name="ThumbLB"
+                           DragDirection="LeftBottom"
+                           Grid.Row="2"
+                           Grid.Column="0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           Cursor="SizeNESW" />
+        <local:CustomThumb Style="{StaticResource CornerThumbStyle}"
+                           x:Name="ThumbB"
+                           DragDirection="Bottom"
+                           Grid.Row="2"
+                           Grid.Column="1"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Cursor="SizeNS" />
+        <local:CustomThumb Style="{StaticResource CornerThumbStyle}"
+                           x:Name="ThumbRB"
+                           DragDirection="RightBottom"
+                           Grid.Row="2"
+                           Grid.Column="2"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom"
+                           Cursor="SizeNWSE" />
+    </Grid>
+</local:AnnoBase>

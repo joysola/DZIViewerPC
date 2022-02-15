@@ -1,0 +1,273 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.TitleBar"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      d:DataContext="{d:DesignInstance Type=vm:TitleBarViewModel}"
+                      mc:Ignorable="d"
+                      d:DesignHeight="40"
+                      d:DesignWidth="1920">
+    <base:BaseUserControl.Resources>
+        <Style x:Key="_ListboxItemStyleKey"
+               TargetType="ListBoxItem">
+            <Setter Property="BorderThickness"
+                    Value="0" />
+            <Setter Property="BorderBrush"
+                    Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Grid>
+                            <Border x:Name="bg"
+                                    Background="#0066CC"
+                                    Visibility="Collapsed" />
+                            <ContentPresenter />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="bg"
+                                        Property="Visibility"
+                                        Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="btnMsgStype"
+               TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Image Source="/DST.PIMS.Client;component/Images/Note.png"
+                                   Name="img"
+                                   Visibility="Visible" />
+                            <Image Source="/DST.PIMS.Client;component/Images/Note_Selected.png"
+                                   Name="imgOver"
+                                   Visibility="Collapsed" />
+                            <Border Background="Red"
+                                    CornerRadius="20"
+                                    Width="15"
+                                    Height="15"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Right">
+                                <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center" />
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter Property="Visibility"
+                                        TargetName="imgOver"
+                                        Value="Visible" />
+                                <Setter Property="Visibility"
+                                        TargetName="img"
+                                        Value="Collapsed" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </base:BaseUserControl.Resources>
+    <Grid Background="#2FB3CC">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0"
+                    Orientation="Horizontal">
+            <Image Source="/DST.PIMS.Client;component/Images/a4z28-xygp9-002.ico" />
+            <TextBlock VerticalAlignment="Center"
+                       Margin="15,0,0,0"
+                       FontSize="20"
+                       Foreground="White"
+                       Text="迪赛特数字化病理科信息管理系统"
+                       FontWeight="Bold" />
+            <TextBlock x:Name="tbWorkstation"
+                       Margin="10,0,0,0"
+                       Text="(样本登记工作站)"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Foreground="White" />
+        </StackPanel>
+        <StackPanel Grid.Column="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <!--<Button Width="32"
+                    Height="32"
+                    Content="8"
+                    FontSize="9"
+                    Foreground="White"
+                    Style="{StaticResource btnMsgStype}" />-->
+            <Image Source="/DST.PIMS.Client;component/Images/Loginicon.png"
+                   Width="16"
+                   Height="18"
+                   Margin="20,0,0,0" />
+            <Button x:Name="btnLoginChange"
+                    Content="{Binding ExCurrent.LoginModel.RealName}"
+                    Width="auto"
+                    MinWidth="100"
+                    Height="35"
+                    Margin="10,0,0,0"
+                    Background="Transparent"
+                    Click="BtnLoginChange_Click" />
+        </StackPanel>
+        <Popup x:Name="popupChange"
+               AllowsTransparency="True"
+               IsOpen="False"
+               Placement="Relative"
+               PlacementRectangle="0, 35, 0, 0"
+               PlacementTarget="{Binding ElementName=btnLoginChange}"
+               StaysOpen="False">
+                     <!--Height="178"-->
+            <ListBox x:Name="lbChangeType"
+                     Width="100"
+                     HorizontalAlignment="Right"
+                     VerticalAlignment="Top"
+                     Visibility="Visible"
+                     SelectionChanged="LbChangeType_SelectionChanged">
+                <ListBox.Style>
+                    <Style TargetType="ListBox">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBox">
+                                    <Grid>
+                                        <Border Background="#2FB3CC"
+                                                Opacity="0.8" />
+                                        <StackPanel IsItemsHost="True"
+                                                    Orientation="Vertical" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.Style>
+                <!--<ListBoxItem Height="35"
+                             Style="{StaticResource _ListboxItemStyleKey}"
+                             Tag="锁屏">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0"
+                               Width="18"
+                               Height="18"
+                               Source="/DST.PIMS.Client;component/Images/icon锁屏.png" />
+                        <TextBlock Grid.Column="1"
+                                   HorizontalAlignment="Left"
+                                   FontSize="16"
+                                   Foreground="White"
+                                   Text="锁     屏" />
+                    </Grid>
+                </ListBoxItem>-->
+                <ListBoxItem Height="35"
+                             Style="{StaticResource _ListboxItemStyleKey}"
+                             Tag="注销">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0"
+                               Width="18"
+                               Height="18"
+                               Source="/DST.PIMS.Client;component/Images/icon注销.png" />
+                        <TextBlock Grid.Column="1"
+                                   HorizontalAlignment="Left"
+                                   FontSize="16"
+                                   Foreground="White"
+                                   Text="注     销" />
+                    </Grid>
+                </ListBoxItem>
+                <!--<ListBoxItem Height="35"
+                             Style="{StaticResource _ListboxItemStyleKey}"
+                             Tag="修改密码">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0"
+                               Width="18"
+                               Height="18"
+                               Source="/DST.PIMS.Client;component/Images/changePwd.png" />
+                        <TextBlock Grid.Column="1"
+                                   HorizontalAlignment="Left"
+                                   FontSize="16"
+                                   Foreground="White"
+                                   Text="修改密码" />
+                    </Grid>
+                </ListBoxItem>-->
+                <!--<ListBoxItem Height="35"
+                             Style="{StaticResource _ListboxItemStyleKey}"
+                             Tag="配置">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0"
+                               Width="18"
+                               Height="18"
+                               Source="/DST.PIMS.Client;component/Images/Configuration.png" />
+                        <TextBlock Grid.Column="1"
+                                   HorizontalAlignment="Left"
+                                   FontSize="16"
+                                   Foreground="White"
+                                   Text="配     置" />
+                    </Grid>
+                </ListBoxItem>-->
+                <ListBoxItem Height="35"
+                             Style="{StaticResource _ListboxItemStyleKey}"
+                             Tag="关于">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0"
+                               Width="18"
+                               Height="18"
+                               Source="/DST.PIMS.Client;component/Images/icon关于.png" />
+                        <TextBlock Grid.Column="1"
+                                   HorizontalAlignment="Left"
+                                   FontSize="16"
+                                   Foreground="White"
+                                   Text="关     于" />
+                    </Grid>
+                </ListBoxItem>
+                <ListBoxItem Height="35"
+                             Style="{StaticResource _ListboxItemStyleKey}"
+                             Tag="退出">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0"
+                               Width="18"
+                               Height="18"
+                               Source="/DST.PIMS.Client;component/Images/icon关机.png" />
+                        <TextBlock Grid.Column="1"
+                                   HorizontalAlignment="Left"
+                                   FontSize="16"
+                                   Foreground="White"
+                                   Text="退     出" />
+                    </Grid>
+                </ListBoxItem>
+            </ListBox>
+        </Popup>
+        <TextBlock Background="White"
+                   VerticalAlignment="Bottom"
+                   Height="1"
+                   Grid.ColumnSpan="2" />
+    </Grid>
+</base:BaseUserControl>

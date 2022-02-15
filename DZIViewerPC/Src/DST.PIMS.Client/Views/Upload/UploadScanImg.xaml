@@ -1,0 +1,170 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.UploadScanImg"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:ei="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:helper="clr-namespace:DST.Common.Helper;assembly=DST.Common"
+                      xmlns:converter="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:control="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      mc:Ignorable="d"
+                      d:DesignHeight="1100"
+                      d:DesignWidth="1500">
+    <base:BaseUserControl.Resources>
+        <helper:BindingProxy x:Key="BindingProxy"
+                             Data="{Binding}" />
+        <converter:ZeroOneToStringConverter x:Key="ZeroOneToStringConverter" />
+        <converter:UploadStatusConverter x:Key="UploadStatusConverter" />
+    </base:BaseUserControl.Resources>
+
+    <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="PreviewKeyDown">
+                <ei:CallMethodAction MethodName="Query_PreviewKeyDown"
+                                     TargetObject="{Binding}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80*" />
+            <RowDefinition Height="1020*" />
+        </Grid.RowDefinitions>
+
+        <!--检索条件-->
+        <Border Grid.Row="0"
+                Margin="5"
+                BorderThickness="1"
+                CornerRadius="10"
+                BorderBrush="#FF4994BA">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="样本编号："
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right" 
+                           Margin="20,0,0,0"/>
+
+                <hc:TextBox Text="{Binding QueryCode, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="5,0,0,0"
+                            MinWidth="250"
+                            Height="35"
+                            hc:InfoElement.Placeholder="请输入样本编号"
+                            ShowClearButton="True" />
+
+                <TextBlock Text="上传状态："
+                           Margin="50,0,0,0"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right" />
+
+                <hc:ComboBox SelectedValue="{Binding QueryStatus}"
+                             ItemsSource="{Binding UploadDict}"
+                             Style="{StaticResource ComboBoxRegister}"
+                             Margin="0"
+                             hc:InfoElement.TitleWidth ="0"
+                             Height="35"
+                             Width="200"
+                             DisplayMemberPath="Key"
+                             SelectedValuePath="Value"
+                             hc:InfoElement.Placeholder="请选择上传状态" />
+
+                <Button Content="查   询"
+                        Margin="50,0,0,0"
+                        Width="150"
+                        Command="{Binding QueryCommand}" />
+                <Button Content="批量上传"
+                        Width="150"
+                        Margin="20,0,0,0"
+                        Command="{Binding BatchUploadCommand}" />
+            </StackPanel>
+        </Border>
+
+        <!--表格-->
+        <DataGrid Grid.Row="1"
+                  Margin="5"
+                  Background="White"
+                  CanUserAddRows="False"
+                  EnableRowVirtualization="False"
+                  SelectionMode="Single"
+                  Style="{StaticResource TransDataGrid}"
+                  ItemsSource="{Binding SampleUploadModelList}"
+                  Grid.ColumnSpan="2"
+                  LoadingRow="DataGrid_LoadingRow">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="120*"
+                                        x:Name="indexColumn">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="ckbSelectedAll"
+                                          Foreground="{StaticResource ColumnHeaderTextBrush}"
+                                          VerticalAlignment="Center"
+                                          IsChecked="{Binding Data.SelectAll, Mode = TwoWay, Source= {StaticResource BindingProxy}}"
+                                          HorizontalContentAlignment="Center"
+                                          Margin="5,0,0,0"
+                                          HorizontalAlignment="Left" />
+                                <TextBlock Text="序号"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Margin="5,0,0,0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox HorizontalAlignment="Left"
+                                          IsChecked="{Binding DataContext.IsSelected, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}}"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Margin="5,0,0,0" />
+                                <TextBlock HorizontalAlignment="Center"
+                                           Margin="5,0,0,0"
+                                           Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}" />
+                            </StackPanel>
+                            
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="样本路径名称"
+                                    Width="400*"
+                                    Binding="{Binding LocalPathName}" />
+                <DataGridTemplateColumn  Header="进度"
+                                         Width="1240*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <control:CustomProgressBar Width="800"
+                                                       MaxValue="{Binding TotalPartNumber, Mode=TwoWay}"
+                                                       Value="{Binding CurPartNumber, Mode=TwoWay}"
+                                                       ToolTip="{Binding LocalPath, Mode=TwoWay}"
+                                                       BtnContent="{Binding STATUS, Converter={StaticResource UploadStatusConverter}}">
+
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="StatusChanged">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.StatusChangedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                               CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:CustomProgressBar>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--<DataGridTemplateColumn Header="日志"
+                                        Width="120*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="查看"
+                                    Height="30"
+                                    Width="50"
+                                    Style="{StaticResource CancelButton}"
+                                    Command="{Binding DataContext.CheckLogCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding DataContext.LogInfo, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</base:BaseUserControl>

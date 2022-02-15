@@ -1,0 +1,168 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.ImageViewerPC"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      d:DataContext="{d:DesignInstance Type=vm:ImageViewerPCViewModel}"
+                      mc:Ignorable="d"
+                      d:DesignHeight="1100"
+                      d:DesignWidth="1800">
+    <Grid>
+        <Grid.Resources>
+            <cv:CalculateLengthConverter x:Key="CalculateLengthConverter" />
+            <cv:CalculateParamConverter x:Key="CalculateParamConverter" />
+            <cv:DataGridIndexConverter x:Key="DataGridIndexConverter" />
+            <fcv:EmbedPrintStatusConverter x:Key="EmbedPrintStatusConverter" />
+            <fcv:MaterialDelayBtnVisiConverter x:Key="MaterialDelayBtnVisiConverter" />
+            <SolidColorBrush x:Key="GridBackground"
+                             Color="White" />
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <TreeView Grid.Column="0"
+                  Style="{StaticResource TreeViewBaseStyle}"
+                  ItemsSource="{Binding TreeData.RootNodes}">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="TreeViewItem"
+                       BasedOn="{StaticResource TreeViewItemBaseStyle}">
+                    <Setter Property="IsExpanded"
+                            Value="True" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding ChildNodes}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Label}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        <!--<local:ImgViewerManager Grid.Column="1" />-->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <hc:TextBox Style="{StaticResource TextBoxAppRegister}"
+                            Text="{Binding QueryCode,UpdateSourceTrigger=PropertyChanged}"
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            MinWidth="300"
+                            hc:TitleElement.Title="切片编号："
+                            hc:InfoElement.Placeholder="请输入切片编号"
+                            ShowClearButton="True" />
+                <Button Style="{StaticResource ButtonPrimary}"
+                        Margin="10,0,0,0"
+                        Content="查询"
+                        Command="{Binding QueryCommand}" />
+                <Button Style="{StaticResource ButtonSuccess}"
+                        Margin="10,0,0,0"
+                        Content="分屏浏览"
+                        Command="{Binding SplitCommand}" />
+            </StackPanel>
+            <DataGrid Grid.Row="1"
+                      x:Name="EmbedGrid"
+                      Style="{StaticResource TransDataGrid}"
+                      ItemsSource="{Binding TmpImgFileList}"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      SelectedItem="{Binding MainImgVwFileInfo}"
+                      MinHeight="250"
+                      Margin="5"
+                      EnableRowVirtualization="False"
+                      SelectionMode="Single"
+                      d:ItemsSource="{d:SampleData ItemCount=5}">
+                <!--<DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow"
+                           BasedOn="{StaticResource CommonDataGridRowWithLineStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DrawMaterStatus}"
+                                         Value="1">
+                                <Setter Property="Background"
+                                        Value="#2FB3CC" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>-->
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="*"
+                                            MaxWidth="100"
+                                            Header="序号">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding IsSelected,UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock HorizontalAlignment="Center"
+                                               Margin="5,0,0,0"
+                                               Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridRow}, Converter={StaticResource DataGridIndexConverter}}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Width="2*"
+                                        Header="文件名"
+                                        Binding="{Binding DicectoryName}" />
+                    <DataGridTemplateColumn Width="4*"
+                                            Header="切片信息">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal"
+                                            MaxHeight="100">
+                                    <Image Source="{Binding QCodeImgUrl}"
+                                           Stretch="Uniform" />
+                                    <Image Source="{Binding SampleImgUrl}"
+                                           Stretch="Uniform" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="2*"
+                                            Header="本地路径">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding LocalFilePath}"
+                                           ToolTip="{Binding LocalFilePath}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*"
+                                            Header="操作">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Style="{StaticResource ButtonPrimary}"
+                                            Margin="5,0,0,0"
+                                            hc:IconElement.Geometry="{StaticResource WindowRestoreGeometry}"
+                                            Content="查看"
+                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=DataGrid},Path=DataContext.ViewCommand}"
+                                            CommandParameter="{Binding}" />
+                                    <!--<Button Style="{StaticResource ButtonDanger}"
+                                            Margin="5,0,0,0"
+                                            hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=DataGrid},Path=DataContext.DeleteBoxCommand}"
+                                            CommandParameter="{Binding}" />
+                                    <Button Style="{StaticResource ButtonPrimary}"
+                                            Margin="5,0,0,0"
+                                            hc:IconElement.Geometry="{StaticResource DownloadGeometry}"
+                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid},Path=DataContext.PrintBoxCommand}"
+                                            CommandParameter="{Binding}" />-->
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</base:BaseUserControl>

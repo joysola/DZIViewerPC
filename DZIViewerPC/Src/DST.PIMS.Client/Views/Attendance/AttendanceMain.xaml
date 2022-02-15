@@ -1,0 +1,13 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.AttendanceMain"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+             xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="940" d:DesignWidth="1920">
+    <Grid>
+        <TextBlock Text="出勤管理工作站" />
+    </Grid>
+</base:BaseUserControl>

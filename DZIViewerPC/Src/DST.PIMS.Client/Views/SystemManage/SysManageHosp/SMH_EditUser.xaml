@@ -1,0 +1,202 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.SMH_EditUser"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:SMH_EditUserViewModel}"
+                      d:DesignHeight="550"
+                      d:DesignWidth="400">
+    <Grid Background="White">
+        <Grid.Resources>
+            <fcv:SexRadioBtnConverter x:Key="SexRadioBtnConverter" />
+            <cv:IListFirstItemConverter x:Key="IListFirstItemConverter" />
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <hc:TextBox Grid.Row="0"
+                        Margin="0,15,0,0"
+                        Style="{StaticResource TextBoxRegister}"
+                        Text="{Binding UserInfo.UserName}"
+                        hc:TitleElement.Title="账号："
+                        hc:InfoElement.Placeholder="请填写账号"
+                        hc:InfoElement.Necessary="True"
+                        hc:TitleElement.VerticalAlignment="Center" />
+            <hc:TextBox Grid.Row="0"
+                        Margin="0,15,0,0"
+                        Style="{StaticResource TextBoxRegister}"
+                        Text="{Binding UserInfo.RealName}"
+                        hc:TitleElement.Title="姓名："
+                        hc:InfoElement.Placeholder="请填写姓名"
+                        hc:InfoElement.Necessary="True"
+                        hc:TitleElement.VerticalAlignment="Center" />
+            <Grid Grid.Row="1"
+                  Margin="0,15,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           Margin="0,0,5,0"
+                           FontSize="12"
+                           Text="性别："
+                           HorizontalAlignment="Right" />
+
+                <RadioButton Grid.Column="1"
+                             IsChecked="{Binding UserInfo.Sex, Converter={StaticResource SexRadioBtnConverter},ConverterParameter=1}"
+                             HorizontalAlignment="Left"
+                             Content="男"
+                             GroupName="sex" />
+                <RadioButton Grid.Column="2"
+                             IsChecked="{Binding UserInfo.Sex, Converter={StaticResource SexRadioBtnConverter},ConverterParameter=2}"
+                             HorizontalAlignment="Left"
+                             Content="女"
+                             Margin="10,0,0,0"
+                             GroupName="sex" />
+
+            </Grid>
+            <!--<hc:TextBox Grid.Row="3"
+                        Margin="0,15,0,0"
+                        IsEnabled="False"
+                        Style="{StaticResource TextBoxRegister}"
+                        Text="{Binding UserInfo}"
+                        hc:TitleElement.Title="部门："
+                        hc:InfoElement.Placeholder="请选择部门"
+                        hc:TitleElement.VerticalAlignment="Center" />-->
+            <!--<Grid Margin="0,15,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+
+                <hc:ComboBox Margin="0"
+                             ItemsSource="{Binding AllDeptList}"
+                             DisplayMemberPath="DeptName"
+                             SelectedValue="{Binding UserInfo.Depts,Converter={StaticResource IListFirstItemConverter}}"
+                             Style="{StaticResource ComboBoxRegister}"
+                             hc:InfoElement.Placeholder="请选择科室"
+                             hc:TitleElement.Title="科室："
+                             ShowClearButton="False" />
+                <Button Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        Margin="5,0,0,0"
+                        Style="{StaticResource ButtonPrimary}"
+                        hc:IconElement.Geometry="{StaticResource DragVerticalGeometry}"
+                        Command="{Binding EditDeptCommand}" />
+
+            </Grid>-->
+            <Grid  Margin="0,15,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="科室："
+                           Margin="0,0,5,0"
+                           FontSize="12"
+                           HorizontalAlignment="Right" />
+                <hc:TagContainer Grid.Column="1"
+                                 MaxHeight="45"
+                                 ItemsSource="{Binding UserInfo.Depts}">
+                    <hc:TagContainer.ItemContainerStyle>
+                        <Style TargetType="hc:Tag"
+                               BasedOn="{StaticResource TagBaseStyle}">
+                            <Setter Property="Content"
+                                    Value="{Binding DeptName}" />
+                            <Setter Property="Margin"
+                                    Value="5" />
+                            <!--<Setter Property="IsSelected"
+                                    Value="True" />-->
+                        </Style>
+                    </hc:TagContainer.ItemContainerStyle>
+                </hc:TagContainer>
+                <Button Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        Margin="5,0,0,0"
+                        Style="{StaticResource ButtonPrimary}"
+                        hc:IconElement.Geometry="{StaticResource DragVerticalGeometry}"
+                        Command="{Binding EditDeptCommand}" />
+
+            </Grid>
+            <Grid  Margin="0,15,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="角色："
+                           Margin="0,0,5,0"
+                           FontSize="12"
+                           HorizontalAlignment="Right" />
+                <hc:TagContainer Grid.Column="1"
+                                 Padding="5"
+                                 MinHeight="150"
+                                 ItemsSource="{Binding UserInfo.Roles}">
+                    <hc:TagContainer.ItemContainerStyle>
+                        <Style TargetType="hc:Tag"
+                               BasedOn="{StaticResource TagBaseStyle}">
+                            <Setter Property="Content"
+                                    Value="{Binding RoleName}" />
+                            <Setter Property="Margin"
+                                    Value="5" />
+                            <!--<Setter Property="IsSelected"
+                                    Value="True" />-->
+                        </Style>
+                    </hc:TagContainer.ItemContainerStyle>
+                </hc:TagContainer>
+                <Button Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        Margin="5,0,0,0"
+                        Style="{StaticResource ButtonPrimary}"
+                        hc:IconElement.Geometry="{StaticResource DragVerticalGeometry}"
+                        Command="{Binding EditRoleCommand}" />
+
+            </Grid>
+            <hc:TextBox Margin="0,15,0,0"
+                        Style="{StaticResource TextBoxRegister}"
+                        Text="{Binding UserInfo.Phone}"
+                        TextType="Phone"
+                        hc:InfoElement.RegexPattern="^1(3[0-9]|5[0-9]|7[6-8]|8[0-9])[0-9]{8}$"
+                        hc:TitleElement.Title="手机号码："
+                        hc:InfoElement.Placeholder="请填写手机号码"
+                        hc:TitleElement.VerticalAlignment="Center" />
+            <hc:TextBox Margin="0,15,0,0"
+                        Style="{StaticResource TextBoxRegister}"
+                        Text="{Binding UserInfo.Email}"
+                        TextType="Mail"
+                        hc:TitleElement.Title="邮箱："
+                        hc:InfoElement.Placeholder="请填写邮箱"
+                        hc:TitleElement.VerticalAlignment="Center" />
+            <StackPanel Grid.Row="4"
+                        Margin="0,15,0,0"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Style="{StaticResource ButtonBaseStyle}"
+                        Background="{StaticResource ThirdlyTextBrush}"
+                        Foreground="White"
+                        Content="取消"
+                        Command="{Binding CancelCommand}" />
+                <Button Style="{StaticResource ButtonPrimary}"
+                        Content="确定"
+                        Margin="5,0,5,0"
+                        Command="{Binding OKCommand}" />
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</base:BaseUserControl>

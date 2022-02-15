@@ -1,0 +1,29 @@
+﻿<Window x:Class="DST.PIMS.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DST.PIMS.Client"
+        xmlns:views="clr-namespace:DST.PIMS.Client.Views"
+        mc:Ignorable="d" WindowStyle="None"
+        Icon="Images/a4z28-xygp9-002.ico"
+        Title="MainWindow" d:DesignWidth="1920" d:DesignHeight="1080">
+    <Viewbox>
+        <Grid x:Name="mainGrid" Width="1920" Height="1080">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="100" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <!--标题栏-->
+            <views:TitleBar Grid.Row="0" />
+
+            <!--工具栏-->
+            <views:ToolBar Grid.Row="1" />
+
+            <!--工作站-->
+            <Grid x:Name="gridWorkstation" Grid.Row="2" />
+        </Grid>
+    </Viewbox>
+</Window>

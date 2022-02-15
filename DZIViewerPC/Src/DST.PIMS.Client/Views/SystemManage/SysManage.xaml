@@ -1,0 +1,54 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.SysManage"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:SysManaViewModel}"
+                      d:DesignHeight="1000"
+                      d:DesignWidth="1800">
+
+    <Grid>
+        <Grid.Resources>
+            <fcv:TreeNodeNavConverter x:Key="TreeNodeNavConverter" />
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="7*" />
+        </Grid.ColumnDefinitions>
+
+        <!--ItemsSource="{Binding SysMenus}"-->
+        <local:SysManageNav  Grid.Column="0"
+                             ItemsSource="{Binding MenuTree}"
+                             SelectedItem="{Binding SelectedNode,Mode=OneWayToSource}" />
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="当前位置：" />
+                <TextBlock Text="{Binding SelectedNode,Converter={StaticResource TreeNodeNavConverter}}" />
+            </StackPanel>
+            <local:SysManageRole Grid.Row="1"
+                                 DataContext="{Binding RoleVM}"
+                                 Visibility="{Binding Path=DataContext.RoleNode.Visible,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=base:BaseUserControl}}" />
+            <local:SysManageHosp Grid.Row="1"
+                                 DataContext="{Binding HospVM}"
+                                 Visibility="{Binding Path=DataContext.UserNode.Visible,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=base:BaseUserControl}}" />
+            <local:SysManageDoc Grid.Row="1"
+                                DataContext="{Binding DocVM}"
+                                Visibility="{Binding Path=DataContext.DocNode.Visible,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=base:BaseUserControl}}" />
+        </Grid>
+
+    </Grid>
+</base:BaseUserControl>

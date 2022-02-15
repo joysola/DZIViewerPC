@@ -1,0 +1,1354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{738DF3ED-9AAC-419A-978D-793C7020E9CC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>DST.PIMS.Client</RootNamespace>
+    <AssemblyName>DST.PIMS.Client</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>a4z28-xygp9-002.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AspectInjector.Broker, Version=2.6.0.0, Culture=neutral, PublicKeyToken=a29e12442a3d3609, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AspectInjector.2.6.0\lib\netstandard2.0\AspectInjector.Broker.dll</HintPath>
+    </Reference>
+    <Reference Include="AsyncAwaitBestPractices, Version=6.0.4.0, Culture=neutral, PublicKeyToken=532360cfd341384d, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AsyncAwaitBestPractices.6.0.4\lib\netstandard2.0\AsyncAwaitBestPractices.dll</HintPath>
+    </Reference>
+    <Reference Include="AsyncAwaitBestPractices.MVVM, Version=6.0.4.0, Culture=neutral, PublicKeyToken=fd3d463fd20deb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AsyncAwaitBestPractices.MVVM.6.0.4\lib\netstandard2.0\AsyncAwaitBestPractices.MVVM.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\..\Lib\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform">
+      <HintPath>..\..\Lib\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="HandyControl, Version=3.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\HandyControl\HandyControl.dll</HintPath>
+    </Reference>
+    <Reference Include="HttpClientExtension">
+      <HintPath>..\..\Lib\HttpClientEx\HttpClientExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions">
+      <HintPath>..\..\Lib\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="MoonPdfLib, Version=0.3.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\MoonPdfLib-0.3.0-x64\MoonPdfLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MVVMExtension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\MVVMExtension\MVVMExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite.CodeFirst, Version=1.7.0.34, Culture=neutral, PublicKeyToken=eb96ba0a78d831a7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SQLite.CodeFirst.1.7.0.34\lib\net45\SQLite.CodeFirst.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\ApiClient\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\..\Lib\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\About\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Allocation\ImageViewer.xaml.cs">
+      <DependentUpon>ImageViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Allocation\ImgViewerDetail.xaml.cs">
+      <DependentUpon>ImgViewerDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Allocation\ImgViewerManager.xaml.cs">
+      <DependentUpon>ImgViewerManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CommonViews\ImgVision\ImgVision.xaml.cs">
+      <DependentUpon>ImgVision.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CommonViews\ImgVision\ImgVisionScrollViewer.xaml.cs">
+      <DependentUpon>ImgVisionScrollViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Embedding\EmbedSpecimen.xaml.cs">
+      <DependentUpon>EmbedSpecimen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ImageViewerPC\ImageViewerPC.xaml.cs">
+      <DependentUpon>ImageViewerPC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ImageViewerPC\ImgVwMng.xaml.cs">
+      <DependentUpon>ImgVwMng.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\MaterialAllQuery.xaml.cs">
+      <DependentUpon>MaterialAllQuery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\MaterialDelay.xaml.cs">
+      <DependentUpon>MaterialDelay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\MaterialTissImg.xaml.cs">
+      <DependentUpon>MaterialTissImg.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\Material_SpecEdit.xaml.cs">
+      <DependentUpon>Material_SpecEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MolecularDiagnosis\MoleDiagExamed\MDE_ReSamp.xaml.cs">
+      <DependentUpon>MDE_ReSamp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MolecularDiagnosis\MoleDiagBarcode.xaml.cs">
+      <DependentUpon>MoleDiagBarcode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MolecularDiagnosis\MoleDiagCheck.xaml.cs">
+      <DependentUpon>MoleDiagCheck.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MolecularDiagnosis\MoleDiagCheckConfirm.xaml.cs">
+      <DependentUpon>MoleDiagCheckConfirm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MolecularDiagnosis\MoleDiagExamed\MoleDiagDetail.xaml.cs">
+      <DependentUpon>MoleDiagDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MolecularDiagnosis\MoleDiagResultConfirm.xaml.cs">
+      <DependentUpon>MoleDiagResultConfirm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhysicalDistribution\PhysDistClinManif.xaml.cs">
+      <DependentUpon>PhysDistClinManif.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProdDoctAdvice\ProdDoctAdQuery.xaml.cs">
+      <DependentUpon>ProdDoctAdQuery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProdDoctAdvice\ProdDoctAdSlice.xaml.cs">
+      <DependentUpon>ProdDoctAdSlice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProdDoctAdvice\ProdDoctAdvice.xaml.cs">
+      <DependentUpon>ProdDoctAdvice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProdDoctAdvice\ProdDoctAd_Edit.xaml.cs">
+      <DependentUpon>ProdDoctAd_Edit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProdTechAdvice\ProdTechAdQuery.xaml.cs">
+      <DependentUpon>ProdTechAdQuery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProdTechAdvice\ProdTechAdSlice.xaml.cs">
+      <DependentUpon>ProdTechAdSlice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProdTechAdvice\ProdTechAd_Edit.xaml.cs">
+      <DependentUpon>ProdTechAd_Edit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProductSpecimen\ProdSpec_Add.xaml.cs">
+      <DependentUpon>ProdSpec_Add.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProductSpecimen\ProdSpec_Edit.xaml.cs">
+      <DependentUpon>ProdSpec_Edit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProdTCTList.xaml.cs">
+      <DependentUpon>ProdTCTList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProdTechAdvice\ProdTechAdvice.xaml.cs">
+      <DependentUpon>ProdTechAdvice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\Material_Edit.xaml.cs">
+      <DependentUpon>Material_Edit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProductSpecimen\ProductSpecimen.xaml.cs">
+      <DependentUpon>ProductSpecimen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Register\RegisterAllQuery.xaml.cs">
+      <DependentUpon>RegisterAllQuery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Register\RegisterDelivery.xaml.cs">
+      <DependentUpon>RegisterDelivery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Register\RegisterReSample\RegReSample.xaml.cs">
+      <DependentUpon>RegReSample.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Register\RegisterReSample\RegReSamp_Query.xaml.cs">
+      <DependentUpon>RegReSamp_Query.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Register\RegisterReSample\RegReSamp_Relate.xaml.cs">
+      <DependentUpon>RegReSamp_Relate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Register\RegisterReSample\RegReSamp_Withdraw.xaml.cs">
+      <DependentUpon>RegReSamp_Withdraw.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportSystem\ReportChargeBack.xaml.cs">
+      <DependentUpon>ReportChargeBack.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportSystem\ReportEmergency.xaml.cs">
+      <DependentUpon>ReportEmergency.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scan\ReceiveByScan.xaml.cs">
+      <DependentUpon>ReceiveByScan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scan\ScanCommon.xaml.cs">
+      <DependentUpon>ScanCommon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemManage\SysManage.xaml.cs">
+      <DependentUpon>SysManage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\AppImgView\AppFrm.xaml.cs">
+      <DependentUpon>AppFrm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CommonViews\SimplePatInfo.xaml.cs">
+      <DependentUpon>SimplePatInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CommonViews\SimplePatInfoTitle.xaml.cs">
+      <DependentUpon>SimplePatInfoTitle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\AppImgView\AppFrmMaintain.xaml.cs">
+      <DependentUpon>AppFrmMaintain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\AppImgView\AppImgView.xaml.cs">
+      <DependentUpon>AppImgView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\AppImgView\AppImgViewMaintain.xaml.cs">
+      <DependentUpon>AppImgViewMaintain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\Config\CommonConfig.xaml.cs">
+      <DependentUpon>CommonConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\CommonWords\CWD_SimpleEdit.xaml.cs">
+      <DependentUpon>CWD_SimpleEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\ModifyPassword.xaml.cs">
+      <DependentUpon>ModifyPassword.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\Config\PrintSetting\HSJPrintSetting.xaml.cs">
+      <DependentUpon>HSJPrintSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\Config\PrintSetting\PrintSetting.xaml.cs">
+      <DependentUpon>PrintSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\Config\PrintSetting\TSCBarcodeSetting.xaml.cs">
+      <DependentUpon>TSCBarcodeSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\QueryPathList.xaml.cs">
+      <DependentUpon>QueryPathList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CommonViews\SimpleStateInfo.xaml.cs">
+      <DependentUpon>SimpleStateInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CommonViews\TreeDataGrid.xaml.cs">
+      <DependentUpon>TreeDataGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConventionalDiagnosis\ConvDiagList.xaml.cs">
+      <DependentUpon>ConvDiagList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConventionalDiagnosis\ConvDiagMain.xaml.cs">
+      <DependentUpon>ConvDiagMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConventionalDiagnosis\ConvDiagPathDiag.xaml.cs">
+      <DependentUpon>ConvDiagPathDiag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConventionalDiagnosis\ConvDiagReport.xaml.cs">
+      <DependentUpon>ConvDiagReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConventionalDiagnosis\ConvDiagSilceList.xaml.cs">
+      <DependentUpon>ConvDiagSilceList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConventionalDiagnosis\ConvDiagStation.xaml.cs">
+      <DependentUpon>ConvDiagStation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CytoDiagnosis\CytoDiagList.xaml.cs">
+      <DependentUpon>CytoDiagList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CytoDiagnosis\CytoDiagMain.xaml.cs">
+      <DependentUpon>CytoDiagMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CytoDiagnosis\CytoDiagPathDiag.xaml.cs">
+      <DependentUpon>CytoDiagPathDiag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CytoDiagnosis\CytoDiagReport.xaml.cs">
+      <DependentUpon>CytoDiagReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CytoDiagnosis\CytoDiagSilceList.xaml.cs">
+      <DependentUpon>CytoDiagSilceList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CytoDiagnosis\CytoDiagStation.xaml.cs">
+      <DependentUpon>CytoDiagStation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\MaterialSpecimen.xaml.cs">
+      <DependentUpon>MaterialSpecimen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\MaterialTools.xaml.cs">
+      <DependentUpon>MaterialTools.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\MaterialCore.xaml.cs">
+      <DependentUpon>MaterialCore.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MolecularDiagnosis\MolecularDiagnosisMain.xaml.cs">
+      <DependentUpon>MolecularDiagnosisMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MolecularDiagnosis\MoleDiagExamed\MoleDiagExamed.xaml.cs">
+      <DependentUpon>MoleDiagExamed.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MolecularDiagnosis\MoleDiagMain.xaml.cs">
+      <DependentUpon>MoleDiagMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhysicalDistribution\PhysDistAdd.xaml.cs">
+      <DependentUpon>PhysDistAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhysicalDistribution\PhysDistAddEditItem.xaml.cs">
+      <DependentUpon>PhysDistAddEditItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhysicalDistribution\PhysDistInfo.xaml.cs">
+      <DependentUpon>PhysDistInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhysicalDistribution\PhysDistPreTreat.xaml.cs">
+      <DependentUpon>PhysDistPreTreat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhysicalDistribution\PhysDistPreTreatBarcode.xaml.cs">
+      <DependentUpon>PhysDistPreTreatBarcode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhysicalDistribution\PhysDistReceipt.xaml.cs">
+      <DependentUpon>PhysDistReceipt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhysicalDistribution\PhysDistReceiptBarcode.xaml.cs">
+      <DependentUpon>PhysDistReceiptBarcode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhysicalDistribution\PhysDistReceiptEdit.xaml.cs">
+      <DependentUpon>PhysDistReceiptEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhysicalDistribution\PhysDistReceiptHuman.xaml.cs">
+      <DependentUpon>PhysDistReceiptHuman.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhysicalDistribution\PhysDistSignin.xaml.cs">
+      <DependentUpon>PhysDistSignin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhysicalDistribution\PhysDistMain.xaml.cs">
+      <DependentUpon>PhysDistMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhysicalDistribution\PhysDistSupplementBarcode.xaml.cs">
+      <DependentUpon>PhysDistSupplementBarcode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProductCell.xaml.cs">
+      <DependentUpon>ProductCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProdSliceList.xaml.cs">
+      <DependentUpon>ProdSliceList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Register\RegisterMain.xaml.cs">
+      <DependentUpon>RegisterMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Register\RegisterQuery.xaml.cs">
+      <DependentUpon>RegisterQuery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Register\RegisterSample.xaml.cs">
+      <DependentUpon>RegisterSample.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Allocation\AllocationMain.xaml.cs">
+      <DependentUpon>AllocationMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ArchivesManagement\ArchivesManagementMain.xaml.cs">
+      <DependentUpon>ArchivesManagementMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Attendance\AttendanceMain.xaml.cs">
+      <DependentUpon>AttendanceMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConventionalDiagnosis\ConventionalDiagnosisMain.xaml.cs">
+      <DependentUpon>ConventionalDiagnosisMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CytoDiagnosis\CytoDiagnosisMain.xaml.cs">
+      <DependentUpon>CytoDiagnosisMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Embedding\EmbeddingMain.xaml.cs">
+      <DependentUpon>EmbeddingMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainLayout\TitleBar.xaml.cs">
+      <DependentUpon>TitleBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainLayout\ToolBar.xaml.cs">
+      <DependentUpon>ToolBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\MaterialMain.xaml.cs">
+      <DependentUpon>MaterialMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Production\ProductionMain.xaml.cs">
+      <DependentUpon>ProductionMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\CommonWords\ComWordDict.xaml.cs">
+      <DependentUpon>ComWordDict.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\CommonWords\CWD_AddType.xaml.cs">
+      <DependentUpon>CWD_AddType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\CommonWords\CWD_Edit.xaml.cs">
+      <DependentUpon>CWD_Edit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportSystem\ReportSystemMain.xaml.cs">
+      <DependentUpon>ReportSystemMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportSystem\RepoSysMain.xaml.cs">
+      <DependentUpon>RepoSysMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\ShowPDF.xaml.cs">
+      <DependentUpon>ShowPDF.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scan\ScanCell.xaml.cs">
+      <DependentUpon>ScanCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scan\ScanList.xaml.cs">
+      <DependentUpon>ScanList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scan\ScanMain.xaml.cs">
+      <DependentUpon>ScanMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scan\ScanSpecAdvice.xaml.cs">
+      <DependentUpon>ScanSpecAdvice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scan\ScanTechAdvice.xaml.cs">
+      <DependentUpon>ScanTechAdvice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemManage\SystemManageDoc\SMD_Edit.xaml.cs">
+      <DependentUpon>SMD_Edit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemManage\SysManageHosp\SMH_Depts.xaml.cs">
+      <DependentUpon>SMH_Depts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemManage\SysManageHosp\SMH_Edit.xaml.cs">
+      <DependentUpon>SMH_Edit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemManage\SysManageHosp\SMH_EditUser.xaml.cs">
+      <DependentUpon>SMH_EditUser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemManage\SysManageRole\SMR_Edit.xaml.cs">
+      <DependentUpon>SMR_Edit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemManage\SysManageRole\SMR_Menus.xaml.cs">
+      <DependentUpon>SMR_Menus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemManage\SysManageRole\SMR_Roles.xaml.cs">
+      <DependentUpon>SMR_Roles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemManage\SystemManageDoc\SysManageDoc.xaml.cs">
+      <DependentUpon>SysManageDoc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemManage\SysManageHosp\SysManageHosp.xaml.cs">
+      <DependentUpon>SysManageHosp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemManage\SysManageNav.xaml.cs">
+      <DependentUpon>SysManageNav.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemManage\SysManageRole\SysManageRole.xaml.cs">
+      <DependentUpon>SysManageRole.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Telemedicine\TelemedicineMain.xaml.cs">
+      <DependentUpon>TelemedicineMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\Config\CustomConfiguration.xaml.cs">
+      <DependentUpon>CustomConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\HospitalDict.xaml.cs">
+      <DependentUpon>HospitalDict.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\ReportShow.xaml.cs">
+      <DependentUpon>ReportShow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\RequestDoc.xaml.cs">
+      <DependentUpon>RequestDoc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\QueryPathTitle.xaml.cs">
+      <DependentUpon>QueryPathTitle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tools\Config\PrintSetting\TSCPrintSetting.xaml.cs">
+      <DependentUpon>TSCPrintSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Upload\TreeMenu.xaml.cs">
+      <DependentUpon>TreeMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Upload\UploadConfiguration.xaml.cs">
+      <DependentUpon>UploadConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Upload\UploadLog.xaml.cs">
+      <DependentUpon>UploadLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Upload\UploadMain.xaml.cs">
+      <DependentUpon>UploadMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Upload\UploadScanImg.xaml.cs">
+      <DependentUpon>UploadScanImg.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\About\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Allocation\ImageViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Views\Allocation\ImgViewerDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Allocation\ImgViewerManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CommonViews\ImgVision\ImgVision.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CommonViews\ImgVision\ImgVisionScrollViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Embedding\EmbedSpecimen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ImageViewerPC\ImageViewerPC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ImageViewerPC\ImgVwMng.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\MaterialAllQuery.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\MaterialDelay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\MaterialTissImg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\Material_SpecEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MolecularDiagnosis\MoleDiagExamed\MDE_ReSamp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MolecularDiagnosis\MoleDiagBarcode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MolecularDiagnosis\MoleDiagCheck.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MolecularDiagnosis\MoleDiagCheckConfirm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MolecularDiagnosis\MoleDiagExamed\MoleDiagDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MolecularDiagnosis\MoleDiagResultConfirm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PhysicalDistribution\PhysDistClinManif.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Production\ProdDoctAdvice\ProdDoctAdQuery.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Production\ProdDoctAdvice\ProdDoctAdSlice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Production\ProdDoctAdvice\ProdDoctAdvice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Production\ProdDoctAdvice\ProdDoctAd_Edit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Production\ProdTechAdvice\ProdTechAdQuery.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Production\ProdTechAdvice\ProdTechAdSlice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Production\ProdTechAdvice\ProdTechAd_Edit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Production\ProductSpecimen\ProdSpec_Add.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Production\ProductSpecimen\ProdSpec_Edit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Production\ProdTCTList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Production\ProdTechAdvice\ProdTechAdvice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\Material_Edit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Production\ProductSpecimen\ProductSpecimen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Register\RegisterAllQuery.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Register\RegisterDelivery.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Register\RegisterReSample\RegReSample.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Register\RegisterReSample\RegReSamp_Query.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Register\RegisterReSample\RegReSamp_Relate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Register\RegisterReSample\RegReSamp_Withdraw.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportSystem\ReportChargeBack.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportSystem\ReportEmergency.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Scan\ReceiveByScan.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Scan\ScanCommon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SystemManage\SysManage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Views\Tools\AppImgView\AppFrm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CommonViews\SimplePatInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CommonViews\SimplePatInfoTitle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\AppImgView\AppFrmMaintain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\AppImgView\AppImgView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\AppImgView\AppImgViewMaintain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Tools\Config\CommonConfig.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Tools\CommonWords\CWD_SimpleEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\ModifyPassword.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\Config\PrintSetting\HSJPrintSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\Config\PrintSetting\PrintSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\Config\PrintSetting\TSCBarcodeSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\QueryPathList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CommonViews\SimpleStateInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CommonViews\TreeDataGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConventionalDiagnosis\ConvDiagList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConventionalDiagnosis\ConvDiagMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConventionalDiagnosis\ConvDiagPathDiag.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConventionalDiagnosis\ConvDiagReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConventionalDiagnosis\ConvDiagSilceList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConventionalDiagnosis\ConvDiagStation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CytoDiagnosis\CytoDiagList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CytoDiagnosis\CytoDiagMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CytoDiagnosis\CytoDiagPathDiag.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CytoDiagnosis\CytoDiagReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CytoDiagnosis\CytoDiagSilceList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CytoDiagnosis\CytoDiagStation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\MaterialSpecimen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\MaterialTools.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\MaterialCore.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Views\MolecularDiagnosis\MolecularDiagnosisMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Views\MolecularDiagnosis\MoleDiagExamed\MoleDiagExamed.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MolecularDiagnosis\MoleDiagMain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PhysicalDistribution\PhysDistAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PhysicalDistribution\PhysDistAddEditItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PhysicalDistribution\PhysDistInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PhysicalDistribution\PhysDistPreTreat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PhysicalDistribution\PhysDistPreTreatBarcode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PhysicalDistribution\PhysDistReceipt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PhysicalDistribution\PhysDistReceiptBarcode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PhysicalDistribution\PhysDistReceiptEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PhysicalDistribution\PhysDistReceiptHuman.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PhysicalDistribution\PhysDistSignin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PhysicalDistribution\PhysDistMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PhysicalDistribution\PhysDistSupplementBarcode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Production\ProductCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Production\ProdSliceList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Register\RegisterMain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Register\RegisterQuery.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Register\RegisterSample.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Allocation\AllocationMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ArchivesManagement\ArchivesManagementMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Attendance\AttendanceMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConventionalDiagnosis\ConventionalDiagnosisMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CytoDiagnosis\CytoDiagnosisMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Embedding\EmbeddingMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainLayout\TitleBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainLayout\ToolBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\MaterialMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Production\ProductionMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\CommonWords\ComWordDict.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\CommonWords\CWD_AddType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\CommonWords\CWD_Edit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportSystem\ReportSystemMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportSystem\RepoSysMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\ShowPDF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Scan\ScanCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Scan\ScanList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Scan\ScanMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Scan\ScanSpecAdvice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Scan\ScanTechAdvice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemManage\SystemManageDoc\SMD_Edit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemManage\SysManageHosp\SMH_Depts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemManage\SysManageHosp\SMH_Edit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemManage\SysManageHosp\SMH_EditUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemManage\SysManageRole\SMR_Edit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemManage\SysManageRole\SMR_Menus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemManage\SysManageRole\SMR_Roles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemManage\SystemManageDoc\SysManageDoc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemManage\SysManageHosp\SysManageHosp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemManage\SysManageNav.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemManage\SysManageRole\SysManageRole.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Telemedicine\TelemedicineMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\Config\CustomConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\HospitalDict.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\ReportShow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\RequestDoc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tools\QueryPathTitle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Tools\Config\PrintSetting\TSCPrintSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Upload\TreeMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Upload\UploadConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Upload\UploadLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Upload\UploadMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Upload\UploadScanImg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Resource Include="Images\Configuration.png" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="DLL\MoonPdfLib-0.3.0-x64\README" />
+    <None Include="DLL\MoonPdfLib-0.3.0-x86\README" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DST.Common\DST.Common.csproj">
+      <Project>{3ebd0b0e-a6c8-4526-8397-673278c94db0}</Project>
+      <Name>DST.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DST.Controls\DST.Controls.csproj">
+      <Project>{66cf816f-de66-4dee-9647-c3d6ea7d84ee}</Project>
+      <Name>DST.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DST.Database\DST.Database.csproj">
+      <Project>{1a8f072c-a480-4219-9bd5-5612fa73f28b}</Project>
+      <Name>DST.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DST.PIMS.Client.ViewModel\DST.PIMS.Client.ViewModel.csproj">
+      <Project>{9826989d-e614-4b8a-8410-812ee8b33f63}</Project>
+      <Name>DST.PIMS.Client.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DST.PIMS.Framework\DST.PIMS.Framework.csproj">
+      <Project>{a315953e-be43-4773-b0c4-8be9406f0cc1}</Project>
+      <Name>DST.PIMS.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nico.Common\Nico.Common.csproj">
+      <Project>{23e4ad65-3294-4745-9f36-ce51c8f24495}</Project>
+      <Name>Nico.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nico.DeepZoomSource\Nico.DeepZoomSource.csproj">
+      <Project>{20c1ed27-910c-4bc5-a9a0-a98605abfb64}</Project>
+      <Name>Nico.DeepZoomSource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\a4z28-xygp9-001.ico" />
+    <Resource Include="Images\a4z28-xygp9-002.ico" />
+    <Resource Include="Images\a4z28-xygp9-003.ico" />
+    <Resource Include="Images\about.png" />
+    <Resource Include="Images\aboutHover.png" />
+    <Resource Include="Images\Close.png" />
+    <Resource Include="Images\CloseHover.png" />
+    <Resource Include="Images\Delete.png" />
+    <Resource Include="Images\DeleteHover.png" />
+    <Resource Include="Images\DSTlogo.png" />
+    <Resource Include="Images\Edit.png" />
+    <Resource Include="Images\EditHover.png" />
+    <Resource Include="Images\Edit_Selected.png" />
+    <Resource Include="Images\Folder.png" />
+    <Resource Include="Images\Help.png" />
+    <Resource Include="Images\HelpAdd.png" />
+    <Resource Include="Images\HelpAdjust.png" />
+    <Resource Include="Images\HelpDelete.png" />
+    <Resource Include="Images\HelpEdit.png" />
+    <Resource Include="Images\HelpExpress.png" />
+    <Resource Include="Images\HelpHover.png" />
+    <Resource Include="Images\Home.png" />
+    <Resource Include="Images\Home_Selected.png" />
+    <Resource Include="Images\inputHover.png" />
+    <Resource Include="Images\inputNormal.png" />
+    <Resource Include="Images\loginButton-hover.png" />
+    <Resource Include="Images\loginButton-normal.png" />
+    <Resource Include="Images\loginButton-normal2.jpg" />
+    <Resource Include="Images\loginButton-press.png" />
+    <Resource Include="Images\LoginOut.png" />
+    <Resource Include="Images\LoginOutHover.png" />
+    <Resource Include="Images\LoginUser.png" />
+    <Resource Include="Images\LoginUser2.png" />
+    <Resource Include="Images\logo.jpg" />
+    <Resource Include="Images\MainBackground.png" />
+    <Resource Include="Images\MainBackground_1.png" />
+    <Resource Include="Images\MainBackground_2.jpg" />
+    <Resource Include="Images\MainBackground_4.jpg" />
+    <Resource Include="Images\MainBackground_5.jpg" />
+    <Resource Include="Images\Min.png" />
+    <Resource Include="Images\MinHover.png" />
+    <Resource Include="Images\NoMark.jpg" />
+    <Resource Include="Images\Password.png" />
+    <Resource Include="Images\Password2.png" />
+    <Resource Include="Images\Preview.png" />
+    <Resource Include="Images\PreviewHover.png" />
+    <Resource Include="Images\Print.png" />
+    <Resource Include="Images\PrintHover.png" />
+    <Resource Include="Images\Print_White.png" />
+    <Resource Include="Images\Return.png" />
+    <Resource Include="Images\Return_Selected.png" />
+    <Resource Include="Images\searchTime.png" />
+    <Resource Include="Images\Test\Menu1.png" />
+    <Resource Include="Images\Test\Menu2.png" />
+    <Resource Include="Images\Test\Menu3.png" />
+    <Resource Include="Images\Test\Menu4.png" />
+    <Resource Include="Images\Test\Menu5.png" />
+    <Resource Include="Images\Test\Menu6.png" />
+    <Resource Include="Images\Test\Menu7.png" />
+    <Resource Include="Images\Test\Menu8.png" />
+    <Resource Include="Images\uninstall.ico" />
+    <Resource Include="Images\View.png" />
+    <Resource Include="Images\View_Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icon关于.png" />
+    <Resource Include="Images\icon关机.png" />
+    <Resource Include="Images\icon注销.png" />
+    <Resource Include="Images\icon锁屏.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Loginicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Note.png" />
+    <Resource Include="Images\Note_Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Test\151_104.jpg" />
+    <Resource Include="Images\Test\151_105.jpg" />
+    <Resource Include="Images\Test\151_106.jpg" />
+    <Resource Include="Images\Test\151_107.jpg" />
+    <Resource Include="Images\Test\151_108.jpg" />
+    <Resource Include="Images\Test\151_109.jpg" />
+    <Resource Include="Images\Test\151_110.jpg" />
+    <Resource Include="Images\Test\151_111.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\changePwd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Test\lock.png" />
+    <Resource Include="Images\Test\Unlock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Test\Dict.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="a4z28-xygp9-002.ico" />
+    <Content Include="DLL\MoonPdfLib-0.3.0-x64\libmupdf.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\MoonPdfLib-0.3.0-x64\MoonPdfLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\MoonPdfLib-0.3.0-x64\MouseKeyboardActivityMonitor.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\MoonPdfLib-0.3.0-x86\libmupdf.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\MoonPdfLib-0.3.0-x86\MoonPdfLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\MoonPdfLib-0.3.0-x86\MouseKeyboardActivityMonitor.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Images\LoginBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\AspectInjector.2.6.0\analyzers\dotnet\cs\AspectInjector.Analyzer.dll" />
+    <Analyzer Include="..\..\packages\AspectInjector.2.6.0\analyzers\dotnet\cs\AspectInjector.Broker.dll" />
+    <Analyzer Include="..\..\packages\AspectInjector.2.6.0\analyzers\dotnet\cs\AspectInjector.Rules.dll" />
+    <Analyzer Include="..\..\packages\AspectInjector.2.6.0\analyzers\dotnet\cs\FluentIL.Common.dll" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\lib\HttpClientEx\AspectInjector.2.4.2\build\netstandard2.0\AspectInjector.targets" Condition="Exists('..\..\lib\HttpClientEx\AspectInjector.2.4.2\build\netstandard2.0\AspectInjector.targets')" />
+  <Import Project="..\..\packages\AspectInjector.2.6.0\build\netstandard2.0\AspectInjector.targets" Condition="Exists('..\..\packages\AspectInjector.2.6.0\build\netstandard2.0\AspectInjector.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\AspectInjector.2.6.0\build\netstandard2.0\AspectInjector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\AspectInjector.2.6.0\build\netstandard2.0\AspectInjector.targets'))" />
+    <Error Condition="!Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+</Project>

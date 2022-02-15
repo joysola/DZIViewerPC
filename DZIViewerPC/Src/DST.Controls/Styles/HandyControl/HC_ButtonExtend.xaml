@@ -1,0 +1,32 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:hc="https://handyorg.github.io/handycontrol"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--圆形图标扩展，当Path的Fill属性填充时可能造成图形变化，于是选用stroke属性-->
+    <Style x:Key="ButtonIconCircularEx"
+           BasedOn="{StaticResource ButtonIconCircular}"
+           TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Style="{StaticResource BorderCircular}"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                        <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Margin="{TemplateBinding Padding}"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                            <Path Stroke="{TemplateBinding Foreground}"
+                                  SnapsToDevicePixels="True"
+                                  Stretch="Uniform"
+                                  Width="{TemplateBinding hc:IconElement.Width}"
+                                  Height="{TemplateBinding hc:IconElement.Height}"
+                                  Data="{TemplateBinding hc:IconElement.Geometry}" />
+                        </ContentControl>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

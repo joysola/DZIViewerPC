@@ -1,0 +1,899 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.AppFrm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:dstcode="clr-namespace:DST.PIMS.Framework.ExtendContext;assembly=DST.PIMS.Framework"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:AppFrmViewModel}"
+                      d:DesignHeight="1600"
+                      d:DesignWidth="1200">
+    <Grid>
+        <Grid.Resources>
+            <!--expander最后一列的宽度-->
+            <GridLength x:Key="ExpanderLastColumn.Width">40</GridLength>
+            <SolidColorBrush x:Key="GridBackGround"
+                             Color="Transparent" />
+            <sys:Double x:Key="InfoElement.ContentHeight">30</sys:Double>
+            <sys:Double x:Key="DefaultControlHeight">35</sys:Double>
+            <cv:CalculateParamConverter x:Key="CalculateParamConverter" />
+            <cv:DataGridIndexConverter x:Key="DataGridIndexConverter" />
+            <fcv:CascadeComboboxConverter x:Key="CascadeComboboxConverter" />
+            <fcv:CascadeComboboxNecessaryConverter x:Key="CascadeComboboxNecessaryConverter" />
+            <!--<fcv:RegisterProdNeceConverter x:Key="RegisterProdNeceConverter" />-->
+            <fcv:RegisterProdEnableConverter x:Key="RegisterProdEnableConverter" />
+            <fcv:RegisterSpecEnableConverter x:Key="RegisterSpecEnableConverter" />
+            <fcv:MarkersConverter x:Key="MarkersConverter" />
+            <fcv:AppFrmSpecCountConverter x:Key="AppFrmSpecCountConverter" />
+            <fcv:AppFrmInspecSampleNescssary x:Key="AppFrmInspecSampleNescssary" />
+            <fcv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <fcv:BoolToVisibilityReverseConverter x:Key="BoolToVisibilityReverseConverter" />
+            <fcv:AppFrmMaintainProductEnableConverter x:Key="AppFrmMaintainProductEnableConverter" />
+            <fcv:AppFrmPermissionVisibleConverter x:Key="AppFrmPermissionVisibleConverter" />
+            <fcv:AppFrmPermissionIsEnableConverter x:Key="AppFrmPermissionIsEnableConverter" />
+            <fcv:AppFrmPermissionIsExpandedConverter x:Key="AppFrmPermissionIsExpandedConverter" />
+        </Grid.Resources>
+        <hc:ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                         VerticalScrollBarVisibility="Visible"
+                         IsInertiaEnabled="True"
+                         Background="{StaticResource GridBackGround}">
+            <StackPanel>
+                <Border Style="{StaticResource BorderRegion}"
+                        Margin="5">
+                    <StackPanel>
+                        <Expander Header="基本信息">
+                            <Expander.IsExpanded>
+                                <MultiBinding Converter="{StaticResource AppFrmPermissionIsExpandedConverter}"
+                                              UpdateSourceTrigger="PropertyChanged"
+                                              Mode="OneWay">
+                                    <Binding Path="Permissions" />
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}"
+                                             Path="Header" />
+                                </MultiBinding>
+                            </Expander.IsExpanded>
+                            <Expander.Visibility>
+                                <MultiBinding Converter="{StaticResource AppFrmPermissionVisibleConverter}"
+                                              UpdateSourceTrigger="PropertyChanged">
+                                    <Binding Path="Permissions" />
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}"
+                                             Path="Header" />
+                                </MultiBinding>
+                            </Expander.Visibility>
+                            <Grid>
+                                <Grid.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource AppFrmPermissionIsEnableConverter}"
+                                                  UpdateSourceTrigger="PropertyChanged">
+                                        <Binding Path="Permissions" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Expander}"
+                                                 Path="Header" />
+                                    </MultiBinding>
+                                </Grid.IsEnabled>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="{StaticResource ResourceKey=ExpanderLastColumn.Width}" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <!--第一行-->
+                                <hc:TextBox Grid.Row="0"
+                                            Grid.Column="0"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.PatientName, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:InfoElement.Title="姓名："
+                                            hc:InfoElement.Placeholder="请输入姓名"
+                                            hc:InfoElement.Necessary="True" />
+                                <hc:TextBox Grid.Row="0"
+                                            Grid.Column="2"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.Age, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:InfoElement.Title="年龄："
+                                            hc:InfoElement.Placeholder="请输入年龄"
+                                            TextType="Digits" />
+                                <hc:ComboBox Grid.Row="0"
+                                             Grid.Column="1"
+                                             Style="{StaticResource ComboBoxAppRegister}"
+                                             SelectedValue="{Binding AppModel.Sex}"
+                                             ItemsSource="{Binding SexDict}"
+                                             DisplayMemberPath="dictValue"
+                                             SelectedValuePath="dictKey"
+                                             hc:InfoElement.Title="性别："
+                                             hc:InfoElement.Placeholder="请选择性别"
+                                             hc:InfoElement.Necessary="True" />
+                                <hc:ComboBox Grid.Row="1"
+                                             Grid.Column="0"
+                                             Style="{StaticResource ComboBoxAppRegister}"
+                                             Visibility="{Binding IsPhysDist,Converter={StaticResource BoolToVisibilityReverseConverter}}"
+                                             ItemsSource="{Binding DoctorDict}"
+                                             SelectedValue="{Binding AppModel.DoctorID}"
+                                             DisplayMemberPath="Name"
+                                             SelectedValuePath="ID"
+                                             hc:InfoElement.Title="送检医生："
+                                             hc:InfoElement.Placeholder="请选择送检医生"
+                                             AutoComplete="True" />
+                                <hc:TextBox Grid.Row="1"
+                                            Grid.Column="0"
+                                            Visibility="{Binding IsPhysDist,Converter={StaticResource BoolToVisibilityConverter}}"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.DoctorName}"
+                                            hc:InfoElement.Title="送检医生："
+                                            hc:InfoElement.Placeholder="请选择送检医生"
+                                            IsReadOnly="True"
+                                            ShowClearButton="False" />
+                                <hc:TextBox Grid.Row="1"
+                                            Grid.Column="1"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.Phone, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:InfoElement.Title="联系方式："
+                                            hc:InfoElement.Placeholder="请输入联系方式"
+                                            TextType="Digits"
+                                            InputMethod.IsInputMethodEnabled="False"
+                                            PreviewTextInput="TextBox_PreviewTextInput_1" />
+                                <!--hc:InfoElement.RegexPattern="^1(3[0-9]|5[0-9]|7[0-9]|8[0-9])[0-9]{8}$"-->
+                                <!--第三行-->
+                            </Grid>
+                        </Expander>
+                        <Expander Header="检查项目信息">
+                            <Expander.IsExpanded>
+                                <MultiBinding Converter="{StaticResource AppFrmPermissionIsExpandedConverter}"
+                                              UpdateSourceTrigger="PropertyChanged"
+                                              Mode="OneWay">
+                                    <Binding Path="Permissions" />
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}"
+                                             Path="Header" />
+                                </MultiBinding>
+                            </Expander.IsExpanded>
+                            <Expander.Visibility>
+                                <MultiBinding Converter="{StaticResource AppFrmPermissionVisibleConverter}"
+                                              UpdateSourceTrigger="PropertyChanged">
+                                    <Binding Path="Permissions" />
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}"
+                                             Path="Header" />
+                                </MultiBinding>
+                            </Expander.Visibility>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="0.7*" />
+                                    <ColumnDefinition Width="{StaticResource ResourceKey=ExpanderLastColumn.Width}" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <!--第一行-->
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="0,15,0,15">
+                                    <ctl:MenuComboBox MinWidth="350"
+                                                      Margin="10,0,0,0"
+                                                      ItemSource="{Binding ProductDict}"
+                                                      SelectedValue="{Binding SelectedProduct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      DisplayMemberPath="name"
+                                                      SelectedValuePath="id"
+                                                      MenuItemSourcePath="productTypeList"
+                                                      MenuSelectedValue="{Binding SelectedProductType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      MenuDisplayMemberPath="name"
+                                                      MenuSelectedValuePath="productId" />
+                                    <Button Style="{StaticResource ButtonPrimary}"
+                                            Margin="15,0,0,0"
+                                            Content="添加"
+                                            Command="{Binding AddProductCommand}">
+                                        <Button.IsEnabled>
+                                            <MultiBinding Converter="{StaticResource AppFrmMaintainProductEnableConverter}"
+                                                          UpdateSourceTrigger="PropertyChanged">
+                                                <Binding Path="Permissions"
+                                                         UpdateSourceTrigger="PropertyChanged" />
+                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Expander}"
+                                                         Path="Header" />
+                                                <Binding Path="IsPhysDist" />
+                                            </MultiBinding>
+                                        </Button.IsEnabled>
+                                    </Button>
+                                </StackPanel>
+                                <DataGrid x:Name="ProdGridData"
+                                          Style="{StaticResource TransDataGrid}"
+                                          SelectedIndex="0"
+                                          SelectedValue="{Binding SelectedPathSamp}"
+                                          ItemsSource="{Binding AppModel.PathSampInfoList, UpdateSourceTrigger=PropertyChanged}"
+                                          Grid.Row="1"
+                                          Grid.ColumnSpan="2"
+                                          HorizontalAlignment="Left"
+                                          Width="850"
+                                          Margin="10,0,0,10"
+                                          MinHeight="170"
+                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                          SelectionMode="Single">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Width="*"
+                                                                Header="序号">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock HorizontalAlignment="Center"
+                                                               Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridRow}, Converter={StaticResource DataGridIndexConverter}}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Width="3*"
+                                                            Binding="{Binding ProductName}"
+                                                            Header="检查项目">
+                                            <DataGridTextColumn.CellStyle>
+                                                <Style TargetType="DataGridCell"
+                                                       BasedOn="{StaticResource CommonDataGridCellStyle}">
+                                                    <Setter Property="ToolTip"
+                                                            Value="{Binding ProductName}" />
+                                                </Style>
+                                            </DataGridTextColumn.CellStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTemplateColumn Width="4*"
+                                                                x:Name="col2"
+                                                                Header="活动类型">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <hc:ComboBox SelectedValue="{Binding Screen, UpdateSourceTrigger=PropertyChanged}"
+                                                                 ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=base:BaseUserControl},Path=DataContext.ActivityTypeDict}"
+                                                                 DisplayMemberPath="dictValue"
+                                                                 SelectedValuePath="dictKey"
+                                                                 Width="{Binding ElementName=col2 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=5}"
+                                                                 hc:InfoElement.Placeholder="请选择活动类型">
+                                                        <hc:ComboBox.IsEnabled>
+                                                            <MultiBinding Converter="{StaticResource RegisterProdEnableConverter}"
+                                                                          UpdateSourceTrigger="PropertyChanged">
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                                         Path="DataContext.Permissions" />
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Expander}"
+                                                                         Path="Header" />
+                                                                <Binding />
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                                         Path="DataContext.IsPhysDist" />
+                                                            </MultiBinding>
+                                                        </hc:ComboBox.IsEnabled>
+                                                    </hc:ComboBox>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="3.5*"
+                                                                x:Name="col6"
+                                                                Header="标记物/染色剂">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <hc:ComboBox SelectedValue="{Binding Markers,UpdateSourceTrigger=PropertyChanged}"
+                                                                     ItemsSource="{Binding MarkerList,UpdateSourceTrigger=PropertyChanged}"
+                                                                     Visibility="{Binding ProductID,Converter={StaticResource MarkersConverter},ConverterParameter={x:Static dstcode:DSTCode.GastroscopeProdID}}"
+                                                                     DisplayMemberPath="dictValue"
+                                                                     SelectedValuePath="dictKey"
+                                                                     Width="{Binding ElementName=col6 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=5}"
+                                                                     hc:InfoElement.Placeholder="请选择标记物/染色剂"
+                                                                     ShowClearButton="True">
+                                                            <hc:ComboBox.IsEnabled>
+                                                                <MultiBinding Converter="{StaticResource RegisterProdEnableConverter}"
+                                                                              UpdateSourceTrigger="PropertyChanged">
+                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                                             Path="DataContext.Permissions" />
+                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Expander}"
+                                                                             Path="Header" />
+                                                                    <Binding />
+                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                                             Path="DataContext.IsPhysDist" />
+                                                                </MultiBinding>
+                                                            </hc:ComboBox.IsEnabled>
+                                                        </hc:ComboBox>
+                                                        <hc:CheckComboBox SelectedValues="{Binding SelectedMarkers,UpdateSourceTrigger=PropertyChanged}"
+                                                                          ItemsSource="{Binding MarkerList,UpdateSourceTrigger=PropertyChanged}"
+                                                                          Visibility="{Binding ProductID,Converter={StaticResource MarkersConverter},ConverterParameter={x:Static dstcode:DSTCode.ImmuhistchmProdID}}"
+                                                                          DisplayMemberPath="dictValue"
+                                                                          SelectedValuePath="dictKey"
+                                                                          Width="{Binding ElementName=col6 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=5}"
+                                                                          hc:InfoElement.Placeholder="请选择标记物/染色剂"
+                                                                          ShowClearButton="True">
+                                                            <hc:CheckComboBox.IsEnabled>
+                                                                <MultiBinding Converter="{StaticResource RegisterProdEnableConverter}"
+                                                                              UpdateSourceTrigger="PropertyChanged">
+                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                                             Path="DataContext.Permissions" />
+                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Expander}"
+                                                                             Path="Header" />
+                                                                    <Binding />
+                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                                             Path="DataContext.IsPhysDist" />
+                                                                </MultiBinding>
+                                                            </hc:CheckComboBox.IsEnabled>
+                                                        </hc:CheckComboBox>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="col5"
+                                                                Width="4*"
+                                                                Header="取样时间">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <hc:DateTimePicker SelectedDateTime="{Binding GatherTime,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                                       Width="{Binding ElementName=col5 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=5}"
+                                                                       DateTimeFormat="yyyy-MM-dd HH:mm:ss"
+                                                                       hc:InfoElement.Placeholder="请选择取样时间"
+                                                                       ShowClearButton="True">
+                                                        <hc:DateTimePicker.IsEnabled>
+                                                            <MultiBinding Converter="{StaticResource RegisterProdEnableConverter}"
+                                                                          UpdateSourceTrigger="PropertyChanged">
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                                         Path="DataContext.Permissions" />
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Expander}"
+                                                                         Path="Header" />
+                                                                <Binding />
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                                         Path="DataContext.IsPhysDist" />
+                                                            </MultiBinding>
+                                                        </hc:DateTimePicker.IsEnabled>
+                                                    </hc:DateTimePicker>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="*"
+                                                                Header="操作">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Style="{StaticResource ButtonDanger}"
+                                                            hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=DataGrid},Path=DataContext.DeleteProductCommand}"
+                                                            CommandParameter="{Binding}">
+                                                        <Button.IsEnabled>
+                                                            <MultiBinding Converter="{StaticResource RegisterProdEnableConverter}"
+                                                                          UpdateSourceTrigger="PropertyChanged">
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                                         Path="DataContext.Permissions" />
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Expander}"
+                                                                         Path="Header" />
+                                                                <Binding />
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                                         Path="DataContext.IsPhysDist" />
+                                                            </MultiBinding>
+                                                        </Button.IsEnabled>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </Expander>
+                        <Expander Header="标本信息">
+                            <Expander.IsExpanded>
+                                <MultiBinding Converter="{StaticResource AppFrmPermissionIsExpandedConverter}"
+                                              UpdateSourceTrigger="PropertyChanged"
+                                              Mode="OneWay">
+                                    <Binding Path="Permissions" />
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}"
+                                             Path="Header" />
+                                </MultiBinding>
+                            </Expander.IsExpanded>
+                            <Expander.Visibility>
+                                <MultiBinding Converter="{StaticResource AppFrmPermissionVisibleConverter}"
+                                              UpdateSourceTrigger="PropertyChanged">
+                                    <Binding Path="Permissions" />
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}"
+                                             Path="Header" />
+                                </MultiBinding>
+                            </Expander.Visibility>
+                            <Grid>
+                                <Grid.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource AppFrmPermissionIsEnableConverter}"
+                                                  UpdateSourceTrigger="PropertyChanged">
+                                        <Binding Path="Permissions" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Expander}"
+                                                 Path="Header" />
+                                    </MultiBinding>
+                                </Grid.IsEnabled>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="{StaticResource ResourceKey=ExpanderLastColumn.Width}" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="60" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <!--第一行-->
+                                <StackPanel Grid.Row="0"
+                                            Grid.ColumnSpan="3"
+                                            Orientation="Horizontal">
+                                    <TextBlock Text="送检样本名称："
+                                               FontWeight="Bold" />
+                                    <hc:TextBox Text="{Binding SelectedPathSamp.InspecSample,UpdateSourceTrigger=PropertyChanged}"
+                                                Height="{StaticResource DefaultControlHeight}"
+                                                IsEnabled="{Binding IsAdd}"
+                                                VerticalAlignment="Center"
+                                                MinWidth="150"
+                                                hc:InfoElement.Placeholder="请输入送检样本" />
+                                    <!--hc:InfoElement.Necessary="{Binding SelectedPathSamp.ProductID,Converter={StaticResource AppFrmInspecSampleNescssary},UpdateSourceTrigger=PropertyChanged}"-->
+                                    <Button Style="{StaticResource ButtonPrimary}"
+                                            Margin="5,0,0,0"
+                                            Content="常用字典"
+                                            IsEnabled="{Binding IsAdd}"
+                                            Command="{Binding SampleNameCommand}" />
+                                </StackPanel>
+                                <DataGrid Grid.Row="1"
+                                          Style="{StaticResource TransDataGrid}"
+                                          Width="600"
+                                          Margin="5"
+                                          SelectionMode="Single"
+                                          ItemsSource="{Binding SelectedPathSamp.SampSpecList}">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Width="*"
+                                                                Header="序号">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock HorizontalAlignment="Center"
+                                                               Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridRow}, Converter={StaticResource DataGridIndexConverter}}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="col4"
+                                                                Width="4*"
+                                                                Header="标本">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <hc:TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                                                Width="{Binding ElementName=col4 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=5}"
+                                                                hc:InfoElement.Placeholder="请输入标本名称"
+                                                                hc:InfoElement.Necessary="True"
+                                                                ShowClearButton="True" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="2*"
+                                                                Header="数量"
+                                                                x:Name="col3">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <hc:NumericUpDown Value="{Binding Number, UpdateSourceTrigger=PropertyChanged}"
+                                                                      Style="{StaticResource NumericUpDownPlus}"
+                                                                      Width="{Binding ElementName=col3 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=5}"
+                                                                      hc:InfoElement.Placeholder="请输入材块数"
+                                                                      Minimum="0"
+                                                                      ShowClearButton="True"
+                                                                      IsEnabled="{Binding ProductID,Converter={StaticResource AppFrmSpecCountConverter},UpdateSourceTrigger=PropertyChanged}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="*">
+                                            <DataGridTemplateColumn.HeaderTemplate>
+                                                <DataTemplate>
+                                                    <Button Style="{StaticResource ButtonPrimary}"
+                                                            hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid},Path=DataContext.AddSpecCommand}">
+                                                        <Button.IsEnabled>
+                                                            <MultiBinding Converter="{StaticResource RegisterSpecEnableConverter}"
+                                                                          UpdateSourceTrigger="PropertyChanged">
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                                         Path="DataContext.Permissions" />
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Expander}"
+                                                                         Path="Header" />
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                                         Path="DataContext.SelectedPathSamp" />
+                                                            </MultiBinding>
+                                                        </Button.IsEnabled>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.HeaderTemplate>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Style="{StaticResource ButtonDanger}"
+                                                            hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid},Path=DataContext.DeleteSpecCommand}"
+                                                            CommandParameter="{Binding}">
+                                                        <Button.IsEnabled>
+                                                            <MultiBinding Converter="{StaticResource RegisterSpecEnableConverter}"
+                                                                          UpdateSourceTrigger="PropertyChanged">
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                                         Path="DataContext.Permissions" />
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Expander}"
+                                                                         Path="Header" />
+                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=DataGrid}"
+                                                                         Path="DataContext.SelectedPathSamp" />
+                                                            </MultiBinding>
+                                                        </Button.IsEnabled>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </Expander>
+                        <Expander Header="临床诊断相关">
+                            <Expander.IsExpanded>
+                                <MultiBinding Converter="{StaticResource AppFrmPermissionIsExpandedConverter}"
+                                              UpdateSourceTrigger="PropertyChanged"
+                                              Mode="OneWay">
+                                    <Binding Path="Permissions" />
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}"
+                                             Path="Header" />
+                                </MultiBinding>
+                            </Expander.IsExpanded>
+                            <Expander.Visibility>
+                                <MultiBinding Converter="{StaticResource AppFrmPermissionVisibleConverter}"
+                                              UpdateSourceTrigger="PropertyChanged">
+                                    <Binding Path="Permissions" />
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}"
+                                             Path="Header" />
+                                </MultiBinding>
+                            </Expander.Visibility>
+                            <StackPanel>
+                                <StackPanel.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource AppFrmPermissionIsEnableConverter}"
+                                                  UpdateSourceTrigger="PropertyChanged">
+                                        <Binding Path="Permissions" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Expander}"
+                                                 Path="Header" />
+                                    </MultiBinding>
+                                </StackPanel.IsEnabled>
+                                <StackPanel.Resources>
+                                    <GridLength x:Key="TitleWidth">200</GridLength>
+                                </StackPanel.Resources>
+                                <hc:TextBox Grid.Row="0"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.MedHistory, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:TitleElement.TitleWidth="{StaticResource TitleWidth}"
+                                            hc:InfoElement.Title="病史摘要及临床检查所见："
+                                            hc:InfoElement.Placeholder="请输入病史摘要及临床检查所见" />
+                                <hc:TextBox Grid.Row="1"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.OperFindings, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:TitleElement.TitleWidth="{StaticResource TitleWidth}"
+                                            hc:InfoElement.Title="手术名称及手术所见："
+                                            hc:InfoElement.Placeholder="请输入手术名称及手术所见" />
+                                <hc:TextBox Grid.Row="1"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.LabTests, UpdateSourceTrigger=PropertyChanged}"
+                                            ctl:RegisterElement.TitleWarp="Wrap"
+                                            ctl:RegisterElement.InputControlHeight="{StaticResource InfoElement.ContentHeight}"
+                                            hc:TitleElement.TitleWidth="{StaticResource TitleWidth}"
+                                            hc:InfoElement.Title="实验室检查（肿瘤指标、临检、生化、免疫等）："
+                                            hc:InfoElement.Placeholder="实验室检查（肿瘤指标、临检、生化、免疫等）" />
+                                <hc:TextBox Grid.Row="1"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.InspectRequires, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:TitleElement.TitleWidth="{StaticResource TitleWidth}"
+                                            hc:InfoElement.Title="本次检查要求："
+                                            hc:InfoElement.Placeholder="请输入本次检查要求" />
+                                <StackPanel Orientation="Horizontal">
+                                    <hc:TextBox Grid.Row="1"
+                                                Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel},Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=30}"
+                                                Style="{StaticResource TextBoxAppRegister}"
+                                                Text="{Binding AppModel.ClinicDiagnosis, UpdateSourceTrigger=PropertyChanged}"
+                                                hc:TitleElement.TitleWidth="{StaticResource TitleWidth}"
+                                                hc:InfoElement.Title="临床诊断："
+                                                hc:InfoElement.Placeholder="请输入临床诊断" />
+                                    <Button Style="{StaticResource ButtonPrimary}"
+                                            Margin="0,0,0,20"
+                                            hc:IconElement.Geometry="{StaticResource DragVerticalGeometry}"
+                                            Command="{Binding DiagnosisNameCommand}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Expander>
+                        <Expander Header="其他信息">
+                            <Expander.IsExpanded>
+                                <MultiBinding Converter="{StaticResource AppFrmPermissionIsExpandedConverter}"
+                                              UpdateSourceTrigger="PropertyChanged"
+                                              Mode="OneWay">
+                                    <Binding Path="Permissions" />
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}"
+                                             Path="Header" />
+                                </MultiBinding>
+                            </Expander.IsExpanded>
+                            <Expander.Visibility>
+                                <MultiBinding Converter="{StaticResource AppFrmPermissionVisibleConverter}"
+                                              UpdateSourceTrigger="PropertyChanged">
+                                    <Binding Path="Permissions" />
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}"
+                                             Path="Header" />
+                                </MultiBinding>
+                            </Expander.Visibility>
+                            <Grid>
+                                <Grid.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource AppFrmPermissionIsEnableConverter}"
+                                                  UpdateSourceTrigger="PropertyChanged">
+                                        <Binding Path="Permissions" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Expander}"
+                                                 Path="Header" />
+                                    </MultiBinding>
+                                </Grid.IsEnabled>
+                                <Grid.Resources>
+                                    <GridLength x:Key="TitleWidth">150</GridLength>
+                                </Grid.Resources>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="{StaticResource ExpanderLastColumn.Width}" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <hc:TextBox Grid.Row="0"
+                                            Grid.Column="0"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.InPatNO, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:TitleElement.TitleWidth="{StaticResource TitleWidth}"
+                                            hc:InfoElement.Title="住院/门诊号："
+                                            hc:InfoElement.Placeholder="请输入住院/门诊号" />
+                                <hc:TextBox Grid.Row="0"
+                                            Grid.Column="1"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.BedNumber, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:TitleElement.TitleWidth="{StaticResource TitleWidth}"
+                                            hc:InfoElement.Title="床位号："
+                                            hc:InfoElement.Placeholder="请输入床位号" />
+                                <hc:TextBox Grid.Row="1"
+                                            Grid.Column="0"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.PathExam, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:TitleElement.TitleWidth="{StaticResource TitleWidth}"
+                                            hc:InfoElement.Title="曾在何处做过病理检验："
+                                            hc:InfoElement.Placeholder="请输入曾在何处做过病理检验" />
+                                <hc:TextBox Grid.Row="1"
+                                            Grid.Column="1"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.PathCode, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:TitleElement.TitleWidth="{StaticResource TitleWidth}"
+                                            hc:InfoElement.Title="病理编号："
+                                            hc:InfoElement.Placeholder="请输入病理编号" />
+                                <hc:TextBox Grid.Row="2"
+                                            Grid.Column="0"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.Diagnosis, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:TitleElement.TitleWidth="{StaticResource TitleWidth}"
+                                            hc:InfoElement.Title="诊断："
+                                            hc:InfoElement.Placeholder="请输入诊断" />
+                                <hc:TextBox Grid.Row="2"
+                                            Grid.Column="1"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.RayNum, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:TitleElement.TitleWidth="{StaticResource TitleWidth}"
+                                            hc:InfoElement.Title="有关X光摄片号数："
+                                            hc:InfoElement.Placeholder="请输入有关X光摄片号数" />
+                            </Grid>
+                        </Expander>
+                        <Expander Header="肿瘤相关">
+                            <Expander.IsExpanded>
+                                <MultiBinding Converter="{StaticResource AppFrmPermissionIsExpandedConverter}"
+                                              UpdateSourceTrigger="PropertyChanged"
+                                              Mode="OneWay">
+                                    <Binding Path="Permissions" Mode="OneWay"/>
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}"
+                                             Path="Header" />
+                                </MultiBinding>
+                            </Expander.IsExpanded>
+                            <Expander.Visibility>
+                                <MultiBinding Converter="{StaticResource AppFrmPermissionVisibleConverter}"
+                                              UpdateSourceTrigger="PropertyChanged">
+                                    <Binding Path="Permissions" />
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}"
+                                             Path="Header" />
+                                </MultiBinding>
+                            </Expander.Visibility>
+                            <Grid>
+                                <Grid.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource AppFrmPermissionIsEnableConverter}"
+                                                  UpdateSourceTrigger="PropertyChanged">
+                                        <Binding Path="Permissions" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Expander}"
+                                                 Path="Header" />
+                                    </MultiBinding>
+                                </Grid.IsEnabled>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="20" />
+                                </Grid.ColumnDefinitions>
+                                <hc:TextBox Grid.Row="0"
+                                            Grid.Column="0"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.Place, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:InfoElement.TitleWidth="90"
+                                            hc:InfoElement.Title="部位："
+                                            hc:InfoElement.Placeholder="请输入部位" />
+                                <hc:TextBox Grid.Row="0"
+                                            Grid.Column="1"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.PlaceSize, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:InfoElement.TitleWidth="90"
+                                            hc:InfoElement.Title="大小："
+                                            hc:InfoElement.Placeholder="请输入大小" />
+                                <hc:TextBox Grid.Row="0"
+                                            Grid.Column="2"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.Shape, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:InfoElement.TitleWidth="90"
+                                            hc:InfoElement.Title="形状："
+                                            hc:InfoElement.Placeholder="请输入形状" />
+                                <hc:TextBox Grid.Row="0"
+                                            Grid.Column="3"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.Tinct, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:InfoElement.TitleWidth="90"
+                                            hc:InfoElement.Title="色泽："
+                                            hc:InfoElement.Placeholder="请输入色泽" />
+                                <hc:TextBox Grid.Row="0"
+                                            Grid.Column="4"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.Activity, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:InfoElement.TitleWidth="90"
+                                            hc:InfoElement.Title="活动度："
+                                            hc:InfoElement.Placeholder="请输入活动度" />
+                                <hc:TextBox Grid.Row="1"
+                                            Grid.Column="0"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.GrowRate, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:InfoElement.TitleWidth="90"
+                                            hc:InfoElement.Title="生长速度："
+                                            hc:InfoElement.Placeholder="请输入生长速度" />
+                                <hc:TextBox Grid.Row="1"
+                                            Grid.Column="1"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.Rigidity, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:InfoElement.TitleWidth="90"
+                                            hc:InfoElement.Title="坚度："
+                                            hc:InfoElement.Placeholder="请输入坚度" />
+                                <hc:TextBox Grid.Row="1"
+                                            Grid.Column="2"
+                                            Grid.ColumnSpan="3"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            Text="{Binding AppModel.Metastases, UpdateSourceTrigger=PropertyChanged}"
+                                            hc:InfoElement.TitleWidth="190"
+                                            hc:InfoElement.Title="有无转移或可疑的转移："
+                                            hc:InfoElement.Placeholder="请输入有无转移或可疑的转移" />
+                            </Grid>
+                        </Expander>
+                        <Expander Header="妇科相关">
+                            <Expander.IsExpanded>
+                                <MultiBinding Converter="{StaticResource AppFrmPermissionIsExpandedConverter}"
+                                              UpdateSourceTrigger="PropertyChanged"
+                                              Mode="OneWay">
+                                    <Binding Path="Permissions" />
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}"
+                                             Path="Header" />
+                                </MultiBinding>
+                            </Expander.IsExpanded>
+                            <Expander.Visibility>
+                                <MultiBinding Converter="{StaticResource AppFrmPermissionVisibleConverter}"
+                                              UpdateSourceTrigger="PropertyChanged">
+                                    <Binding Path="Permissions" />
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}"
+                                             Path="Header" />
+                                </MultiBinding>
+                            </Expander.Visibility>
+                            <Grid>
+                                <Grid.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource AppFrmPermissionIsEnableConverter}"
+                                                  UpdateSourceTrigger="PropertyChanged">
+                                        <Binding Path="Permissions" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Expander}"
+                                                 Path="Header" />
+                                    </MultiBinding>
+                                </Grid.IsEnabled>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="20" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <hc:DatePicker Grid.Row="0"
+                                               Grid.Column="0"
+                                               Style="{StaticResource DatePickerAppRegister}"
+                                               SelectedDate="{Binding AppModel.LastMensesDate}"
+                                               hc:InfoElement.TitleWidth="120"
+                                               hc:InfoElement.Title="末次月经日期："
+                                               hc:InfoElement.Placeholder="请输入末次月经日期" />
+                                <hc:TextBox Grid.Row="0"
+                                            Grid.Column="1"
+                                            Text="{Binding AppModel.BloodLoss, UpdateSourceTrigger=PropertyChanged}"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            hc:InfoElement.TitleWidth="90"
+                                            hc:InfoElement.Title="出血量："
+                                            hc:InfoElement.Placeholder="请输入出血量" />
+                                <hc:TextBox Grid.Row="0"
+                                            Grid.Column="2"
+                                            Text="{Binding AppModel.Cycle, UpdateSourceTrigger=PropertyChanged}"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            hc:InfoElement.TitleWidth="90"
+                                            hc:InfoElement.Title="周期："
+                                            hc:InfoElement.Placeholder="请输入周期" />
+                                <hc:TextBox Grid.Row="0"
+                                            Grid.Column="3"
+                                            Text="{Binding AppModel.Duration, UpdateSourceTrigger=PropertyChanged}"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            hc:InfoElement.TitleWidth="90"
+                                            hc:InfoElement.Title="持续时间："
+                                            hc:InfoElement.Placeholder="请输入持续时间" />
+                                <hc:TextBox Grid.Row="1"
+                                            Grid.Column="0"
+                                            Text="{Binding AppModel.InterSecret, UpdateSourceTrigger=PropertyChanged}"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            ctl:RegisterElement.TitleWarp="Wrap"
+                                            ctl:RegisterElement.InputControlHeight="{StaticResource InfoElement.ContentHeight}"
+                                            hc:InfoElement.TitleWidth="120"
+                                            hc:InfoElement.Title="用何内分泌制剂治疗："
+                                            hc:InfoElement.Placeholder="请输入用何内分泌制剂治疗" />
+                                <hc:DatePicker Grid.Row="1"
+                                               Grid.Column="1"
+                                               Style="{StaticResource DatePickerAppRegister}"
+                                               SelectedDate="{Binding AppModel.InterSecretDate}"
+                                               hc:InfoElement.TitleWidth="90"
+                                               hc:InfoElement.ContentHeight="{StaticResource InfoElement.ContentHeight}"
+                                               hc:InfoElement.Title="日期："
+                                               hc:InfoElement.Placeholder="请选择日期" />
+                                <hc:TextBox Grid.Row="1"
+                                            Grid.Column="2"
+                                            Text="{Binding AppModel.Dose, UpdateSourceTrigger=PropertyChanged}"
+                                            Style="{StaticResource TextBoxAppRegister}"
+                                            hc:InfoElement.TitleWidth="90"
+                                            hc:InfoElement.ContentHeight="{StaticResource InfoElement.ContentHeight}"
+                                            hc:InfoElement.Title="剂量："
+                                            hc:InfoElement.Placeholder="请输入剂量" />
+                                <hc:DatePicker Grid.Row="2"
+                                               Grid.Column="0"
+                                               Style="{StaticResource DatePickerAppRegister}"
+                                               SelectedDate="{Binding AppModel.UterCuretDate}"
+                                               hc:InfoElement.TitleWidth="110"
+                                               hc:InfoElement.Title="刮宫日期："
+                                               hc:InfoElement.Placeholder="请选择刮宫日期" />
+                                <Grid Grid.Row="2"
+                                      Grid.Column="1"
+                                      Grid.ColumnSpan="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <hc:TextBox Grid.Column="0"
+                                                Text="{Binding AppModel.PregReact, UpdateSourceTrigger=PropertyChanged}"
+                                                Style="{StaticResource TextBoxAppRegister}"
+                                                hc:InfoElement.TitleWidth="120"
+                                                hc:InfoElement.Title="小便妊娠反应："
+                                                hc:InfoElement.Placeholder="请输入小便妊娠反应" />
+                                    <hc:DatePicker Grid.Column="1"
+                                                   Style="{StaticResource DatePickerAppRegister}"
+                                                   SelectedDate="{Binding AppModel.AbortionDate}"
+                                                   hc:InfoElement.TitleWidth="170"
+                                                   hc:InfoElement.Title="末次生产或流产日期："
+                                                   hc:InfoElement.Placeholder="请选择末次生产或流产日期" />
+                                </Grid>
+                            </Grid>
+                        </Expander>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </hc:ScrollViewer>
+    </Grid>
+</base:BaseUserControl>

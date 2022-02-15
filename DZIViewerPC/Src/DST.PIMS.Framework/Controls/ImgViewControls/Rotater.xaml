@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="DST.PIMS.Framework.Controls.Rotater"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:DST.PIMS.Framework.Controls"
+             xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d"
+             d:DesignHeight="100"
+             d:DesignWidth="250">
+    <Grid>
+        <Grid.Resources>
+            <fcv:RotaterWidthConverter x:Key="RotaterWidthConverter" />
+        </Grid.Resources>
+        <StackPanel x:Name="total"
+                    VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <TextBlock Foreground="{StaticResource PrimaryBrush}"
+                           Text="{Binding ElementName=slider,Path=Value,StringFormat=##0}" />
+                <TextBlock Foreground="{StaticResource PrimaryBrush}"
+                           Text="°" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel x:Name="start"
+                            Orientation="Horizontal"
+                            MouseLeftButtonUp="Start_MouseLeftButtonUp"
+                            Cursor="Hand">
+                    <TextBlock Foreground="{StaticResource PrimaryBrush}"
+                               Text="0" />
+                    <TextBlock Foreground="{StaticResource PrimaryBrush}"
+                               Text="°" />
+                </StackPanel>
+                <!--IsSnapToTickEnabled="True"-->
+                <Slider x:Name="slider"
+                        hc:TipElement.Placement="Top"
+                        TickPlacement="Both"
+                        TickFrequency="15"
+                        Maximum="360"
+                        Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:Rotater},Path=Value}"
+                        Background="{StaticResource ThirdlyTextBrush}">
+                    <Slider.Width>
+                        <MultiBinding Converter="{StaticResource RotaterWidthConverter}">
+                            <Binding ElementName="total"
+                                     Path="ActualWidth" />
+                            <Binding ElementName="start"
+                                     Path="ActualWidth" />
+                            <Binding ElementName="end"
+                                     Path="ActualWidth" />
+                        </MultiBinding>
+                    </Slider.Width>
+                </Slider>
+                <StackPanel x:Name="end"
+                            Orientation="Horizontal"
+                            MouseLeftButtonUp="End_MouseLeftButtonUp"
+                            Cursor="Hand">
+                    <TextBlock Foreground="{StaticResource PrimaryBrush}"
+                               Text="360" />
+                    <TextBlock Foreground="{StaticResource PrimaryBrush}"
+                               Text="°" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

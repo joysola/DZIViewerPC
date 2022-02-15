@@ -1,0 +1,106 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.TSCPrintSetting"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:TSCPrintSettingViewModel}"
+                      d:DesignHeight="300"
+                      d:DesignWidth="500">
+    <Grid>
+        <Grid.Resources>
+            <GridLength x:Key="titleWidth">150</GridLength>
+            <fcv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </Grid.Resources>
+        <StackPanel Margin="5,10,5,10">
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="170" />
+                    <ColumnDefinition Width="1.5*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="第一标签X轴起点距离："
+                           Grid.Column="0"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <hc:NumericUpDown Grid.Column="1"
+                                  Value="{Binding Setting.TSCPrint.First_X,UpdateSourceTrigger=PropertyChanged}"
+                                  Style="{StaticResource NumericUpDownPlus}"
+                                  hc:InfoElement.TitleWidth="{StaticResource titleWidth}"
+                                  Margin="10,0,10,0"
+                                  hc:InfoElement.Placeholder="请输入第一标签X轴起点距离"
+                                  ShowClearButton="True" />
+            </Grid>
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="170" />
+                    <ColumnDefinition Width="1.5*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="标签Y轴起点距离："
+                           Grid.Column="0"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <hc:NumericUpDown Grid.Column="1"
+                                  Value="{Binding Setting.TSCPrint.Y,UpdateSourceTrigger=PropertyChanged}"
+                                  Style="{StaticResource NumericUpDownPlus}"
+                                  hc:InfoElement.TitleWidth="{StaticResource titleWidth}"
+                                  Margin="10,0,10,0"
+                                  hc:InfoElement.Placeholder="请输入标签Y轴起点距离" />
+            </Grid>
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="170" />
+                    <ColumnDefinition Width="1.5*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="第二标签X轴起点距离："
+                           Grid.Column="0"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <hc:NumericUpDown Grid.Column="1"
+                                  Value="{Binding Setting.TSCPrint.Second_X,UpdateSourceTrigger=PropertyChanged}"
+                                  Style="{StaticResource NumericUpDownPlus}"
+                                  hc:InfoElement.TitleWidth="{StaticResource titleWidth}"
+                                  Margin="10,0,10,0"
+                                  Minimum="1"
+                                  hc:InfoElement.Placeholder="请输入第二个标签X轴起点距离"
+                                  ShowClearButton="True" />
+            </Grid>
+            <Grid Margin="0,0,0,10"
+                  Visibility="{Binding Setting.IsMix,Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="170" />
+                    <ColumnDefinition Width="1.5*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="选择检验项目："
+                           Grid.Column="0"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <hc:CheckComboBox  Grid.Column="1"
+                                   Margin="10,0,10,0"
+                                   SelectedValues="{Binding Setting.TSCPrint.Products,UpdateSourceTrigger=PropertyChanged}"
+                                   ItemsSource="{Binding ProductDict}"
+                                   DisplayMemberPath="name"
+                                   SelectedValuePath="id"
+                                   VerticalAlignment="Center"
+                                   hc:InfoElement.Placeholder="请选择检查项目"
+                                   ShowClearButton="True">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Loaded">
+                            <ei:CallMethodAction TargetObject="{Binding}"
+                                                 MethodName="CheckComboBox_Loaded" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </hc:CheckComboBox>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</base:BaseUserControl>

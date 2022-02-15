@@ -1,0 +1,156 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--TextBlock 默认样式-joysola-->
+    <Style TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="TextTrimming" Value="None" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{StaticResource FontFamily_Ctl}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize_Ctl}" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="MarkFont">
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
+    <Style TargetType="TextBlock" x:Key="MarkFontHead" BasedOn="{StaticResource MarkFont}">
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <!--弹出窗字体样式-->
+    <Style x:Key="PopupWindowFontOrange" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Foreground" Value="#FD7058"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="PopupWindowFontOrangeBig" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="Foreground" Value="#FD7058"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="PopupWindowFont" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Foreground" Value="#5B5D5F"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="PopupWindowFontInfo" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Foreground" Value="#5B5D5F"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="PopupWindowFontInfoTitle" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Foreground" Value="#2EA7B5"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"  Value="False">
+                <Setter Property="Foreground" Value="#D1D5D5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--弹出窗头部字体样式-->
+    <Style x:Key="PopupWindowTopFontBig" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="28"/>
+        <Setter Property="Foreground" Value="#199EAE"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="PopupWindowTopFont" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Foreground" Value="#2EA7B5"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"  Value="False">
+                <Setter Property="Foreground" Value="#D1D5D5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="PopupWindowTopFontBlue"
+           TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="#00BBF1" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="#D1D5D5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--术中信息-->
+    <Style x:Key="WindowTopFontMiddle" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="WindowTopFontBig" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="23"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="WindowTopFontSmall" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="TextBlockInChartBlue" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="17"/>
+        <Setter Property="Foreground" Value="#44EDE7"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="TextBlockInChartOrange" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="17"/>
+        <Setter Property="Foreground" Value="#FBD782"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+    <!--密集体征样式-->
+    <Style x:Key="IntensiveSignFont" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize"  Value="22"/>
+        <Setter Property="Foreground"  Value="Yellow"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"  Value="False">
+                <Setter Property="Foreground" Value="#D1D5D5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

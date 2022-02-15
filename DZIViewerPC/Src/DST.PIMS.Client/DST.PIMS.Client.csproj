@@ -1,0 +1,234 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <OutputPath>bin\x86\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>a4z28-xygp9-002.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\..\Lib\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform">
+      <HintPath>..\..\Lib\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="HandyControl, Version=3.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\HandyControl\HandyControl.dll</HintPath>
+    </Reference>
+    <Reference Include="HttpClientExtension">
+      <HintPath>..\..\Lib\HttpClientEx\HttpClientExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions">
+      <HintPath>..\..\Lib\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="MoonPdfLib, Version=0.3.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\MoonPdfLib-0.3.0-x64\MoonPdfLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MVVMExtension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\MVVMExtension\MVVMExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\..\Lib\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Configuration.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DST.Common\DST.Common.csproj" />
+    <ProjectReference Include="..\DST.Controls\DST.Controls.csproj" />
+    <ProjectReference Include="..\DST.Database\DST.Database.csproj" />
+    <ProjectReference Include="..\DST.PIMS.Client.ViewModel\DST.PIMS.Client.ViewModel.csproj" />
+    <ProjectReference Include="..\DST.PIMS.Framework\DST.PIMS.Framework.csproj" />
+    <ProjectReference Include="..\Nico.Common\Nico.Common.csproj" />
+    <ProjectReference Include="..\Nico.DeepZoomSource\Nico.DeepZoomSource.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\a4z28-xygp9-001.ico" />
+    <Resource Include="Images\a4z28-xygp9-002.ico" />
+    <Resource Include="Images\a4z28-xygp9-003.ico" />
+    <Resource Include="Images\about.png" />
+    <Resource Include="Images\aboutHover.png" />
+    <Resource Include="Images\Close.png" />
+    <Resource Include="Images\CloseHover.png" />
+    <Resource Include="Images\Delete.png" />
+    <Resource Include="Images\DeleteHover.png" />
+    <Resource Include="Images\DSTlogo.png" />
+    <Resource Include="Images\Edit.png" />
+    <Resource Include="Images\EditHover.png" />
+    <Resource Include="Images\Edit_Selected.png" />
+    <Resource Include="Images\Folder.png" />
+    <Resource Include="Images\Help.png" />
+    <Resource Include="Images\HelpAdd.png" />
+    <Resource Include="Images\HelpAdjust.png" />
+    <Resource Include="Images\HelpDelete.png" />
+    <Resource Include="Images\HelpEdit.png" />
+    <Resource Include="Images\HelpExpress.png" />
+    <Resource Include="Images\HelpHover.png" />
+    <Resource Include="Images\Home.png" />
+    <Resource Include="Images\Home_Selected.png" />
+    <Resource Include="Images\inputHover.png" />
+    <Resource Include="Images\inputNormal.png" />
+    <Resource Include="Images\loginButton-hover.png" />
+    <Resource Include="Images\loginButton-normal.png" />
+    <Resource Include="Images\loginButton-normal2.jpg" />
+    <Resource Include="Images\loginButton-press.png" />
+    <Resource Include="Images\LoginOut.png" />
+    <Resource Include="Images\LoginOutHover.png" />
+    <Resource Include="Images\LoginUser.png" />
+    <Resource Include="Images\LoginUser2.png" />
+    <Resource Include="Images\logo.jpg" />
+    <Resource Include="Images\MainBackground.png" />
+    <Resource Include="Images\MainBackground_1.png" />
+    <Resource Include="Images\MainBackground_2.jpg" />
+    <Resource Include="Images\MainBackground_4.jpg" />
+    <Resource Include="Images\MainBackground_5.jpg" />
+    <Resource Include="Images\Min.png" />
+    <Resource Include="Images\MinHover.png" />
+    <Resource Include="Images\NoMark.jpg" />
+    <Resource Include="Images\Password.png" />
+    <Resource Include="Images\Password2.png" />
+    <Resource Include="Images\Preview.png" />
+    <Resource Include="Images\PreviewHover.png" />
+    <Resource Include="Images\Print.png" />
+    <Resource Include="Images\PrintHover.png" />
+    <Resource Include="Images\Print_White.png" />
+    <Resource Include="Images\Return.png" />
+    <Resource Include="Images\Return_Selected.png" />
+    <Resource Include="Images\searchTime.png" />
+    <Resource Include="Images\Test\Menu1.png" />
+    <Resource Include="Images\Test\Menu2.png" />
+    <Resource Include="Images\Test\Menu3.png" />
+    <Resource Include="Images\Test\Menu4.png" />
+    <Resource Include="Images\Test\Menu5.png" />
+    <Resource Include="Images\Test\Menu6.png" />
+    <Resource Include="Images\Test\Menu7.png" />
+    <Resource Include="Images\Test\Menu8.png" />
+    <Resource Include="Images\uninstall.ico" />
+    <Resource Include="Images\View.png" />
+    <Resource Include="Images\View_Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icon关于.png" />
+    <Resource Include="Images\icon关机.png" />
+    <Resource Include="Images\icon注销.png" />
+    <Resource Include="Images\icon锁屏.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Loginicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Note.png" />
+    <Resource Include="Images\Note_Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Test\151_104.jpg" />
+    <Resource Include="Images\Test\151_105.jpg" />
+    <Resource Include="Images\Test\151_106.jpg" />
+    <Resource Include="Images\Test\151_107.jpg" />
+    <Resource Include="Images\Test\151_108.jpg" />
+    <Resource Include="Images\Test\151_109.jpg" />
+    <Resource Include="Images\Test\151_110.jpg" />
+    <Resource Include="Images\Test\151_111.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\changePwd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Test\lock.png" />
+    <Resource Include="Images\Test\Unlock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Test\Dict.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="a4z28-xygp9-002.ico" />
+    <Content Include="DLL\MoonPdfLib-0.3.0-x64\libmupdf.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\MoonPdfLib-0.3.0-x64\MoonPdfLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\MoonPdfLib-0.3.0-x64\MouseKeyboardActivityMonitor.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\MoonPdfLib-0.3.0-x86\libmupdf.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\MoonPdfLib-0.3.0-x86\MoonPdfLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\MoonPdfLib-0.3.0-x86\MouseKeyboardActivityMonitor.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Images\LoginBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\AspectInjector.2.6.0\analyzers\dotnet\cs\AspectInjector.Analyzer.dll" />
+    <Analyzer Include="..\..\packages\AspectInjector.2.6.0\analyzers\dotnet\cs\AspectInjector.Broker.dll" />
+    <Analyzer Include="..\..\packages\AspectInjector.2.6.0\analyzers\dotnet\cs\AspectInjector.Rules.dll" />
+    <Analyzer Include="..\..\packages\AspectInjector.2.6.0\analyzers\dotnet\cs\FluentIL.Common.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="SQLite.CodeFirst" Version="1.7.0.34" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AspectInjector" Version="2.6.0" />
+    <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.4" />
+    <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="6.0.4" />
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.115.5" />
+    <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Views\Embedding\EmbeddingConfiguration.xaml.cs" />
+    <Compile Remove="Views\MolecularDiagnosis\MoleDiagBarcodeConfig.xaml.cs" />
+    <Compile Remove="Views\MolecularDiagnosis\MoleDiagStation.xaml.cs" />
+    <Compile Remove="Views\Production\ProductionConfiguration.xaml.cs" />
+    <Compile Remove="Views\ReportSystem\RepoSysStation.xaml.cs" />
+    <Compile Remove="Views\Scan\ScanQuick.xaml.cs" />
+    <Page Remove="Views\Embedding\EmbeddingConfiguration.xaml" />
+    <Page Remove="Views\MolecularDiagnosis\MoleDiagBarcodeConfig.xaml" />
+    <Page Remove="Views\MolecularDiagnosis\MoleDiagStation.xaml" />
+    <Page Remove="Views\Production\ProductionConfiguration.xaml" />
+    <Page Remove="Views\ReportSystem\RepoSysStation.xaml" />
+    <Page Remove="Views\Scan\ScanQuick.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="App.config">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="..\..\lib\HttpClientEx\AspectInjector.2.4.2\build\netstandard2.0\AspectInjector.targets" Condition="Exists('..\..\lib\HttpClientEx\AspectInjector.2.4.2\build\netstandard2.0\AspectInjector.targets')" />
+  <Import Project="..\..\packages\AspectInjector.2.6.0\build\netstandard2.0\AspectInjector.targets" Condition="Exists('..\..\packages\AspectInjector.2.6.0\build\netstandard2.0\AspectInjector.targets')" />
+  <Import Project="..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+</Project>

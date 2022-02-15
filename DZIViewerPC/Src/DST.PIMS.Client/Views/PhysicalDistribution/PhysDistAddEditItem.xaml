@@ -1,0 +1,184 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.PhysDistAddEditItem"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:control="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:converter="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      d:DataContext="{d:DesignInstance Type=vm:PhysDistAddEditItemViewModel}"
+                      mc:Ignorable="d"
+                      d:DesignHeight="450"
+                      d:DesignWidth="1200">
+    <Grid>
+        <Grid.Resources>
+            <cv:CalculateParamConverter x:Key="CalculateParamConverter" />
+            <converter:MarkersConverter x:Key="MarkersConverter" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="0">
+
+            <control:MenuComboBox Width="350"
+                                  Margin="5,0,5,0"
+                                  ItemSource="{Binding ProductList}"
+                                  SelectedValue="{Binding CurProductModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayMemberPath="name"
+                                  SelectedValuePath="id"
+                                  MenuItemSourcePath="productTypeList"
+                                  MenuSelectedValue="{Binding CurProductType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  MenuDisplayMemberPath="name"
+                                  MenuSelectedValuePath="productId" />
+
+            <Button Style="{StaticResource ButtonPrimary}"
+                    Margin="15,0,5,0"
+                    Content="新增"
+                    Command="{Binding NewCommand}" />
+        </StackPanel>
+
+        <DataGrid Grid.Row="1"
+                  Style="{StaticResource TransDataGrid}"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  MinHeight="300"
+                  Margin="5"
+                  EnableRowVirtualization="False"
+                  ItemsSource="{Binding SampleList}"
+                  SelectedValue="{Binding CurSelectedSample}">
+            <DataGrid.Columns>
+
+                <DataGridTemplateColumn Width="1.5*"
+                                        x:Name="col3"
+                                        Header="检查项目">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding productName}"
+                                       Width="{Binding ElementName=col3 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=10}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="2*"
+                                        x:Name="col2"
+                                        Header="活动类型">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <hc:ComboBox SelectedValue="{Binding screen, UpdateSourceTrigger=PropertyChanged}"
+                                         Width="{Binding ElementName=col2 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=10}"
+                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=base:BaseUserControl},Path=DataContext.ActivityTypeList}"
+                                         SelectedValuePath="dictKey"
+                                         DisplayMemberPath="dictValue"
+                                         hc:InfoElement.Placeholder="活动类型"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="1.5*"
+                                        x:Name="col5"
+                                        Header="备注">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <hc:TextBox Text="{Binding remark, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="{Binding ElementName=col6 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=10}"
+                                        hc:InfoElement.Placeholder="备注"
+                                        ShowClearButton="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="2*"
+                                        x:Name="col6"
+                                        Header="条码号">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <hc:TextBox Text="{Binding barCode, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="{Binding ElementName=col6 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=10}"
+                                        hc:InfoElement.Placeholder="条码号"
+                                        ShowClearButton="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="2*"
+                                        x:Name="col8"
+                                        Header="标记物/染剂">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <!--胃镜-->
+                                <hc:ComboBox SelectedValue="{Binding markers, UpdateSourceTrigger=PropertyChanged}"
+                                             Width="{Binding ElementName=col8 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=10}"
+                                             ItemsSource="{Binding ProdReagentDict}"
+                                             SelectedValuePath="dictKey"
+                                             DisplayMemberPath="dictValue"
+                                             hc:InfoElement.Placeholder="标记物/染剂"
+                                             ShowClearButton="True"
+                                             Visibility="{Binding productId, Converter={StaticResource MarkersConverter}, ConverterParameter=1395619316226138114}" />
+                                <!--免疫组化-->
+                                <hc:CheckComboBox ShowClearButton="True"
+                                                  Width="{Binding ElementName=col8 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=10}"
+                                                  ItemsSource="{Binding ProdReagentDict}"
+                                                  DisplayMemberPath="dictValue"
+                                                  SelectedValues="{Binding CurSelectedProdReagent}"
+                                                  Visibility="{Binding productId, Converter={StaticResource MarkersConverter}, ConverterParameter=1395620999601659906}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="2.5*"
+                                        x:Name="co20"
+                                        Header="取样时间">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <hc:DateTimePicker SelectedDateTime="{Binding gatherTime, UpdateSourceTrigger=PropertyChanged}"
+                                               Style="{StaticResource DateTimePickerPlus}"
+                                               hc:InfoElement.Placeholder="取样时间"
+                                               Width="{Binding ElementName=co20 ,Path=ActualWidth,Converter={StaticResource CalculateParamConverter},ConverterParameter=10}"
+                                               ShowClearButton="True"
+                                               MinWidth="150" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="*"
+                                        Header="操作">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource ButtonPrimary}"
+                                        Margin="5,0,0,0"
+                                        Content="删除"
+                                        Command="{Binding DataContext.DeleteCommand,RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Grid.Row="2">
+            <Button Margin="0,0,20,0"
+                    Width="50"
+                    Style="{StaticResource ButtonBaseStyle}"
+                    Foreground="White"
+                    Background="{StaticResource ThirdlyTextBrush}"
+                    Content="关闭"
+                    Command="{Binding CloseCommand}" />
+            <Button Margin="0,0,20,0"
+                    Width="50"
+                    Style="{StaticResource ButtonPrimary}"
+                    Content="确认"
+                    Command="{Binding ConfirmCommand}" />
+        </StackPanel>
+    </Grid>
+</base:BaseUserControl>

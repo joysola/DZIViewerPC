@@ -1,0 +1,129 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.PhysDistReceiptEdit"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:control="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      mc:Ignorable="d"
+                      d:DesignHeight="500"
+                      d:DesignWidth="500">
+    <Grid Margin="20,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <hc:TextBox Grid.Row="1"
+                    Style="{StaticResource TextBoxRegister}"
+                    Text="{Binding CurSelectedSample.patientName}"
+                    hc:InfoElement.Title="姓名："
+                    hc:InfoElement.Placeholder="请输入姓名"
+                    hc:InfoElement.Necessary="True" />
+
+        <hc:TextBox Grid.Row="2"
+                    Style="{StaticResource TextBoxRegister}"
+                    Text="{Binding CurSelectedSample.age}"
+                    hc:InfoElement.Title="年龄："
+                    hc:InfoElement.Placeholder="请输入年龄"
+                    hc:InfoElement.Necessary="True" />
+
+        <hc:ComboBox Grid.Row="3"
+                     Style="{StaticResource ComboBoxRegister}"
+                     SelectedValue="{Binding CurSelectedSample.sex}"
+                     ItemsSource="{Binding SexDict}"
+                     DisplayMemberPath="dictValue"
+                     SelectedValuePath="dictKey"
+                     hc:InfoElement.Title="性别："
+                     hc:InfoElement.Placeholder="请选择性别"
+                     hc:InfoElement.Necessary="True" />
+
+        <hc:TextBox Grid.Row="4"
+                    Style="{StaticResource TextBoxRegister}"
+                    Text="{Binding CurSelectedSample.phone}"
+                    hc:InfoElement.Title="联系方式："
+                    hc:InfoElement.Placeholder="请输入联系方式"
+                    hc:InfoElement.Necessary="True" />
+
+        <!--<hc:ComboBox Grid.Row="5"
+                     Style="{StaticResource ComboBoxRegister}"
+                     SelectedValue="{Binding CurSelectedSample.productId}"
+                     ItemsSource="{Binding ProductModelList}"
+                     DisplayMemberPath="name"
+                     SelectedValuePath="id"
+                     hc:InfoElement.Title="检查项目："
+                     hc:InfoElement.Placeholder="请选择检查项目"
+                     hc:InfoElement.Necessary="True" />-->
+        <StackPanel Grid.Row="5"
+                    Orientation="Horizontal">
+            <TextBlock Text="检查项目："
+                       Width="100"
+                       TextAlignment="Right" />
+            <control:MenuComboBox Grid.Row="5"
+                                  Width="350"
+                                  ItemSource="{Binding ProductModelList}"
+                                  SelectedValue="{Binding CurProductModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayMemberPath="name"
+                                  SelectedValuePath="id"
+                                  MenuItemSourcePath="productTypeList"
+                                  MenuSelectedValue="{Binding CurProductType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  MenuDisplayMemberPath="name"
+                                  MenuSelectedValuePath="productId" />
+        </StackPanel>
+
+        <hc:ComboBox Grid.Row="6"
+                     Style="{StaticResource ComboBoxRegister}"
+                     SelectedValue="{Binding CurSelectedSample.screen}"
+                     ItemsSource="{Binding ScreenList}"
+                     DisplayMemberPath="dictValue"
+                     SelectedValuePath="dictKey"
+                     hc:InfoElement.Title="活动类型："
+                     hc:InfoElement.Placeholder="请选择活动类型"
+                     hc:InfoElement.Necessary="True" />
+
+        <hc:DateTimePicker Grid.Row="7"
+                           Style="{StaticResource DateTimePickerAppRegister}"
+                           VerticalAlignment="Center"
+                           SelectedDateTime="{Binding CurSelectedSample.gatherTime}"
+                           DateTimeFormat="yyyy-MM-dd HH:mm:ss"
+                           hc:InfoElement.Title="取样时间："
+                           hc:InfoElement.Placeholder="请选择取样时间"
+                           hc:InfoElement.Necessary="True" />
+
+        <hc:TextBox Grid.Row="8"
+                    Style="{StaticResource TextBoxRegister}"
+                    Text="{Binding CurSelectedSample.remark}"
+                    hc:InfoElement.Title="备注："
+                    hc:InfoElement.Placeholder="请输入备注信息"
+                    hc:InfoElement.Necessary="False" />
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Grid.Row="10">
+            <Button Margin="0,0,20,0"
+                    Width="50"
+                    Style="{StaticResource ButtonBaseStyle}"
+                    Foreground="White"
+                    Background="{StaticResource ThirdlyTextBrush}"
+                    Content="取消"
+                    Command="{Binding CloseCommand}" />
+            <Button Margin="0,0,20,0"
+                    Width="50"
+                    Style="{StaticResource ButtonPrimary}"
+                    Content="确认"
+                    Command="{Binding SaveCommand}" />
+        </StackPanel>
+
+    </Grid>
+</base:BaseUserControl>

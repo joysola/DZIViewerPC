@@ -1,0 +1,47 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.SimplePatInfoTitle"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel.Test;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:TestViewModel}"
+                      d:DesignHeight="50"
+                      d:DesignWidth="1000">
+    <Grid>
+        <Button HorizontalContentAlignment="Left"
+                Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid},Path=ActualWidth}"
+                Style="{StaticResource ButtonPrimary}">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="当前病例："
+                               FontWeight="Bold"
+                               Foreground="White" />
+                    <TextBlock Text="{Binding DMSModel.PatientInfo.SampleCode}"
+                               Foreground="White" />
+                    <TextBlock Text="{Binding DMSModel.PatientInfo.PatName}"
+                               Foreground="White" />
+                    <TextBlock Text="{Binding DMSModel.PatientInfo.Sex}"
+                               Foreground="White" />
+
+                    <TextBlock Text="科室："
+                               FontWeight="Bold"
+                               Foreground="White" />
+                    <TextBlock Text="{Binding DMSModel.PatientInfo.Dept}"
+                               Foreground="White" />
+
+                    <TextBlock Text="送检标本："
+                               FontWeight="Bold"
+                               Foreground="White" />
+                    <TextBlock Text="{Binding DMSModel.PatientInfo.Specimen}"
+                               Foreground="White" />
+
+                </StackPanel>
+            </Button.Content>
+        </Button>
+    </Grid>
+</base:BaseUserControl>

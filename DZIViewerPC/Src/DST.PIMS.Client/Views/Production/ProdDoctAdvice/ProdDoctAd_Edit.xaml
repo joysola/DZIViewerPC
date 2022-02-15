@@ -1,0 +1,72 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.ProdDoctAd_Edit"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:ProdDoctAd_EditViewModel}"
+                      d:DesignHeight="300"
+                      d:DesignWidth="500">
+    <Grid>
+        <Grid.Resources>
+            <GridLength x:Key="titleWidth">120</GridLength>
+        </Grid.Resources>
+        <StackPanel VerticalAlignment="Center">
+           
+            <hc:ComboBox Style="{StaticResource ComboBoxAppRegister}"
+                         ItemsSource="{Binding InSpecDict}"
+                         SelectedItem="{Binding SelectedInspSpec}"
+                         SelectedValue="{Binding Slice.InspecPlace}"
+                         SelectedValuePath="Name"
+                         DisplayMemberPath="Name"
+                         hc:TitleElement.Title="送检部位："
+                         hc:TitleElement.TitleWidth="{StaticResource titleWidth}"
+                         hc:InfoElement.Placeholder="请选择送检部位"
+                         hc:InfoElement.Necessary="True"
+                         ShowClearButton="True" />
+            <hc:ComboBox Style="{StaticResource ComboBoxAppRegister}"
+                         ItemsSource="{Binding TempEmbedList}"
+                         SelectedItem="{Binding SelectedEmbedbox}"
+                         SelectedValue="{Binding Slice.WaxBlockNum}"
+                         SelectedValuePath="WaxBlockNum"
+                         DisplayMemberPath="WaxBlockNum"
+                         hc:TitleElement.Title="蜡块号："
+                         hc:TitleElement.TitleWidth="{StaticResource titleWidth}"
+                         hc:InfoElement.Placeholder="请选择蜡块号"
+                         hc:InfoElement.Necessary="True"
+                         ShowClearButton="True" />
+            <hc:ComboBox Style="{StaticResource ComboBoxAppRegister}"
+                         ItemsSource="{Binding ProdReagentDict}"
+                         
+                         SelectedValue="{Binding Slice.Marker}"
+                         SelectedValuePath="dictKey"
+                         DisplayMemberPath="dictValue"
+                         hc:TitleElement.Title="标记物/染色剂："
+                         hc:TitleElement.TitleWidth="{StaticResource titleWidth}"
+                         hc:InfoElement.Placeholder="请选择标记物/染色剂"
+                         hc:InfoElement.Necessary="True"
+                         ShowClearButton="True" />
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,10,0">
+                <Button Style="{StaticResource ButtonBaseStyle}"
+                        Background="{StaticResource ThirdlyTextBrush}"
+                        Content="取消"
+                        Command="{Binding CancelCommand}" />
+                <Button Style="{StaticResource ButtonPrimary}"
+                        Margin="5,0,0,0"
+                        Content="确认"
+                        Command="{Binding OKCommand}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</base:BaseUserControl>

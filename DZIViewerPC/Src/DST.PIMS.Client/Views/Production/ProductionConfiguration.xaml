@@ -1,0 +1,94 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.ProductionConfiguration"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      mc:Ignorable="d"
+                      d:DesignHeight="300"
+                      d:DesignWidth="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.7*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="选择设备："
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center" />
+
+        <hc:ComboBox Grid.Row="0"
+                     Grid.Column="1"
+                     SelectedValue="{Binding ProductionPrintType}"
+                     ItemsSource="{Binding HsjPrintTypeList}"
+                     DisplayMemberPath="dictValue"
+                     SelectedValuePath="dictKey"
+                     hc:InfoElement.Placeholder="请选择设备"
+                     hc:InfoElement.Necessary="True"
+                     Margin="10,0,0,0"
+                     Height="35"
+                     MinWidth="250"
+                     HorizontalAlignment="Left"
+                     HorizontalContentAlignment="Left"
+                     VerticalAlignment="Center">
+        </hc:ComboBox>
+
+        <TextBlock Text="选择模板："
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center" />
+
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="1"
+                    Grid.Column="1">
+            <TextBox HorizontalAlignment="Left"
+                     Name="tbTemplate"
+                     MinWidth="250"
+                     IsReadOnly="True"
+                     VerticalAlignment="Center"
+                     Text="{Binding ProductionTemplateFile}" />
+            <Button Content="..."
+                    Margin="10,0,0,0"
+                    Width="30"
+                    Click="Btn_SelectTemple"
+                    VerticalAlignment="Center" />
+        </StackPanel>
+
+
+        <TextBlock Text="对接目录："
+                   Grid.Row="2"
+                   Grid.Column="0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center" />
+
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="2"
+                    Grid.Column="1">
+            <TextBox HorizontalAlignment="Left"
+                     MinWidth="250"
+                     Name="tbListenPath"
+                     IsReadOnly="True"
+                     VerticalAlignment="Center"
+                     Text="{Binding ProductionScanDir}" />
+            <Button Content="..."
+                    Margin="10,0,0,0"
+                    Width="30"
+                    Click="Btn_SelectPath"
+                    VerticalAlignment="Center" />
+        </StackPanel>
+    </Grid>
+</base:BaseUserControl>

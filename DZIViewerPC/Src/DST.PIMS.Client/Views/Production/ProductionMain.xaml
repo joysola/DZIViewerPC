@@ -1,0 +1,48 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.ProductionMain"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:ProductionMainViewModel}"
+                      d:DesignHeight="1000"
+                      d:DesignWidth="1800">
+    <hc:TabControl IsAnimationEnabled="True"
+                   IsDraggable="False"
+                   ShowContextMenu="False"
+                   x:Name="tabCtl"
+                   SelectedItem="{Binding SelectedTabItem}">
+        <hc:TabItem Header="常规制片">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="3.5*" />
+                </Grid.ColumnDefinitions>
+                <local:QueryPathList DataContext="{Binding QueryPathListVM}" />
+                <local:ProductSpecimen Grid.Column="2"
+                                       DataContext="{Binding ProdSpecVM}" />
+            </Grid>
+        </hc:TabItem>
+        <hc:TabItem Header="TCT制片">
+            <local:ProdTCTList DataContext="{Binding ProdTCTListVM}" />
+        </hc:TabItem>
+        <hc:TabItem Header="技术医嘱">
+            <local:ProdTechAdvice DataContext="{Binding ProdTechAdVM}" />
+        </hc:TabItem>
+        <hc:TabItem Header="特检医嘱">
+            <local:ProdDoctAdvice DataContext="{Binding ProdDoctAdVM}"/>
+        </hc:TabItem>
+        <hc:TabItem Header="制片列表">
+            <local:ProdSliceList DataContext="{Binding ProdSlicListVM}" />
+        </hc:TabItem>
+    </hc:TabControl>
+</base:BaseUserControl>

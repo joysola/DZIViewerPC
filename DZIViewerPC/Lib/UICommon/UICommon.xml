@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UICommon</name>
+    </assembly>
+    <members>
+        <member name="P:UICommon.Controls.DragHelperBase.StrokeThickness">
+            <summary>
+            自定义选中状态八个小矩形框线宽大小
+            </summary>
+        </member>
+        <member name="P:UICommon.Controls.DragHelperBase.LimitTargetSize">
+            <summary>
+            Targert矩形的极限尺寸
+            </summary>
+        </member>
+    </members>
+</doc>

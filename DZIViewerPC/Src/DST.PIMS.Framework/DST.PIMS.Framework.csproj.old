@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A315953E-BE43-4773-B0C4-8BE9406F0CC1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DST.PIMS.Framework</RootNamespace>
+    <AssemblyName>DST.PIMS.Framework</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\..\Lib\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras">
+      <HintPath>..\..\Lib\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform">
+      <HintPath>..\..\Lib\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="HandyControl, Version=3.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\HandyControl\HandyControl.dll</HintPath>
+    </Reference>
+    <Reference Include="HSPrint">
+      <HintPath>..\..\Lib\HsjPrint\HSPrint.dll</HintPath>
+    </Reference>
+    <Reference Include="HttpClientExtension">
+      <HintPath>..\..\Lib\HttpClientEx\HttpClientExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="MVVMExtension">
+      <HintPath>..\..\Lib\MVVMExtension\MVVMExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Spire.License">
+      <HintPath>..\..\Lib\Spire.License.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Pdf">
+      <HintPath>..\..\Lib\Spire.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite.CodeFirst, Version=1.7.0.34, Culture=neutral, PublicKeyToken=eb96ba0a78d831a7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SQLite.CodeFirst.1.7.0.34\lib\net45\SQLite.CodeFirst.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <!--<Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>-->
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\..\Lib\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <!--<Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>-->
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\PrintManagerAttribute.cs" />
+    <Compile Include="Attributes\ToolButtonAttribute.cs" />
+    <Compile Include="Controls\Annotations\AnnoBase.cs" />
+    <Compile Include="Controls\Annotations\AnnoInfo.cs" />
+    <Compile Include="Controls\Annotations\AnnoRect.xaml.cs">
+      <DependentUpon>AnnoRect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Annotations\CustomThumb.cs" />
+    <Compile Include="Controls\Annotations\SelectRprtImgRect.cs" />
+    <Compile Include="Controls\ImgViewControls\CutScanList.xaml.cs">
+      <DependentUpon>CutScanList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ImgViewControls\Shader\ImgDX9Effect.cs" />
+    <Compile Include="Controls\ImgViewControls\Navmap.xaml.cs">
+      <DependentUpon>Navmap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ImgViewControls\ReportViewList.xaml.cs">
+      <DependentUpon>ReportViewList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ImgViewControls\Rotater.xaml.cs">
+      <DependentUpon>Rotater.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ImgViewControls\ScaleRuler.xaml.cs">
+      <DependentUpon>ScaleRuler.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ImgViewControls\ThumbsList.xaml.cs">
+      <DependentUpon>ThumbsList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ImgViewControls\WhiteBalance.xaml.cs">
+      <DependentUpon>WhiteBalance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TreeCheck.xaml.cs">
+      <DependentUpon>TreeCheck.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBContext\LocalDB.cs" />
+    <Compile Include="DBContext\LocalDBContext.cs" />
+    <Compile Include="ExtendContext\CommonConfiguration.cs" />
+    <Compile Include="ExtendContext\DSTReviewScanImg.cs" />
+    <Compile Include="ExtendContext\ExtendApiDict.cs" />
+    <Compile Include="ExtendContext\ExtendAppContext.cs" />
+    <Compile Include="ExtendContext\MSIContext.cs" />
+    <Compile Include="Extensions\AppFrmPermissionExtension.cs" />
+    <Compile Include="Extensions\CustomBaseViewModelExtensions.cs" />
+    <Compile Include="Extensions\MSICanvasCoordinationExtension.cs" />
+    <Compile Include="Extensions\MultiScaleTileSourceExtensions.cs" />
+    <Compile Include="Extensions\TreeNodeExtensions.cs" />
+    <Compile Include="Framework\HsjPrintManager.cs" />
+    <Compile Include="Framework\IniManager.cs" />
+    <Compile Include="Framework\PrintLabelManager.cs" />
+    <Compile Include="Framework\PrintManager.cs" />
+    <Compile Include="Framework\SocketServer.cs" />
+    <Compile Include="Framework\TreatRepertManager.cs" />
+    <Compile Include="Framework\TSCBarCodeManager.cs" />
+    <Compile Include="Framework\TSCPrintManager.cs" />
+    <Compile Include="Framework\UploadManager.cs" />
+    <Compile Include="Framework\UploadServer.cs" />
+    <Compile Include="ExtendContext\ApiClientSetting.cs" />
+    <Compile Include="ExtendContext\DSTCode.cs" />
+    <Compile Include="Helper\HttpClientHelper.cs" />
+    <Compile Include="Helper\MenuButtonHelper.cs" />
+    <Compile Include="Helper\PrintSetHelper.cs" />
+    <Compile Include="Model\AppFrmPermission.cs" />
+    <Compile Include="Model\Enum\EnumLoginType.cs" />
+    <Compile Include="Model\Enum\EnumMaterialType.cs" />
+    <Compile Include="Model\Enum\EnumMessageKey.cs" />
+    <Compile Include="Model\Enum\EnumRegisterType.cs" />
+    <Compile Include="Model\Enum\EnumReportType.cs" />
+    <Compile Include="Model\Enum\EnumToolButtonType.cs" />
+    <Compile Include="Model\Enum\EnumWorkstationType.cs" />
+    <Compile Include="Model\IniSectionConst.cs" />
+    <Compile Include="Model\SettingModel.cs" />
+    <Compile Include="Model\Test\CDModel.cs" />
+    <Compile Include="Model\Test\DMSModel.cs" />
+    <Compile Include="Model\Test\EmbedModel.cs" />
+    <Compile Include="Model\Test\EnumTest.cs" />
+    <Compile Include="Model\Test\ProductModel.cs" />
+    <Compile Include="Model\Test\SysModel.cs" />
+    <Compile Include="Model\ToolButton.cs" />
+    <Compile Include="Model\Test\NPRModel.cs" />
+    <Compile Include="Model\Test\NPRQuery.cs" />
+    <Compile Include="Helper\ToolButtonListHelper.cs" />
+    <Compile Include="Model\TreeNode.cs" />
+    <Compile Include="Model\TreeViewData.cs" />
+    <Compile Include="Model\WorkstationToolButtons.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScaleTileSource\DatMultiScaleTileSource.cs" />
+    <Compile Include="ScaleTileSource\NineLayerFromLocalScaleTileSource.cs" />
+    <Compile Include="ScaleTileSource\NineLayerFromMinioScaleTileSource.cs" />
+    <Compile Include="StyleConverters\AddTestConverter.cs" />
+    <Compile Include="StyleConverters\AppFrmPermissionConverter.cs" />
+    <Compile Include="StyleConverters\BoolToVisibilityConverter.cs" />
+    <Compile Include="StyleConverters\BoolToVisibilityReverseConverter.cs" />
+    <Compile Include="StyleConverters\CascadeComboboxConverter.cs" />
+    <Compile Include="StyleConverters\CheckProjectStatusConverter.cs" />
+    <Compile Include="StyleConverters\ComWordConverter.cs" />
+    <Compile Include="StyleConverters\CustomConfigSettingConverter.cs" />
+    <Compile Include="StyleConverters\CustomDictConverter.cs" />
+    <Compile Include="StyleConverters\CustomtoBoolVisibilityConverter.cs" />
+    <Compile Include="StyleConverters\CutScanListConverters.cs" />
+    <Compile Include="StyleConverters\DictItemConverter.cs" />
+    <Compile Include="StyleConverters\EditTopRoleConverter.cs" />
+    <Compile Include="StyleConverters\EmbedConverter.cs" />
+    <Compile Include="StyleConverters\EmergencyEnableConverter.cs" />
+    <Compile Include="StyleConverters\ExperimentStatusConverter.cs" />
+    <Compile Include="StyleConverters\ExpressStatusConverter.cs" />
+    <Compile Include="StyleConverters\ExtraInfoConverter.cs" />
+    <Compile Include="StyleConverters\HpvStatusConverter.cs" />
+    <Compile Include="StyleConverters\ImgViewerDetailConverter.cs" />
+    <Compile Include="StyleConverters\ImgViewerConverters.cs" />
+    <Compile Include="StyleConverters\IsLoginToVisibilityConverter.cs" />
+    <Compile Include="StyleConverters\MainTopConverter.cs" />
+    <Compile Include="StyleConverters\MarkConverter.cs" />
+    <Compile Include="StyleConverters\MarkersConverter.cs" />
+    <Compile Include="StyleConverters\MaterialConverter.cs" />
+    <Compile Include="StyleConverters\NavmapConverter.cs" />
+    <Compile Include="StyleConverters\PrintModel2IsCheckedConverter.cs" />
+    <Compile Include="StyleConverters\PrintProdCCBConverter.cs" />
+    <Compile Include="StyleConverters\ProdReagentDictConverter.cs" />
+    <Compile Include="StyleConverters\ProductConverter.cs" />
+    <Compile Include="StyleConverters\QueryPathConverter.cs" />
+    <Compile Include="StyleConverters\RbtnIsChecked2PrintBtnVisConverter.cs" />
+    <Compile Include="StyleConverters\ReceiveStatusConverter.cs" />
+    <Compile Include="StyleConverters\RegsiterConverter.cs" />
+    <Compile Include="StyleConverters\ReportStatusConverter.cs" />
+    <Compile Include="StyleConverters\RolesJoinConverter.cs" />
+    <Compile Include="StyleConverters\RotaterConverters.cs" />
+    <Compile Include="StyleConverters\SampleIntegrityConverter.cs" />
+    <Compile Include="StyleConverters\ScaleRulerConverter.cs" />
+    <Compile Include="StyleConverters\ScanStatusConverter.cs" />
+    <Compile Include="StyleConverters\ScreenConverter.cs" />
+    <Compile Include="StyleConverters\SexConverter.cs" />
+    <Compile Include="StyleConverters\SexRadioBtnConverter.cs" />
+    <Compile Include="StyleConverters\SignForMannerConverter.cs" />
+    <Compile Include="StyleConverters\TestItemConverter.cs" />
+    <Compile Include="StyleConverters\ThumbsListConverter.cs" />
+    <Compile Include="StyleConverters\TreeNodeNavConverter.cs" />
+    <Compile Include="StyleConverters\TrialStatusConverter.cs" />
+    <Compile Include="StyleConverters\UploadStatusConverter.cs" />
+    <Compile Include="StyleConverters\WhiteBalanceConverters.cs" />
+    <Compile Include="StyleConverters\ZeroOnetoBoolConverter.cs" />
+    <Compile Include="StyleConverters\ZeroOneToStringConverter.cs" />
+    <Compile Include="ToolButtonResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ToolButtonResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DST.Common\DST.Common.csproj">
+      <Project>{3ebd0b0e-a6c8-4526-8397-673278c94db0}</Project>
+      <Name>DST.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DST.Controls\DST.Controls.csproj">
+      <Project>{66cf816f-de66-4dee-9647-c3d6ea7d84ee}</Project>
+      <Name>DST.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DST.Database\DST.Database.csproj">
+      <Project>{1a8f072c-a480-4219-9bd5-5612fa73f28b}</Project>
+      <Name>DST.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nico.Common\Nico.Common.csproj">
+      <Project>{23e4ad65-3294-4745-9f36-ce51c8f24495}</Project>
+      <Name>Nico.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nico.DeepZoomSource\Nico.DeepZoomSource.csproj">
+      <Project>{20c1ed27-910c-4bc5-a9a0-a98605abfb64}</Project>
+      <Name>Nico.DeepZoomSource</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nico.TransDat\Nico.TransDat.csproj">
+      <Project>{66ee54ae-94e5-464d-b473-2a3e9564833e}</Project>
+      <Name>Nico.TransDat</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ToolButtonResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ToolButtonResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\Annotations\AnnoRect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ImgViewControls\CutScanList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ImgViewControls\Navmap.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ImgViewControls\ReportViewList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ImgViewControls\Rotater.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ImgViewControls\ScaleRuler.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ImgViewControls\ThumbsList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ImgViewControls\WhiteBalance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TreeCheck.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Serialization\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Controls\ImgViewControls\Shader\ImgDX9Effect.ps" />
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Resources\补打条码.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\扫码送检.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\申请单.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\物流签收.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\新增物流.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\重新取样关联.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\保存.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\重置.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\送检确认.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\保存并打印.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\登记查询.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\批量外送.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\取消登记.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\申请单采集.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\延缓取材.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\取材查询.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\上一例.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\申请单查看.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\下一例.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\打印报告.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\退单.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\重新生成报告.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\保存&amp;下例.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\初审.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\复审.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\结果确认.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\批量导入.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\扫码.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\设置.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\技术医嘱.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\包埋查询.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\保存并外送.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\临床信息维护.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\退回检验.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Controls\ImgViewControls\Shader\ImgDX9Effect.fx" />
+    <None Include="Resources\打开.png" />
+    <None Include="Resources\OpenDirs.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\lib\HttpClientEx\AspectInjector.2.4.2\build\netstandard2.0\AspectInjector.targets" Condition="Exists('..\..\lib\HttpClientEx\AspectInjector.2.4.2\build\netstandard2.0\AspectInjector.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+</Project>

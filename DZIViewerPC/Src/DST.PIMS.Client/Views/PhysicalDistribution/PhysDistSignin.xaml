@@ -1,0 +1,248 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.PhysDistSignin"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:ei="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+                      mc:Ignorable="d"
+                      d:DesignHeight="1000"
+                      d:DesignWidth="1800">
+    <base:BaseUserControl.Resources>
+        <cv:DictItemConverter x:Key="DictItemConvert" />
+        <cv:ExpressStatusConverter x:Key="ExpressStatusConverter" />
+    </base:BaseUserControl.Resources>
+    
+    <Grid Background="White">
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="PreviewKeyDown">
+                <ei:CallMethodAction MethodName="Query_PreviewKeyDown"
+                                     TargetObject="{Binding}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Margin="5,10,5,5">
+                <hc:DatePicker SelectedDate="{Binding QueryExpressModel.startDeliveryTime, UpdateSourceTrigger=PropertyChanged}"
+                               hc:InfoElement.Placeholder="开始发货日期"
+                               ShowClearButton="True"
+                               MinWidth="150" />
+                <TextBlock Text="-" />
+                <hc:DatePicker SelectedDate="{Binding QueryExpressModel.endDeliveryTime, UpdateSourceTrigger=PropertyChanged}"
+                               hc:InfoElement.Placeholder="结束发货日期"
+                               ShowClearButton="True"
+                               MinWidth="150" />
+                <hc:DatePicker Margin="15,0,0,0"
+                               SelectedDate="{Binding QueryExpressModel.startReceivingTime, UpdateSourceTrigger=PropertyChanged}"
+                               hc:InfoElement.Placeholder="开始接收日期"
+                               ShowClearButton="True"
+                               MinWidth="150" />
+                <TextBlock Text="-" />
+                <hc:DatePicker SelectedDate="{Binding QueryExpressModel.endReceivingTime, UpdateSourceTrigger=PropertyChanged}"
+                               hc:InfoElement.Placeholder="结束接收日期"
+                               ShowClearButton="True"
+                               MinWidth="150" />
+                <CheckBox Margin="15,0,0,0"
+                          Content="发货三天未确认收货"
+                          IsChecked="{Binding QueryExpressModel.isItLongerThanThreeDays, UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox Margin="15,0,0,0"
+                          Content="样本信息异常"
+                          IsChecked="{Binding QueryExpressModel.sampleAnomaly, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Margin="5">
+                <hc:ComboBox  ItemsSource="{Binding ExpressStatusDict}"
+                              SelectedValue="{Binding QueryExpressModel.status, UpdateSourceTrigger=PropertyChanged}"
+                              DisplayMemberPath="dictValue"
+                              SelectedValuePath="dictKey"
+                              hc:InfoElement.Placeholder="快递状态"
+                              ShowClearButton="True" 
+                              MinWidth="150"/>
+                <hc:TextBox Text="{Binding QueryExpressModel.mailNo, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="5,0,0,0"
+                            hc:InfoElement.Placeholder="请输入快递单号"
+                            ShowClearButton="True"
+                            MinWidth="200" />
+                <hc:TextBox Text="{Binding QueryExpressModel.salesUserName, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="5,0,0,0"
+                            hc:InfoElement.Placeholder="请输入负责人"
+                            ShowClearButton="True"
+                            MinWidth="200" />
+                <hc:TextBox Text="{Binding QueryExpressModel.hospitalName, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="5,0,0,0"
+                            hc:InfoElement.Placeholder="请输入医院"
+                            ShowClearButton="True"
+                            MinWidth="200" />
+                <Button Margin="15,0,0,0"
+                        Style="{StaticResource ButtonPrimary}"
+                        Content="搜索"
+                        Command="{Binding QueryCommand}" />
+            </StackPanel>
+        </StackPanel>
+        <DataGrid Grid.Row="1"
+                  Style="{StaticResource TransDataGrid}"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  MinHeight="300"
+                  Margin="5"
+                  EnableRowVirtualization="False"
+                  ItemsSource="{Binding ExpressList}"
+                  SelectedItem="{Binding CurSelectedExpress}"
+                  LoadingRow="DataGrid_LoadingRow">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="0.7*"
+                                        Header="序号"
+                                        IsReadOnly="True">
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock HorizontalAlignment="Center"
+                                           Margin="5,0,0,0"
+                                           Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="2*"
+                                    Header="快递单号"
+                                    Binding="{Binding mailNo}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding mailNo}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="2*"
+                                    Header="医院"
+                                    Binding="{Binding hospitalName}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding hospitalName}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="*"
+                                    Header="样本总量"
+                                    Binding="{Binding amount}" />
+
+                <DataGridTextColumn Width="1.2*"
+                                    Header="实收样本总量"
+                                    Binding="{Binding actualAmount}" />
+                <DataGridTextColumn Width="*"
+                                    Header="负责人"
+                                    Binding="{Binding salesUserName}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding salesUserName}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="1.5*"
+                                    Header="发货日期"
+                                    Binding="{Binding deliveryDate, StringFormat=yyyy-MM-dd}" />
+
+                <DataGridTextColumn Width="1.5*"
+                                    Header="接收日期"
+                                    Binding="{Binding receiveDate, StringFormat=yyyy-MM-dd}" />
+
+                <!--<DataGridTextColumn Width="1.2*"
+                                    Header="快递状态"
+                                    Binding="{Binding status}" />-->
+                <DataGridTemplateColumn Width="1.2*" Header="快递状态">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource DictItemConvert}">
+                                        <Binding  Source="ExpressStatusDict" />
+                                        <Binding  Path="status" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="3.5*"
+                                    Header="物流信息"
+                                    Binding="{Binding expressMessage}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource CommonDataGridCellStyle}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding expressMessage}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Width="2.3*"
+                                        Header="操作">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource ButtonPrimary}"
+                                        Content="查看"
+                                        Command="{Binding DataContext.DetailCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                                <Button Style="{StaticResource ButtonPrimary}"
+                                        Margin="5,0,0,0"
+                                        Content="确认"
+                                        Command="{Binding DataContext.ConfirmCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        IsEnabled="{Binding status, Converter={StaticResource ExpressStatusConverter}}" />
+                                <Button Style="{StaticResource ButtonPrimary}"
+                                        Margin="5,0,0,0"
+                                        Content="编辑"
+                                        Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        IsEnabled="{Binding status, Converter={StaticResource ExpressStatusConverter}}"/>
+                                <Button Style="{StaticResource ButtonPrimary}"
+                                        Margin="5,0,0,0"
+                                        Content="删除"
+                                        Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        IsEnabled="{Binding status, Converter={StaticResource ExpressStatusConverter}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <ctl:Pagination Grid.Row="2"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,50,0"
+                        CurrentPage="{Binding PageModel.PageIndex}"
+                        TotalPage="{Binding PageModel.TotalPage}"
+                        TotalNum="{Binding PageModel.TotalNum}"
+                        PageSize="{Binding PageModel.PageSize, Mode=TwoWay}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="FirstPage">
+                    <i:InvokeCommandAction Command="{Binding FirstPageCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="PreviousPage">
+                    <i:InvokeCommandAction Command="{Binding PreviousPageCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="NextPage">
+                    <i:InvokeCommandAction Command="{Binding NextPageCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="LastPage">
+                    <i:InvokeCommandAction Command="{Binding LastPageCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="PaginPageChanged">
+                    <i:InvokeCommandAction Command="{Binding PaginPageChangedCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ctl:Pagination>
+    </Grid>
+</base:BaseUserControl>

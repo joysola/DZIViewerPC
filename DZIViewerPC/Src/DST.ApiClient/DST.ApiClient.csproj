@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net461;</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AspectInjector.Broker">
+      <HintPath>..\..\Lib\HttpClientEx\AspectInjector.2.4.2\lib\netstandard2.0\AspectInjector.Broker.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616">
+      <HintPath>..\..\Lib\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="HttpClientExtension">
+      <HintPath>..\..\Lib\HttpClientEx\HttpClientExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WinHttpHandler">
+      <HintPath>..\..\Lib\HttpClientEx\System.Net.Http.WinHttpHandler.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DST.Common\DST.Common.csproj" />
+    <ProjectReference Include="..\DST.Database\DST.Database.csproj" />
+    <ProjectReference Include="..\DST.PIMS.Framework\DST.PIMS.Framework.csproj" />
+    <ProjectReference Include="..\Nico.Common\Nico.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Api\BaseApi\BaseApi.cs" />
+    <Compile Remove="Attribute\BaseHttpAttribute.cs" />
+    <Compile Remove="Attribute\HttpGetAttribute.cs" />
+    <Compile Remove="Attribute\HttpPostAttribute.cs" />
+    <Compile Remove="Attribute\PostContentAttribute.cs" />
+    <Compile Remove="Attribute\UrlAttribute.cs" />
+    <Compile Remove="Client\DSTApiClient.cs" />
+    <Compile Remove="Service\DigitalArchiveManageService.cs" />
+    <Compile Remove="Service\ExtendApiDictService.cs" />
+    <Compile Remove="Service\InventoryArchivesManageService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="app.config" />
+    <None Remove="packages.config" />
+  </ItemGroup>
+  <Import Project="..\..\lib\HttpClientEx\AspectInjector.2.4.2\build\netstandard2.0\AspectInjector.targets" Condition="Exists('..\..\lib\HttpClientEx\AspectInjector.2.4.2\build\netstandard2.0\AspectInjector.targets')" />
+
+</Project>

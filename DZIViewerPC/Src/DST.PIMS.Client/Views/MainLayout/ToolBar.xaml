@@ -1,0 +1,197 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.ToolBar"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      d:DataContext="{d:DesignInstance Type=vm:ToolBarViewModel}"
+                      mc:Ignorable="d"
+                      d:DesignHeight="100"
+                      d:DesignWidth="1920"
+                      Background="Black">
+    <base:BaseUserControl.Resources>
+        <Style x:Key="workstationListStyle"
+               TargetType="{x:Type ListBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Grid>
+                            <Border Background="#2FB3CC"
+                                    Opacity="0.8" />
+                            <StackPanel IsItemsHost="True"
+                                        Orientation="Vertical" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="workstationItemStyle"
+               TargetType="ListBoxItem">
+            <Setter Property="BorderThickness"
+                    Value="0" />
+            <Setter Property="BorderBrush"
+                    Value="Transparent" />
+            <Setter Property="Height"
+                    Value="40" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Grid>
+                            <Border x:Name="bg"
+                                    Background="#0066CC"
+                                    Visibility="Collapsed" />
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              Content="{Binding WorkstationContent}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="bg"
+                                        Property="Visibility"
+                                        Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ListBox"
+               x:Key="toolbarListBoxStyle">
+            <Setter Property="Background"
+                    Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <ScrollViewer x:Name="scrList"
+                                      Margin="0"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="Disabled">
+                            <WrapPanel IsItemsHost="True"
+                                       Width="{Binding ElementName=scrList, Path=Width, Mode=OneWay}" />
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ListBoxItem"
+               x:Key="toolbarButton">
+            <Setter Property="Width"
+                    Value="90" />
+            <Setter Property="Height"
+                    Value="90" />
+            <Setter Property="Margin"
+                    Value="5" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Grid x:Name="grid">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60" />
+                                <RowDefinition Height="30" />
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="0"
+                                    Name="border">
+                                <Border.Background>
+                                    <ImageBrush Stretch="None"
+                                                ImageSource="{Binding BackgroundImage}" />
+                                </Border.Background>
+                            </Border>
+                            <TextBlock Grid.Row="1"
+                                       Text="{Binding Content}"
+                                       Foreground="White"
+                                       VerticalAlignment="Top"
+                                       Margin="0,5,0,0"
+                                       HorizontalAlignment="Center" />
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding DataContext.ToolButtonClick, RelativeSource={RelativeSource AncestorType= base:BaseUserControl}}"
+                                                           CommandParameter="{Binding}">
+                                    </i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter Property="Background"
+                                        Value="#FF21C1D4"
+                                        TargetName="grid" />
+                                <Setter Property="Background"
+                                        TargetName="border">
+                                    <Setter.Value>
+                                        <ImageBrush Stretch="None"
+                                                    ImageSource="{Binding BackgroundImageMouseOver}" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </base:BaseUserControl.Resources>
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="1, 0.5"
+                                 MappingMode="RelativeToBoundingBox"
+                                 StartPoint="0, 0.5">
+                <GradientStop Color="#A2EAF1"
+                              Offset="1" />
+                <GradientStop Color="#19A4C0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="150" />
+        </Grid.ColumnDefinitions>
+
+        <ListBox x:Name="lbMenuControl"
+                 VerticalAlignment="Top"
+                 Grid.Column="0"
+                 Style="{StaticResource toolbarListBoxStyle}"
+                 ItemsSource="{Binding CurWorkstation.ToolButtonList}"
+                 ItemContainerStyle="{StaticResource toolbarButton}"
+                 HorizontalAlignment="Left"
+                 Focusable="True"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                 PreviewKeyDown="LbMenuControl_PreviewKeyDown" />
+
+        <Button x:Name="btnSwitchWorkstation"
+                Content="切换工作站"
+                Grid.Column="1"
+                Width="Auto"
+                Height="90"
+                Margin="5"
+                Click="BtnSwitchWorkstation_Click"
+                Background="#2FB3CC" />
+
+        <Popup x:Name="popupChange"
+               AllowsTransparency="True"
+               IsOpen="False"
+               Placement="Relative"
+               PlacementRectangle="0, 90, 0, 0"
+               PlacementTarget="{Binding ElementName=btnSwitchWorkstation}"
+               StaysOpen="False">
+            <ListBox x:Name="lbChangeType"
+                     Width="{Binding Path=ActualWidth, ElementName=btnSwitchWorkstation}"
+                     HorizontalAlignment="Right"
+                     VerticalAlignment="Top"
+                     Visibility="Visible"
+                     ItemContainerStyle="{StaticResource workstationItemStyle}"
+                     Style="{StaticResource workstationListStyle}"
+                     SelectionChanged="LbChangeType_SelectionChanged"
+                     ItemsSource="{Binding WorkstationList}">
+            </ListBox>
+        </Popup>
+
+    </Grid>
+</base:BaseUserControl>

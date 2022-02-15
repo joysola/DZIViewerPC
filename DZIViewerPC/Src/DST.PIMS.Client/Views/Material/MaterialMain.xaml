@@ -1,0 +1,47 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.MaterialMain"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:enum="clr-namespace:DST.PIMS.Framework.Model;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:MaterialMainViewModel}"
+                      d:DesignHeight="1000"
+                      d:DesignWidth="1800">
+    <base:BaseUserControl.Resources>
+        <enum:EnumMaterialType x:Key="Remain">Remain</enum:EnumMaterialType>
+        <enum:EnumMaterialType x:Key="Supply">Supply</enum:EnumMaterialType>
+        <enum:EnumMaterialType x:Key="Delay">Delay</enum:EnumMaterialType>
+    </base:BaseUserControl.Resources>
+    <hc:TabControl IsAnimationEnabled="True"
+                   IsDraggable="False"
+                   ShowContextMenu="False"
+                   SelectedItem="{Binding SelectedItem,Mode=OneWayToSource}">
+        <!--<i:Interaction.Triggers>
+            <i:EventTrigger EventName="SelectionChanged">
+                <ei:CallMethodAction MethodName="TabControl_SelectionChanged"
+                                     TargetObject="{Binding}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>-->
+        <hc:TabItem Header="待取材"
+                    Tag="{StaticResource Remain}">
+            <local:MaterialCore  DataContext="{Binding MaterialCoreVM}" />
+        </hc:TabItem>
+        <hc:TabItem Header="补取"
+                    Tag="{StaticResource Supply}">
+            <local:MaterialCore DataContext="{Binding MaterialCoreVM}" />
+        </hc:TabItem>
+        <hc:TabItem Header="延缓取材"
+                    Tag="{StaticResource Delay}">
+            <local:MaterialCore DataContext="{Binding MaterialCoreVM}" />
+        </hc:TabItem>
+    </hc:TabControl>
+</base:BaseUserControl>

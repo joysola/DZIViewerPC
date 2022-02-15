@@ -1,0 +1,21 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.UploadMain"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+             xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="1100"
+             d:DesignWidth="1800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <local:TreeMenu Grid.Column="0" />
+
+        <local:UploadScanImg Grid.Column="1" />
+    </Grid>
+</base:BaseUserControl>

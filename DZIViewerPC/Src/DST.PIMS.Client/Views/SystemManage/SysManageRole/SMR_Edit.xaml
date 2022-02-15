@@ -1,0 +1,72 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.SMR_Edit"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:SMR_EditViewModel}"
+                      d:DesignHeight="300"
+                      d:DesignWidth="400">
+    <Grid>
+        <StackPanel Margin="5">
+            <hc:TextBox Text="{Binding RoleInfo.RoleName}"
+                        Style="{StaticResource TextBoxRegister}"
+                        hc:InfoElement.Placeholder="请输入角色名称"
+                        hc:TitleElement.Title="角色名称"
+                        ShowClearButton="True" />
+            <hc:TextBox Text="{Binding RoleInfo.RoleAlias}"
+                        Style="{StaticResource TextBoxRegister}"
+                        hc:InfoElement.Placeholder="请输入角色别名"
+                        hc:TitleElement.Title="角色别名"
+                        ShowClearButton="True" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <hc:ComboBox Margin="0"
+                             IsEnabled="False"
+                             ItemsSource="{Binding AllRoleList}"
+                             SelectedValuePath="ID"
+                             DisplayMemberPath="RoleName"
+                             SelectedValue="{Binding RoleInfo.ParentID}"
+                             Style="{StaticResource ComboBoxRegister}"
+                             hc:InfoElement.Placeholder="请选择上级角色"
+                             hc:TitleElement.Title="上级角色"
+                             ShowClearButton="False" />
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal">
+                    <Button HorizontalAlignment="Left"
+                            Margin="5,0,0,0"
+                            Style="{StaticResource ButtonPrimary}"
+                            hc:IconElement.Geometry="{StaticResource DragVerticalGeometry}"
+                            Command="{Binding EditParentRole}" />
+                    <Button Style="{StaticResource ButtonDanger}"
+                            Margin="5,0,0,0"
+                            hc:IconElement.Geometry="{StaticResource RemoveGeometry}" 
+                            Command="{Binding ClearParentCommand}"/>
+                </StackPanel>
+            </Grid>
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,30,10,0"
+                        HorizontalAlignment="Right">
+                <Button Style="{StaticResource ButtonBaseStyle}"
+                        Background="{StaticResource ThirdlyTextBrush}"
+                        Content="取消"
+                        Command="{Binding CancelCommand}" />
+                <Button Style="{StaticResource ButtonPrimary}"
+                        Content="确定"
+                        Margin="5,0,0,0"
+                        Command="{Binding OKCommand}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</base:BaseUserControl>

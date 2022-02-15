@@ -1,0 +1,121 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.MoleDiagResultConfirm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      mc:Ignorable="d"
+                      d:DesignHeight="600"
+                      d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="20,0"
+                    MinHeight="50">
+            <TextBlock Text="本次操作将提交 " />
+            <TextBlock Text="{Binding SampleCount}"
+                       Foreground="Red" />
+            <TextBlock Text=" 个样本进行审核，请仔细核对！" />
+        </StackPanel>
+
+        <ItemsControl Grid.Row="1"
+                      Margin="20,0"
+                      ItemsSource="{Binding ResultInfoList}"
+                      MinHeight="50">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="3">
+                        <WrapPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Result}" />
+                                <TextBlock Text=" ：" />
+                                <TextBlock Text="{Binding Count}" />
+                            </StackPanel>
+                        </WrapPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        
+        <!--<WrapPanel Grid.Row="1"
+                   Margin="20,0"
+                   Orientation="Vertical"
+                   MinHeight="50">
+            <TextBlock Text="阴性：10" />
+            <TextBlock Text="阳性：2" />
+        </WrapPanel>-->
+
+        <DataGrid Grid.Row="2"
+                  Style="{StaticResource TransDataGrid}"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  Margin="5"
+                  EnableRowVirtualization="False"
+                  ItemsSource="{Binding CurResultConfirmList}"
+                  LoadingRow="DataGrid_LoadingRow">
+            <DataGrid.Columns>
+
+                <DataGridTemplateColumn Width="0.5*"
+                                        Header="序号"
+                                        IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center"
+                                       Margin="5,0,0,0"
+                                       Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Width="*"
+                                    Header="实验室编号"
+                                    Binding="{Binding laboratoryCode}" />
+
+                <DataGridTextColumn Width="*"
+                                    Header="姓名"
+                                    Binding="{Binding patientName}" />
+
+                <DataGridTextColumn Width="*"
+                                    Header="检测型别"
+                                    Binding="{Binding type}" />
+
+                <DataGridTextColumn Width="*"
+                                    Header="检测值"
+                                    Binding="{Binding result}" />
+
+                <DataGridTextColumn Width="*"
+                                    Header="参考值(CT)"
+                                    Binding="{Binding ranges}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Grid.Row="3">
+            <Button Margin="0,0,20,0"
+                    Width="50"
+                    Style="{StaticResource ButtonBaseStyle}"
+                    Foreground="White"
+                    Background="{StaticResource ThirdlyTextBrush}"
+                    Content="关闭"
+                    Command="{Binding CloseCommand}" />
+            <Button Margin="0,0,20,0"
+                    Width="50"
+                    Style="{StaticResource ButtonPrimary}"
+                    Content="确认"
+                    Command="{Binding ConfirmCommand}" />
+        </StackPanel>
+    </Grid>
+</base:BaseUserControl>

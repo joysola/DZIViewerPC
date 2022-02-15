@@ -1,0 +1,50 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.CWD_Edit"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:CWD_EditViewModel}"
+                      d:DesignHeight="200"
+                      d:DesignWidth="400">
+    <Grid>
+        <StackPanel VerticalAlignment="Center">
+            <hc:ComboBox Style="{StaticResource ComboBoxAppRegister}"
+                         ItemsSource="{Binding TypeDict}"
+                         SelectedValue="{Binding ComWord.TypeID}"
+                         DisplayMemberPath="Name"
+                         SelectedValuePath="ID"
+                         hc:TitleElement.TitleWidth="150"
+                         hc:TitleElement.Title="标本名称类型："
+                         hc:InfoElement.Placeholder="请输入标本名称类型"
+                         hc:InfoElement.Necessary="True" />
+            <hc:TextBox Style="{StaticResource TextBoxAppRegister}"
+                        Text="{Binding ComWord.Content}"
+                        hc:TitleElement.TitleWidth="150"
+                        hc:TitleElement.Title="标本名称："
+                        hc:InfoElement.Placeholder="请输入标本名称"
+                        hc:InfoElement.Necessary="True" />
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,10,0">
+                <Button Style="{StaticResource ButtonBaseStyle}"
+                        Background="{StaticResource ThirdlyTextBrush}"
+                        Content="取消" 
+                        Command="{Binding CancelCommand}"/>
+                <Button Style="{StaticResource ButtonPrimary}"
+                        Margin="5,0,0,0"
+                        Content="确认" 
+                        Command="{Binding OKCommand}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</base:BaseUserControl>

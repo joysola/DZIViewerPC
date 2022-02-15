@@ -1,0 +1,123 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.ImgViewerDetail"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:ei="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:frm="clr-namespace:DST.PIMS.Framework.Controls;assembly=DST.PIMS.Framework"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:ImgViewerDetailViewModel}"
+                      d:DesignHeight="950"
+                      d:DesignWidth="800">
+    <Grid>
+        <Grid.Resources>
+            <fcv:SexNormalConverter x:Key="SexNormalConverter" />
+            <Thickness x:Key="normalMargin">5,5,5,5</Thickness>
+        </Grid.Resources>
+        <Border Style="{StaticResource BorderRegion}">
+            <StackPanel>
+                <Expander Header="基本信息"
+                          IsExpanded="True">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0"
+                                    Grid.Column="0"
+                                    Orientation="Horizontal"
+                                    Margin="5,5,5,0">
+                            <TextBlock Text="患者信息：" />
+                            <TextBlock Text="{Binding ImgViewDetail.PatDetail.PatientName}" />
+                            <TextBlock Text="/" />
+                            <TextBlock Text="{Binding ImgViewDetail.PatDetail.Sex,Converter={StaticResource SexNormalConverter}}" />
+                            <TextBlock Text="/" />
+                            <TextBlock Text="{Binding ImgViewDetail.PatDetail.Age}" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="0"
+                                    Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    Margin="5,5,5,0">
+                            <TextBlock Text="实验号：" />
+                            <TextBlock Text="{Binding ImgViewDetail.SampRprtResult.LabCode}" />
+                            <TextBlock Text="(" />
+                            <TextBlock Text="{Binding ImgViewDetail.SampRprtResult.PathTypeName}" />
+                            <TextBlock Text=")" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="1"
+                                    Grid.Column="0"
+                                    Orientation="Horizontal"
+                                    Margin="{StaticResource ResourceKey=normalMargin}">
+                            <TextBlock Text="申请时间：" />
+                            <TextBlock Text="{Binding ImgViewDetail.PatDetail.ApplyTime,StringFormat='yyyy-MM-dd HH:mm:ss'}" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="1"
+                                    Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    Margin="{StaticResource ResourceKey=normalMargin}">
+                            <TextBlock Text="送检标本名称：" />
+                            <TextBlock Text="{Binding ImgViewDetail.PatDetail.InspecSample}" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="2"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Orientation="Horizontal"
+                                    Margin="{StaticResource ResourceKey=normalMargin}">
+                            <TextBlock Text="临床诊断：" />
+                            <TextBlock Text="{Binding ImgViewDetail.PatDetail.CliniManifest}" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="3"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Orientation="Horizontal"
+                                    Margin="{StaticResource ResourceKey=normalMargin}">
+                            <TextBlock Text="HPV结果：" />
+                            <TextBlock Text="{Binding ImgViewDetail.SampRprtResult.HPVResult}" />
+                        </StackPanel>
+                    </Grid>
+                </Expander>
+                <Expander Header="病变区域"
+                          IsExpanded="True">
+                    <!---->
+                    <frm:ThumbsList Grid.Row="0"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Margin="5"
+                                    DisplayMemberPath="ThumbUrl"
+                                    SelectedItem="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ImgViewerDetail},Path=CurAnnoBase,Mode=OneWayToSource}"
+                                    ItemsSource="{Binding AnnoInfos.AnnoList}" />
+                </Expander>
+                <Expander Header="报告视野"
+                          IsExpanded="True">
+                    <frm:ReportViewList DisplayMemberPath="ImgUrl"
+                                        ItemsSource="{Binding ImgViewDetail.ReportImgList}"
+                                        DownloadImg="ReportViewList_DownloadImg">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="LocateImg">
+                                <i:InvokeCommandAction Command="{Binding RprtLocateCommand}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=frm:ReportViewList},Path=SelectedItem}" />
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="RemoveImg">
+                                <i:InvokeCommandAction Command="{Binding RprtRemoveCommand}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=frm:ReportViewList},Path=SelectedItem}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </frm:ReportViewList>
+                </Expander>
+            </StackPanel>
+        </Border>
+    </Grid>
+</base:BaseUserControl>

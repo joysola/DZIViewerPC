@@ -1,0 +1,13 @@
+1、右键项目-属性-打包，开始设置。将版本号之类的都先设置好。然后编译生成。
+
+2、打开我们项目所在的路径，在文件夹地址栏输入cmd，打开命令窗口
+
+3、在命令窗口中输入 dotnet pack -c Release
+
+如果想打包Debug版本，就输入dotnet pack -c Debug
+4、 但是我们要往nuget服务器推送的文件并不是那个dll，而是.nupkg文件。
+如果你是在打包的Release版本，就在bin目录下找Release文件夹，同理，如果是Debug，就找Debug文件夹
+5、这边我们以debug文件夹为例：在bin\Debug下可以看到已经生成了.nupkg文件，我们在这个文件夹路径中再次输入cmd，打开cmd窗口
+6、 此时输入格式如下：
+dotnet nuget push 文件名 -k nuget秘钥 -s nuget服务器地址
+7、成功后我们就可以在其他项目中引用了，在其他项目上右键-管理nuget程序包-切换源-点击安装

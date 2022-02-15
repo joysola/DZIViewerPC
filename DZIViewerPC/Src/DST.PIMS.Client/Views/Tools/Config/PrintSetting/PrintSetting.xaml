@@ -1,0 +1,74 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.PrintSetting"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+                      xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters;assembly=DST.PIMS.Framework"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance Type=vm:PrintSettingViewModel}"
+                      d:DesignHeight="300"
+                      d:DesignWidth="500">
+    <Grid>
+        <Grid.Resources>
+            <sys:String x:Key="HSJPrintSetting">HSJPrintSetting</sys:String>
+            <sys:String x:Key="TSCPrintSetting">TSCPrintSetting</sys:String>
+            <fcv:PrintTypeConverter x:Key="PrintTypeConverter" />
+            <fcv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <!--SelectedItem="{Binding SelectedPrint}"-->
+        <TabControl Style="{StaticResource TabControlCapsuleSolid}"
+                    x:Name="tabCtl"
+                    TabStripPlacement="Top"
+                    Margin="5"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <TabControl.SelectedItem>
+                <MultiBinding Converter="{StaticResource PrintTypeConverter}"
+                              Mode="TwoWay">
+                    <Binding Path="Setting.PrintType"
+                             UpdateSourceTrigger="PropertyChanged" />
+                    <Binding Path="."
+                             RelativeSource="{RelativeSource Mode=Self}" />
+                </MultiBinding>
+            </TabControl.SelectedItem>
+            <TabItem Header="TSC"
+                     Tag="{StaticResource TSCPrintSetting}"
+                     IsSelected="True">
+                <hc:ScrollViewer MaxHeight="300">
+                    <local:TSCPrintSetting DataContext="{Binding TSCViewModel}" />
+                </hc:ScrollViewer>
+            </TabItem>
+            <TabItem Header="海世嘉激光"
+                     Tag="{StaticResource HSJPrintSetting}">
+                <hc:ScrollViewer MaxHeight="300">
+                    <local:HSJPrintSetting  DataContext="{Binding HSJViewModel}" />
+                </hc:ScrollViewer>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal">
+            <CheckBox Grid.Column="1"
+                      Margin="10,0,0,0"
+                      Content="是否混合打印"
+                      IsChecked="{Binding Setting.IsMix}"
+                      Visibility="{Binding IsNeedMix,Converter={StaticResource BoolToVisibilityConverter}}"
+                      HorizontalAlignment="Left" />
+            <CheckBox Grid.Column="1"
+                      Content="是否无焦点打印"
+                      Margin="10,0,0,0"
+                      IsChecked="{Binding Setting.IsNoFocus}"
+                      HorizontalAlignment="Left" />
+        </StackPanel>
+    </Grid>
+</base:BaseUserControl>

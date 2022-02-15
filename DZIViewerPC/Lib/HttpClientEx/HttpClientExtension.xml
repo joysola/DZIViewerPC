@@ -1,0 +1,529 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HttpClientExtension</name>
+    </assembly>
+    <members>
+        <member name="T:HttpClientExtension.ApiClient.BaseApi`1">
+            <summary>
+            Api方法父类
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:HttpClientExtension.ApiClient.BaseApi`1.Client">
+            <summary>
+            子类实例（每次生成一个实例）
+            </summary>
+        </member>
+        <member name="F:HttpClientExtension.ApiClient.BaseApi`1.baseResult">
+            <summary>
+            结果值
+            </summary>
+        </member>
+        <member name="M:HttpClientExtension.ApiClient.BaseApi`1.GetResult">
+            <summary>
+            获取调用Api方法后的数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HttpClientExtension.ApiClient.HttpClientEx">
+            <summary>
+            HttpClient客户端
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.ApiClient.HttpClientEx.BaseUrl">
+            <summary>
+            主要的Url，用于复用
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.ApiClient.HttpClientEx.Singleton">
+            <summary>
+            单例Httpclient
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.ApiClient.HttpClientEx.PreProcedure">
+            <summary>
+            预处理
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.ApiClient.HttpClientEx.BenchmarkSettingInfo">
+            <summary>
+            测速配置
+            </summary>
+        </member>
+        <member name="M:HttpClientExtension.ApiClient.HttpClientEx.InitApiClient(System.String,HttpClientExtension.Model.HttpHandlerEnum)">
+            <summary>
+            用于更改Url
+            </summary>
+            <param name="url">baseurl地址</param>
+            <param name="handlerEnum">httpclient的HttpMessageHandler的选择</param>
+        </member>
+        <member name="M:HttpClientExtension.ApiClient.HttpClientEx.SetCustomRequestHead(System.String,System.String)">
+            <summary>
+            设定自定义请求头
+            </summary>
+            <param name="customHeader">请求头名称</param>
+            <param name="customContent">请求头内容</param>
+        </member>
+        <member name="M:HttpClientExtension.ApiClient.HttpClientEx.SetTimeout(System.Int32)">
+            <summary>
+            设置超时时间，默认5s
+            </summary>
+            <param name="milliseconds"></param>
+        </member>
+        <member name="M:HttpClientExtension.ApiClient.HttpClientEx.SetPrePorcess(System.Type,System.Action{System.Object})">
+            <summary>
+            设置预判,用以验证api返回的json
+            </summary>
+            <param name="preType">json转的验证类型</param>
+            <param name="action">验证方法(传入json转换后的对象,类型时preType)</param>
+        </member>
+        <member name="M:HttpClientExtension.ApiClient.HttpClientEx.SetBenchmark(System.Action{System.String},HttpClientExtension.Model.BenchmarkType)">
+            <summary>
+            设置测速
+            </summary>
+            <param name="benchmarkAct">测速方法（提供信息给此方法）</param>
+            <param name="benchmarkType">测速模式</param>
+        </member>
+        <member name="T:HttpClientExtension.Attribute.BaseHttpAttribute">
+            <summary>
+            Http相关Attribute的父类
+            </summary>
+        </member>
+        <member name="F:HttpClientExtension.Attribute.BaseHttpAttribute.getPostConAttri">
+            <summary>
+            获取参数的PostContentAttribute 特性的方法
+            </summary>
+        </member>
+        <member name="F:HttpClientExtension.Attribute.BaseHttpAttribute.getParamNameAttri">
+            <summary>
+            获取参数的ParamNameAttribute 特性的方法
+            </summary>
+        </member>
+        <member name="F:HttpClientExtension.Attribute.BaseHttpAttribute.getToStringType">
+            <summary>
+            获取调用tostring方法的实际对象
+            </summary>
+        </member>
+        <member name="T:HttpClientExtension.Attribute.BaseHttpAttribute.UrlResult">
+            <summary>
+            url处理后的结果
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.Attribute.BaseHttpAttribute.UrlResult.Url">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.Attribute.BaseHttpAttribute.UrlResult.PostModel">
+            <summary>
+            post的实体
+            </summary>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.BaseHttpAttribute.GetUrl(System.Object[],System.Reflection.MethodBase)">
+            <summary>
+            获取url信息
+            </summary>
+            <param name="arguments"></param>
+            <param name="methodBase"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.BaseHttpAttribute.SetResultData(System.Net.Http.HttpResponseMessage,System.Object,System.Type)">
+            <summary>
+            从response里获取数据，设置数据
+            </summary>
+            <param name="httpResponse">返回数据</param>
+            <param name="instance"></param>
+            <param name="rtype"></param>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.BaseHttpAttribute.Post(System.String,System.Net.Http.HttpContent)">
+            <summary>
+            post方法
+            </summary>
+            <param name="url"></param>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.BaseHttpAttribute.Get(System.String)">
+            <summary>
+            get方法
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.BaseHttpAttribute.BuildSetbaseResultAction(System.Object)">
+            <summary>
+            生成给instance（父类）的baseResult赋值的action
+            </summary>
+            <param name="instance"></param>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.BaseHttpAttribute.SetbaseResult(System.Object,System.Object)">
+            <summary>
+            instance（父类）的baseResult赋值
+            </summary>
+            <param name="instance"></param>
+            <param name="result"></param>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.BaseHttpAttribute.SetbaseResult(System.Object,System.Object,System.Type)">
+            <summary>
+            instance（父类）的baseResult赋值
+            </summary>
+            <param name="instance"></param>
+            <param name="result"></param>
+            <param name="type">返回类型</param>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.BaseHttpAttribute.BuildGetAttribute``1">
+            <summary>
+            构造ParameterInfo的GetAttribute方法的表达式树
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.BaseHttpAttribute.GetUrlParam(System.Collections.Generic.List{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
+            <summary>
+            获取Url参数
+            </summary>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.BaseHttpAttribute.DeserializeJsonData(System.Net.Http.HttpResponseMessage,System.Object,System.Type)">
+            <summary>
+            反序列化json数据（核心）
+            </summary>
+            <param name="httpResponse"></param>
+            <param name="instance"></param>
+            <param name="rtype"></param>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.BaseHttpAttribute.IsReturnHttpResponse(System.Net.Http.HttpResponseMessage,System.Object,System.Type)">
+            <summary>
+            判断返回类型是否是HttpResponseMessage，如果是，则处理它（返回它），不是，则进行json反序列化处理
+            </summary>
+            <param name="httpResponse">返回数据</param>
+            <param name="instance">实例</param>
+            <param name="rtype">返回类型</param>
+            <returns></returns>
+        </member>
+        <member name="T:HttpClientExtension.Attribute.FileDownloadAttribute">
+            <summary>
+            文件下载标签
+            </summary>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.FileDownloadAttribute.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.Attribute.FileDownloadAttribute.Encoding">
+            <summary>
+            编码方式(默认utf-8)
+            </summary>
+        </member>
+        <member name="T:HttpClientExtension.Attribute.HttpGetAttribute">
+            <summary>
+            httpget请求特性
+            </summary>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.HttpGetAttribute.Before(System.String,System.Object[],System.Type,System.Object)">
+            <summary>
+            调用前
+            </summary>
+            <param name="name"></param>
+            <param name="arguments"></param>
+            <param name="type"></param>
+            <param name="instance"></param>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.HttpGetAttribute.After(System.String,System.Object,System.Object)">
+            <summary>
+            调用后
+            </summary>
+            <param name="name"></param>
+            <param name="returnValue"></param>
+            <param name="instance"></param>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.HttpGetAttribute.Around(System.String,System.Object[],System.Func{System.Object[],System.Object},System.Object,System.Type,System.Type,System.Reflection.MethodBase)">
+            <summary>
+            调用时
+            </summary>
+            <param name="name"></param>
+            <param name="arguments"></param>
+            <param name="target"></param>
+            <param name="instance"></param>
+            <param name="type"></param>
+            <param name="rtype"></param>
+            <param name="methodBase"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HttpClientExtension.Attribute.HttpPostAttribute">
+            <summary>
+            httppost特性标签
+            </summary>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.HttpPostAttribute.Before(System.String,System.Object[],System.Type,System.Object)">
+            <summary>
+            调用前
+            </summary>
+            <param name="name"></param>
+            <param name="arguments"></param>
+            <param name="type"></param>
+            <param name="instance"></param>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.HttpPostAttribute.After(System.String,System.Object,System.Object)">
+            <summary>
+            调用后
+            </summary>
+            <param name="name"></param>
+            <param name="returnValue"></param>
+            <param name="instance"></param>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.HttpPostAttribute.Around(System.String,System.Object[],System.Func{System.Object[],System.Object},System.Object,System.Type,System.Type,System.Reflection.MethodBase)">
+            <summary>
+            调用时
+            </summary>
+            <param name="name"></param>
+            <param name="arguments"></param>
+            <param name="target"></param>
+            <param name="instance"></param>
+            <param name="type"></param>
+            <param name="rtype"></param>
+            <param name="methodBase"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HttpClientExtension.Attribute.ParamNameAttribute">
+            <summary>
+            参数特性，用以重新定义参数名称
+            </summary>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.ParamNameAttribute.#ctor(System.String)">
+            <summary>
+            构造器，获取参数名称
+            </summary>
+            <param name="paramName"></param>
+        </member>
+        <member name="P:HttpClientExtension.Attribute.ParamNameAttribute.ParamName">
+            <summary>
+            新参数名称
+            </summary>
+        </member>
+        <member name="T:HttpClientExtension.Attribute.PostContentAttribute">
+            <summary>
+            标记post请求需要发送的内容的特性
+            </summary>
+        </member>
+        <member name="T:HttpClientExtension.Attribute.UrlAttribute">
+            <summary>
+            url特性用于获取api地址
+            </summary>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.UrlAttribute.#ctor(System.String,HttpClientExtension.Model.UrlEnum)">
+            <summary>
+            构造器，默认获取路由的url（UrlEnum.Normal）
+            </summary>
+            <param name="url">地址</param>
+            <param name="urlType">地址类型</param>
+        </member>
+        <member name="M:HttpClientExtension.Attribute.UrlAttribute.#ctor(System.String,System.String)">
+            <summary>
+            构造器，获取完整Url（后台默认 使用 UrlEnum.Full）
+            </summary>
+            <param name="routeUrl">路由地址</param>
+            <param name="baseUrl">基础地址</param>
+        </member>
+        <member name="P:HttpClientExtension.Attribute.UrlAttribute.Url">
+            <summary>
+            返回url
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.Attribute.UrlAttribute.UrlType">
+            <summary>
+            url类型
+            </summary>
+        </member>
+        <member name="T:HttpClientExtension.Exceptions.HttpClientException">
+            <summary>
+            httpclient异常类
+            </summary>
+        </member>
+        <member name="M:HttpClientExtension.Exceptions.HttpClientException.#ctor(System.String)">
+            <summary>
+            构造器，获取异常信息
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="M:HttpClientExtension.Exceptions.HttpClientException.#ctor(System.String,System.Exception)">
+            <summary>
+            构造器，获取异常和异常信息
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="F:HttpClientExtension.Helper.BenchmarkHelper.parmFormat">
+            <summary>
+            格式化字符串
+            </summary>
+        </member>
+        <member name="M:HttpClientExtension.Helper.BenchmarkHelper.BeginBenchmark(System.String,System.Type,System.Object,System.String,System.Object[])">
+            <summary>
+            开始测速
+            </summary>
+            <param name="name"></param>
+            <param name="type"></param>
+            <param name="instance"></param>
+            <param name="url"></param>
+            <param name="arguments"></param>
+        </member>
+        <member name="M:HttpClientExtension.Helper.BenchmarkHelper.EndBenchmark(System.String,System.Type,System.Object,System.String,System.Object[])">
+            <summary>
+            测速终止
+            </summary>
+            <param name="name"></param>
+            <param name="type"></param>
+            <param name="instance"></param>
+            <param name="url"></param>
+            <param name="arguments"></param>
+        </member>
+        <member name="M:HttpClientExtension.Helper.OSHelper.GetOSFriendlyName">
+            <summary>
+            获取OS的名字
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HttpClientExtension.Helper.OSHelper.IsOSLowThanWin10">
+            <summary>
+            是否操作系统版本低于win10
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HttpClientExtension.Helper.OSHelper.GetOsName(System.OperatingSystem)">
+            <summary>
+            获取操作系统名称
+            </summary>
+            <param name="os_info"></param>
+            <returns></returns>
+        </member>
+        <member name="P:HttpClientExtension.Model.BenchmarkSeting.Type">
+            <summary>
+            测速类型
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.Model.BenchmarkSeting.BenchmarkAction">
+            <summary>
+            注册的测速方法
+            </summary>
+        </member>
+        <member name="F:HttpClientExtension.Model.BenchmarkSeting.DescDict">
+            <summary>
+            Detail的测速字典
+            </summary>
+        </member>
+        <member name="T:HttpClientExtension.Model.BenchmarkType">
+            <summary>
+            测速类型枚举
+            </summary>
+        </member>
+        <member name="F:HttpClientExtension.Model.BenchmarkType.None">
+            <summary>
+            不测速
+            </summary>
+        </member>
+        <member name="F:HttpClientExtension.Model.BenchmarkType.Simple">
+            <summary>
+            简单模式，提供url
+            </summary>
+        </member>
+        <member name="F:HttpClientExtension.Model.BenchmarkType.Detail">
+            <summary>
+            细节模式，提供详细测速细节
+            </summary>
+        </member>
+        <member name="T:HttpClientExtension.Model.Benchmark">
+            <summary>
+            测速类
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.Model.Benchmark.StartTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.Model.Benchmark.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.Model.Benchmark.IntervalTime">
+            <summary>
+            时间间隔
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.Model.Benchmark.Desc">
+            <summary>
+            描述信息
+            </summary>
+        </member>
+        <member name="T:HttpClientExtension.Model.HttpHandlerEnum">
+            <summary>
+            httpclient的HttpMessageHandler的选择
+            </summary>
+        </member>
+        <member name="F:HttpClientExtension.Model.HttpHandlerEnum.Default">
+            <summary>
+            默认
+            </summary>
+        </member>
+        <member name="F:HttpClientExtension.Model.HttpHandlerEnum.WinHttpHandler">
+            <summary>
+            使用WinHttpHandler(可能可以避免某些无法连接)
+            </summary>
+        </member>
+        <member name="T:HttpClientExtension.Model.UrlEnum">
+            <summary>
+            Url特性的枚举
+            </summary>
+        </member>
+        <member name="F:HttpClientExtension.Model.UrlEnum.Normal">
+            <summary>
+            普通地址（即配置了HttpClientEx的BaseUrl后使用）
+            </summary>
+        </member>
+        <member name="F:HttpClientExtension.Model.UrlEnum.Full">
+            <summary>
+            完整地址（会忽略配置的BaseUrl）
+            </summary>
+        </member>
+        <member name="T:HttpClientExtension.Model.FileDownload">
+            <summary>
+            下载文件实体
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.Model.FileDownload.Stream">
+            <summary>
+            文件流
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.Model.FileDownload.FileName">
+            <summary>
+            文件名
+            </summary>
+        </member>
+        <member name="P:HttpClientExtension.Model.FileDownload.ContentDispositionHeader">
+            <summary>
+            Content-Disposition header信息
+            </summary>
+        </member>
+        <member name="T:HttpClientExtension.Model.PreProcess">
+            <summary>
+            预处理结构
+            </summary>
+        </member>
+        <member name="T:HttpClientExtension.Service.BaseService`1">
+            <summary>
+            Service父类，所有Service的子类需要继承此类
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:HttpClientExtension.Service.BaseService`1.Instance">
+            <summary>
+            子类实例
+            </summary>
+        </member>
+    </members>
+</doc>

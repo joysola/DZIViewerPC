@@ -1,0 +1,73 @@
+﻿<base:BaseUserControl x:Class="DST.PIMS.Client.Views.RegisterSample"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:base="clr-namespace:DST.Controls.Base;assembly=DST.Controls"
+                      xmlns:local="clr-namespace:DST.PIMS.Client.Views"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+                      xmlns:hc="https://handyorg.github.io/handycontrol"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      xmlns:ctl="clr-namespace:DST.Controls;assembly=DST.Controls"
+                      xmlns:vm="clr-namespace:DST.PIMS.Client.ViewModel;assembly=DST.PIMS.Client.ViewModel"
+                      d:DataContext="{d:DesignInstance Type=vm:RegisterSampleViewModel}"
+                      mc:Ignorable="d"
+                      d:DesignHeight="1500"
+                      d:DesignWidth="1000">
+    <Grid>
+        <Grid.Resources>
+
+            <sys:Double x:Key="DefaultHeight">35</sys:Double>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid>
+            <!--同步生成常规病例-->
+           
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left">
+                <hc:ComboBox SelectedValue="{Binding CodeType}"
+                             ItemsSource="{Binding CodeDict}"
+                             Margin="5,0,0,0"
+                             MinWidth="150"
+                             VerticalAlignment="Center"
+                             DisplayMemberPath="Value"
+                             SelectedValuePath="Key"
+                             hc:InfoElement.Placeholder="请选择编号类型"
+                             ShowClearButton="True" />
+                <hc:TextBox Margin="5,0,0,0"
+                            MinWidth="200"
+                            VerticalAlignment="Center"
+                            Text="{Binding QueryCode,UpdateSourceTrigger=PropertyChanged}"
+                            hc:InfoElement.Placeholder="请输入识别号"
+                            ShowClearButton="True">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewKeyUp">
+                            <ei:CallMethodAction TargetObject="{Binding}"
+                                                 MethodName="QueryPreviewKeyUp" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </hc:TextBox>
+                <Button Margin="5,0,0,0"
+                        Style="{StaticResource ButtonPrimary}"
+                        hc:IconElement.Geometry="{StaticResource RightGeometry}" 
+                        Command="{Binding QueryCommand}"/>
+
+
+                <TextBlock  Text="标本登记接收"
+                            Margin="15,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="30"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource PrimaryBrush}" />
+            </StackPanel>
+        </Grid>
+        <local:AppFrm Grid.Row="1" DataContext="{Binding AppViewModel}"/>
+
+    </Grid>
+</base:BaseUserControl>
