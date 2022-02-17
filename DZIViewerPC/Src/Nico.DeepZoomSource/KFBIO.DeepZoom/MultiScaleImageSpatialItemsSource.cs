@@ -102,7 +102,7 @@ namespace Nico.DeepZoom
                         }
                         try
                         {
-                            BitmapImage bitmapImage = new BitmapImage();
+                            var bitmapImage = new BitmapImage();
                             bitmapImage.BeginInit();
                             bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
                             bitmapImage.StreamSource = stream;

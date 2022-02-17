@@ -19,7 +19,7 @@ namespace DST.PIMS.Framework.ExtendContext
         /// <summary>
         /// 实际距离和像素参数关系
         /// </summary>
-        public static double Calibration { get;} = 0.24;
+        public static double Calibration { get; } = 0.24;
         /// <summary>
         /// 报告视野尺寸
         /// </summary>
@@ -32,5 +32,63 @@ namespace DST.PIMS.Framework.ExtendContext
         /// 缩放最大倍率
         /// </summary>
         public static int MaxScale { get; } = 50;
+
+        private static readonly double[] m_magV = new double[] { 320.0, 128.0, 60.0, 40.0, 30.0, 20.0, 10.0, 8.0, 5.0, 2.0, 1.5, 0.0 };
+        private static readonly double[] m_adjV = new double[] { 10.0, 5.0, 4.0, 3.0, 2.0, 1.5, 1.0, 0.7, 0.5, 0.4, 0.3, 0.2 };
+
+        public static double GetAdjustSplitScaleByCurScale(double curscale, int timeSpan)
+        {
+            double result = 0.0;
+            for (int i = 0; i < 11; i++)
+            {
+                double num = m_magV[i + 1];
+                double num2 = m_magV[i];
+                double y = m_adjV[i + 1];
+                double y2 = m_adjV[i];
+                if (curscale >= num && curscale <= num2)
+                {
+                    result = CalcFixValueY(num, num2, y, y2, curscale);
+                    break;
+                }
+            }
+            return result * CalcSpeed(timeSpan);
+        }
+
+        private static double CalcFixValueY(double x1, double x2, double y1, double y2, double x)
+        {
+            double num = x2 - x1;
+            double num2 = x2 - x;
+            double num3 = y2 - y1;
+            double num4 = num3 * num2 / (1.0 * num);
+            return y2 - num4;
+        }
+        private static double CalcSpeed(int timeDelta)
+        {
+            double num = 1.0;
+            double num2 = 3.0;
+            double num3 = 1.0;
+            double num4 = 80.0;
+            if (timeDelta <= 0)
+            {
+                num = num2;
+            }
+            else if ((double)timeDelta >= num4)
+            {
+                num = num3;
+            }
+            else
+            {
+                num = (num4 - (double)timeDelta) * (num2 - num3) / num4 + num3;
+                if (num < num3)
+                {
+                    num = num3;
+                }
+                if (num > num2)
+                {
+                    num = num2;
+                }
+            }
+            return num;
+        }
     }
 }

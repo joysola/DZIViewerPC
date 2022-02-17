@@ -22,6 +22,7 @@ using DST.Controls;
 using System.Windows.Media.Effects;
 using System.Windows.Controls.Primitives;
 using DST.Common.Helper;
+using System.Windows.Threading;
 
 namespace DST.PIMS.Client.Views
 {
@@ -138,7 +139,7 @@ namespace DST.PIMS.Client.Views
 
         public ImageViewer()
         {
-            
+
             InitializeComponent();
             //this.imageViewerViewModel = new ImageViewerViewModel();
             //this.DataContext = this.imageViewerViewModel;
@@ -596,16 +597,18 @@ namespace DST.PIMS.Client.Views
             {
                 return;
             }
+            int ts = e.Timestamp - this.previewTime;
             if (this.previewTime != 0)
             {
-                int ts = e.Timestamp - this.previewTime;
                 this.previewTime = e.Timestamp;
             }
             Point position = e.GetPosition(this.Bg); // 直接获取在Bg中的位置，不用再转换...
             //Point position = e.GetPosition(this.canBaseGrid); // 以canBaseGrid为基准（此Grid和Canvas位置重合尺寸相等）
 
             double tmpScale = this.Curscale;
-            double splitScale = this.msi._spatialSource.CurrentLevel <= 12 ? 0.068745 : 0.968745;
+            var splitScale = MSIContext.GetAdjustSplitScaleByCurScale(this.Curscale, ts);
+
+            //double splitScale = this.msi._spatialSource.CurrentLevel <= 12 ? 0.068745 : 0.968745;
             tmpScale = (e.Delta <= 0) ? (tmpScale - splitScale) : (tmpScale + splitScale);
             ZoomRatio(tmpScale, position);
         }
@@ -628,7 +631,10 @@ namespace DST.PIMS.Client.Views
                 return;
             }
 
+            //Application.Current.Dispatcher.Invoke(() =>
+            //{
             this.Curscale = msi.ZoomableCanvas.Scale * this.MaxScaleZoom;
+            //}, DispatcherPriority.Send);
 
             //if (isFirst && this.msi.ZoomableCanvas.Offset.X != 0)
             //{
@@ -641,10 +647,14 @@ namespace DST.PIMS.Client.Views
             //    msi.ZoomableCanvas.Offset = new Point(this.msi.Source.ImageSize.Width * 0.5 * num * MSIContext.ImgScrnParam - msi.ZoomableCanvas.ActualWidth * 0.5, this.msi.Source.ImageSize.Height * 0.5 * num * MSIContext.ImgScrnParam - msi.ZoomableCanvas.ActualHeight * 0.5);
             //    //this.Bg.Margin = new Thickness(0, -(ActualWidth - ActualHeight) / 2, 0, 0);
             //}
-            navmap.UpdateThumbnailRect();
-            ReDrawAnnos(); // 重画标记
-            ReDrawSelectRprtImg();
-            ReLocateAnnoEditPop();
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+
+                navmap.UpdateThumbnailRect();
+                ReDrawAnnos(); // 重画标记
+                ReDrawSelectRprtImg();
+                ReLocateAnnoEditPop();
+            });
         }
 
         /// <summary>
@@ -659,11 +669,11 @@ namespace DST.PIMS.Client.Views
                 return;
             }
             Point point3 = msi.ElementToLogicalPoint(point); // Bg自身的点所以直接使用无需转换
-            // 参照物旋转，中心是baseGrid的中心
-            //Point point = new Point(x, y);
-            //Point center = new Point(this.Bg.ActualWidth / 2, this.Bg.ActualWidth / 2);
-            //Point pointM = point.GetRotatePoint(center, this.rotater.Value);
-            //Point point3 = msi.ElementToLogicalPoint(pointM);
+                                                             // 参照物旋转，中心是baseGrid的中心
+                                                             //Point point = new Point(x, y);
+                                                             //Point center = new Point(this.Bg.ActualWidth / 2, this.Bg.ActualWidth / 2);
+                                                             //Point pointM = point.GetRotatePoint(center, this.rotater.Value);
+                                                             //Point point3 = msi.ElementToLogicalPoint(pointM);
             msi.ZoomAboutLogicalPoint(zoom_ratio / Curscale, point3.X, point3.Y);
             Curscale = zoom_ratio;
         }

@@ -241,15 +241,17 @@ namespace Nico.DeepZoom
                     num2 = 1.0;
                 }
                 TimeSpan timeSpan = TimeSpan.FromMilliseconds(num2);
-                CubicEase easingFunction = new CubicEase();
+                //TimeSpan timeSpan = TimeSpan.FromMilliseconds(1500);
+                var easingFunction = new CubicEase() { /*EasingMode = EasingMode.EaseIn*/ };
                 _zoomableCanvas.BeginAnimation(ZoomableCanvas.ScaleProperty, new DoubleAnimation(num, timeSpan)
                 {
-                    EasingFunction = easingFunction
-                }, HandoffBehavior.Compose);
+                    EasingFunction = easingFunction,
+
+                }, HandoffBehavior.SnapshotAndReplace);
                 _zoomableCanvas.BeginAnimation(ZoomableCanvas.OffsetProperty, new PointAnimation(point, timeSpan)
                 {
                     EasingFunction = easingFunction
-                }, HandoffBehavior.Compose);
+                }, HandoffBehavior.SnapshotAndReplace);
             }
             else
             {

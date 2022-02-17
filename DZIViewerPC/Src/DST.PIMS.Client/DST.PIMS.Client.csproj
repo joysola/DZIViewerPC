@@ -188,19 +188,13 @@
     <Resource Include="Images\LoginBackground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\..\packages\AspectInjector.2.6.0\analyzers\dotnet\cs\AspectInjector.Analyzer.dll" />
-    <Analyzer Include="..\..\packages\AspectInjector.2.6.0\analyzers\dotnet\cs\AspectInjector.Broker.dll" />
-    <Analyzer Include="..\..\packages\AspectInjector.2.6.0\analyzers\dotnet\cs\AspectInjector.Rules.dll" />
-    <Analyzer Include="..\..\packages\AspectInjector.2.6.0\analyzers\dotnet\cs\FluentIL.Common.dll" />
-  </ItemGroup>
-  <ItemGroup>
+    <PackageReference Include="AspectInjector" Version="2.6.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="SQLite.CodeFirst" Version="1.7.0.34" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AspectInjector" Version="2.6.0" />
     <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.4" />
     <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="6.0.4" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
@@ -229,6 +223,5 @@
     </None>
   </ItemGroup>
   <Import Project="..\..\lib\HttpClientEx\AspectInjector.2.4.2\build\netstandard2.0\AspectInjector.targets" Condition="Exists('..\..\lib\HttpClientEx\AspectInjector.2.4.2\build\netstandard2.0\AspectInjector.targets')" />
-  <Import Project="..\..\packages\AspectInjector.2.6.0\build\netstandard2.0\AspectInjector.targets" Condition="Exists('..\..\packages\AspectInjector.2.6.0\build\netstandard2.0\AspectInjector.targets')" />
   <Import Project="..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
 </Project>
