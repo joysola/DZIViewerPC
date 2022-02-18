@@ -247,11 +247,11 @@ namespace Nico.DeepZoom
                 {
                     EasingFunction = easingFunction,
 
-                }, HandoffBehavior.SnapshotAndReplace);
+                }, HandoffBehavior.Compose);
                 _zoomableCanvas.BeginAnimation(ZoomableCanvas.OffsetProperty, new PointAnimation(point, timeSpan)
                 {
                     EasingFunction = easingFunction
-                }, HandoffBehavior.SnapshotAndReplace);
+                }, HandoffBehavior.Compose);
             }
             else
             {
