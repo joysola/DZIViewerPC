@@ -64,10 +64,10 @@ namespace DST.PIMS.Framework.ExtendContext
         }
         private static double CalcSpeed(int timeDelta)
         {
-            double num = 1.0;
             double num2 = 3.0;
             double num3 = 1.0;
             double num4 = 80.0;
+            double num;
             if (timeDelta <= 0)
             {
                 num = num2;

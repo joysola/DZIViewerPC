@@ -92,30 +92,33 @@ namespace Nico.DeepZoom
                 }
                 else if (tileLayers is string localUrl) // 本地local链接
                 {
-                    Application.Current.Dispatcher.InvokeAsync(async () =>
+                    Application.Current.Dispatcher.Invoke(async () =>
                     {
-                        var stream = (Stream)await _tileSource.ReadImgStream(localUrl/*, tile.Level, tile.Column, tile.Row*/);
-                        if (stream == null)
+                        using (var stream = (Stream)await _tileSource.ReadImgStream(localUrl/*, tile.Level, tile.Column, tile.Row*/)/*.ConfigureAwait(false)*/)
                         {
-                            tileVm = null;
-                            return;
+                            if (stream == null)
+                            {
+                                tileVm = null;
+                                return;
+                            }
+                            try
+                            {
+                                var bitmapImage = new BitmapImage();
+                                bitmapImage.BeginInit();
+                                bitmapImage.CreateOptions = BitmapCreateOptions.PreservePixelFormat; // 必须在BeginInit后设置
+                                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                                bitmapImage.StreamSource = stream;
+                                bitmapImage.EndInit();
+                                bitmapImage.Freeze();
+
+                                tileVm.Source = bitmapImage;
+                            }
+                            catch (Exception)
+                            {
+                                tileVm = null;
+                            }
                         }
-                        try
-                        {
-                            var bitmapImage = new BitmapImage();
-                            bitmapImage.BeginInit();
-                            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                            bitmapImage.StreamSource = stream;
-                            bitmapImage.EndInit();
-                            tileVm.Source = bitmapImage;
-                            stream.Dispose();
-                            stream.Close();
-                            stream = null;
-                        }
-                        catch (Exception)
-                        {
-                            tileVm = null;
-                        }
+                        //var stream = (Stream)await _tileSource.ReadImgStream(localUrl/*, tile.Level, tile.Column, tile.Row*/);
                     });
                 }
                 else

@@ -647,14 +647,13 @@ namespace DST.PIMS.Client.Views
             //    msi.ZoomableCanvas.Offset = new Point(this.msi.Source.ImageSize.Width * 0.5 * num * MSIContext.ImgScrnParam - msi.ZoomableCanvas.ActualWidth * 0.5, this.msi.Source.ImageSize.Height * 0.5 * num * MSIContext.ImgScrnParam - msi.ZoomableCanvas.ActualHeight * 0.5);
             //    //this.Bg.Margin = new Thickness(0, -(ActualWidth - ActualHeight) / 2, 0, 0);
             //}
-            Application.Current.Dispatcher.InvokeAsync(() =>
-            {
-
-                navmap.UpdateThumbnailRect();
-                ReDrawAnnos(); // 重画标记
-                ReDrawSelectRprtImg();
-                ReLocateAnnoEditPop();
-            });
+            //Application.Current.Dispatcher.InvokeAsync(() =>
+            //{
+            navmap.UpdateThumbnailRect();
+            ReDrawAnnos(); // 重画标记
+            ReDrawSelectRprtImg();
+            ReLocateAnnoEditPop();
+            //});
         }
 
         /// <summary>

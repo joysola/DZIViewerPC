@@ -51,10 +51,12 @@ namespace DST.PIMS.Framework.ScaleTileSource
         protected override async Task<MemoryStream> ReadImgStream(string url/*, int tileLevel, int tilePositionX, int tilePositionY*/)
         {
             MemoryStream ms = null;
-            if (File.Exists(url))
+            //if (File.Exists(url))
+            //{
+            try
             {
                 byte[] bytes;
-                using (var fs = new FileStream(url, FileMode.Open, FileAccess.Read, FileShare.None, 4 * 1024, FileOptions.Asynchronous))
+                using (var fs = new FileStream(url, FileMode.Open, FileAccess.Read, FileShare.None, 1024 * 1024, FileOptions.Asynchronous))
                 {
                     bytes = new byte[fs.Length];
                     await fs.ReadAsync(bytes, 0, (int)fs.Length);
@@ -64,6 +66,8 @@ namespace DST.PIMS.Framework.ScaleTileSource
                     ms = new MemoryStream(bytes);
                 }
             }
+            catch { }
+            //}
             return ms;
         }
         protected object GetTileLayers2(int tileLevel, int tilePositionX, int tilePositionY)
