@@ -92,7 +92,7 @@ namespace Nico.DeepZoom
                 }
                 else if (tileLayers is string localUrl) // 本地local链接
                 {
-                    Application.Current.Dispatcher.Invoke(async () =>
+                    Application.Current.Dispatcher.InvokeAsync(async () =>
                     {
                         using (var stream = (Stream)await _tileSource.ReadImgStream(localUrl/*, tile.Level, tile.Column, tile.Row*/)/*.ConfigureAwait(false)*/)
                         {
@@ -132,6 +132,7 @@ namespace Nico.DeepZoom
                     {
                         BitmapImage bitmapImage = new BitmapImage();
                         bitmapImage.BeginInit();
+                        bitmapImage.CreateOptions = BitmapCreateOptions.PreservePixelFormat; // 必须在BeginInit后设置
                         bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
                         bitmapImage.StreamSource = stream;
                         bitmapImage.EndInit();

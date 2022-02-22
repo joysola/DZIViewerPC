@@ -8,6 +8,7 @@ using DST.PIMS.Framework.ScaleTileSource;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using MVVMExtension;
+using Nico.DeepZoom;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,7 +33,7 @@ namespace DST.PIMS.Client.ViewModel
         /// 导航缩略图
         /// </summary>
 
-        public Uri ImgThumbnail { get; set; }
+        public byte[] ImgThumbnail { get; set; }
         /// <summary>
         /// 标记信息源
         /// </summary>
@@ -49,7 +50,7 @@ namespace DST.PIMS.Client.ViewModel
         /// <summary>
         /// 核心瓦片图源
         /// </summary>
-        public DZILayerFromLocalScaleTileSource CurTileSource { get; set; }
+        public DZIBaseLayerFromScaleTileSource CurTileSource { get; set; }
         /// <summary>
         /// 保存
         /// </summary>
@@ -122,8 +123,9 @@ namespace DST.PIMS.Client.ViewModel
                 {
                     this.CurTileSource?.Dispose();
                     //var points = AIFigs?.Select(x => x.CenterPoint2).ToList(); // 获取标记中心集合
-                    this.CurTileSource = new DZILayerFromLocalScaleTileSource(ImageBasePath);
-                    ImgThumbnail = this.CurTileSource.GetThumbnailImg(ImageBasePath);
+
+                    this.CurTileSource = DZIBaseLayerFromScaleTileSource.GetTileSource(imgViewFile);
+                    ImgThumbnail = this.CurTileSource.GetThumbnailImg();
                 }
                 else
                 {

@@ -62,29 +62,29 @@ namespace DST.PIMS.Framework.Controls
         /// <summary>
         /// 缩略图图片源
         /// </summary>
-        public Uri ThumbnailSource
+        public byte[] ThumbnailSource
         {
-            get => (Uri)GetValue(ThumbnailSourceProperty);
+            get => (byte[])GetValue(ThumbnailSourceProperty);
             set => SetValue(ThumbnailSourceProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for ThumbnailSource.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ThumbnailSourceProperty =
-            DependencyProperty.Register(nameof(ThumbnailSource), typeof(Uri), typeof(Navmap), new PropertyMetadata(null, async (d, p) =>
+            DependencyProperty.Register(nameof(ThumbnailSource), typeof(byte[]), typeof(Navmap), new PropertyMetadata(null, async (d, p) =>
              {
-                 if (d is Navmap navmap && p.NewValue is Uri uri)
+                 if (d is Navmap navmap && p.NewValue is byte[] bytes)
                  {
                      BitmapImage image = new BitmapImage();
-                     byte[] bytes = null;
+                     //byte[] bytes = null;
 
-                     if (uri.Scheme == "file") // 文件
-                     {
-                         bytes = File.ReadAllBytes(uri.LocalPath);
-                     }
-                     else if (uri.Scheme == "https" || uri.Scheme == "http") // http请求
-                     {
-                         bytes = await HttpClientHelper.DownFile(uri); // 下载缩略图文件
-                     }
+                     //if (uri.Scheme == "file") // 文件
+                     //{
+                     //    bytes = File.ReadAllBytes(uri.LocalPath);
+                     //}
+                     //else if (uri.Scheme == "https" || uri.Scheme == "http") // http请求
+                     //{
+                     //    bytes = await HttpClientHelper.DownFile(uri); // 下载缩略图文件
+                     //}
 
                      if (bytes == null)
                      {

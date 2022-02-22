@@ -63,6 +63,7 @@
     <Content Include="Controls\ImgViewControls\Shader\ImgDX9Effect.fx" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="LibAES-CTR" Version="0.9.6" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.1" />
     <PackageReference Include="Snowflake.Core" Version="2.0.0" />

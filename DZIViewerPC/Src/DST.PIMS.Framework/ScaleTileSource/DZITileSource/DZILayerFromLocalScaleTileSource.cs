@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace DST.PIMS.Framework.ScaleTileSource
 {
 
-    public class DZILayerFromLocalScaleTileSource : MultiScaleTileSource, IDisposable
+    public class DZILayerFromLocalScaleTileSource : DZIBaseLayerFromScaleTileSource
     {
         private string SamplePath { get; set; } = string.Empty;
 
@@ -21,7 +21,7 @@ namespace DST.PIMS.Framework.ScaleTileSource
             base.InitPar((long)DZIConstant.DZIImgMaxWidth, (long)DZIConstant.DZIImgMaxHeight, DZIConstant.DZIImgSzie, 0);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
         }
 
@@ -56,7 +56,7 @@ namespace DST.PIMS.Framework.ScaleTileSource
             try
             {
                 byte[] bytes;
-                using (var fs = new FileStream(url, FileMode.Open, FileAccess.Read, FileShare.None, 1024 * 1024, FileOptions.Asynchronous))
+                using (var fs = new FileStream(url, FileMode.Open, FileAccess.Read, FileShare.Read, 1024 * 1024, FileOptions.Asynchronous))
                 {
                     bytes = new byte[fs.Length];
                     await fs.ReadAsync(bytes, 0, (int)fs.Length);
@@ -110,7 +110,20 @@ namespace DST.PIMS.Framework.ScaleTileSource
         /// </summary>
         /// <param name="imageBasePath"></param>
         /// <returns></returns>
-        public Uri GetThumbnailImg(string imageBasePath) => new Uri($"{imageBasePath}/{DZIConstant.DZIFilesDir}/{DZIConstant.NavImgLevel}/{DZIConstant.NavImgName}", UriKind.RelativeOrAbsolute);
+        public override byte[] GetThumbnailImg()
+        {
+            //new Uri($"{SamplePath}/{DZIConstant.DZIFilesDir}/{DZIConstant.NavImgLevel}/{DZIConstant.NavImgName}", UriKind.RelativeOrAbsolute);
+            byte[] bytes = null;
+            if (Directory.Exists(SamplePath))
+            {
+                var fileInfo = DZIConstant.GetNavImg(new DirectoryInfo(SamplePath));
+                bytes = new byte[fileInfo.Length];
+                using var fs = fileInfo.OpenRead();
+                fs.Read(bytes, 0, bytes.Length);
+            }
+            return bytes;
+        }
+
 
 
     }

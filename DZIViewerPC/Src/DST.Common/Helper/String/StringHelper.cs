@@ -166,5 +166,26 @@ namespace DST.Common.Helper
             }
             return j;
         }
+
+        /// <summary>
+        /// 将字节数组转化为字符串
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public static string GetHexStringFromBytes(byte[] bytes, string pattern = "x2")
+        {
+            string hexString = null;
+            if (bytes != null)
+            {
+                StringBuilder str = new StringBuilder();
+
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    str.Append(bytes[i].ToString(pattern));
+                }
+                hexString = str.ToString();
+            }
+            return hexString;
+        }
     }
 }
