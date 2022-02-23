@@ -27,7 +27,7 @@ namespace DST.PIMS.Framework.ExtendContext
         /// <summary>
         /// 瓦片大小
         /// </summary>
-        public int DZIImgSzie { get; } = 1024;
+        public int DZITileSzie { get; } = 1024;
         /// <summary>
         /// 总宽度
         /// </summary>

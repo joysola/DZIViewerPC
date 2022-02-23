@@ -19,7 +19,7 @@ namespace DST.PIMS.Framework.ScaleTileSource
             this._dziModel = model;
             this._stream = new FileStream(model.FilePath, FileMode.Open, FileAccess.Read, FileShare.Read, 1024 * 1024, true);
             //var (width, height) = DZIConstant.GetDZISize(samplePath);
-            base.InitPar((long)DZISingleConstant.Cons.DZIImgMaxWidth, (long)DZISingleConstant.Cons.DZIImgMaxHeight, DZISingleConstant.Cons.DZIImgSzie, 0);
+            base.InitPar((long)DZISingleConstant.Cons.DZIImgMaxWidth, (long)DZISingleConstant.Cons.DZIImgMaxHeight, DZISingleConstant.Cons.DZITileSzie, 0);
         }
 
         public override void Dispose()

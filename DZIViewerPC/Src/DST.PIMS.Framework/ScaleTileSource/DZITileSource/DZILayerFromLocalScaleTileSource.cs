@@ -18,7 +18,7 @@ namespace DST.PIMS.Framework.ScaleTileSource
         {
             this.SamplePath = samplePath;
             //var (width, height) = DZIConstant.GetDZISize(samplePath);
-            base.InitPar((long)DZIConstant.Cons.DZIImgMaxWidth, (long)DZIConstant.Cons.DZIImgMaxHeight, DZIConstant.Cons.DZIImgSzie, 0);
+            base.InitPar((long)DZIConstant.Cons.DZIImgMaxWidth, (long)DZIConstant.Cons.DZIImgMaxHeight, DZIConstant.Cons.DZITileSzie, 0);
         }
 
         public override void Dispose()
