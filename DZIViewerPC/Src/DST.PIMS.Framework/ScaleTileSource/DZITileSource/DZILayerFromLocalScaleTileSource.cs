@@ -18,7 +18,7 @@ namespace DST.PIMS.Framework.ScaleTileSource
         {
             this.SamplePath = samplePath;
             //var (width, height) = DZIConstant.GetDZISize(samplePath);
-            base.InitPar((long)DZIConstant.DZIImgMaxWidth, (long)DZIConstant.DZIImgMaxHeight, DZIConstant.DZIImgSzie, 0);
+            base.InitPar((long)DZIConstant.Cons.DZIImgMaxWidth, (long)DZIConstant.Cons.DZIImgMaxHeight, DZIConstant.Cons.DZIImgSzie, 0);
         }
 
         public override void Dispose()
@@ -31,80 +31,50 @@ namespace DST.PIMS.Framework.ScaleTileSource
 
         protected override object GetTileLayers(int tileLevel, int tilePositionX, int tilePositionY)
         {
-            if (tileLevel > DZIConstant.DZIMinLevel) // 防止DZI阅片出现残影
-            {
-                string imgFilePath = DZIConstant.GetImgFilePath(tileLevel, tilePositionX, tilePositionY);
-                string imgTotalPath = $"{this.SamplePath}\\{DZIConstant.DZIFilesDir}\\{imgFilePath}";
+            //if (tileLevel > DZIConstant.Cons.DZIMinLevel) // 防止DZI阅片出现残影
+            //{
+            //    string imgFilePath = DZIConstant.Cons.GetTilePath(tileLevel, tilePositionX, tilePositionY);
+            //    string imgTotalPath = $"{this.SamplePath}\\{DZIConstant.Cons.DZIFilesDir}\\{imgFilePath}";
 
-                return imgTotalPath;
-            }
+            //    return imgTotalPath;
+            //}
             return null;
         }
-        /// <summary>
-        /// GetTileLayers返回值是string的时候读取流
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="tileLevel"></param>
-        /// <param name="tilePositionX"></param>
-        /// <param name="tilePositionY"></param>
-        /// <returns></returns>
-        protected override async Task<MemoryStream> ReadImgStream(string url/*, int tileLevel, int tilePositionX, int tilePositionY*/)
-        {
-            MemoryStream ms = null;
-            //if (File.Exists(url))
-            //{
-            try
-            {
-                byte[] bytes;
-                using (var fs = new FileStream(url, FileMode.Open, FileAccess.Read, FileShare.Read, 1024 * 1024, FileOptions.Asynchronous))
-                {
-                    bytes = new byte[fs.Length];
-                    await fs.ReadAsync(bytes, 0, (int)fs.Length);
-                }
-                if (bytes != null)
-                {
-                    ms = new MemoryStream(bytes);
-                }
-            }
-            catch { }
-            //}
-            return ms;
-        }
-        protected object GetTileLayers2(int tileLevel, int tilePositionX, int tilePositionY)
-        {
-            string imgFilePath = DZIConstant.GetImgFilePath(tileLevel, tilePositionX, tilePositionY);
-            string imgTotalPath = $"{this.SamplePath}\\{DZIConstant.DZIFilesDir}\\{imgFilePath}";
+        //protected object GetTileLayers2(int tileLevel, int tilePositionX, int tilePositionY)
+        //{
+        //    string imgFilePath = DZIConstant.GetImgFilePath(tileLevel, tilePositionX, tilePositionY);
+        //    string imgTotalPath = $"{this.SamplePath}\\{DZIConstant.DZIFilesDir}\\{imgFilePath}";
 
-            if (File.Exists(imgTotalPath))
-            {
-                using Bitmap bmp = (Bitmap)Image.FromFile(imgTotalPath);
-                //Bitmap b = (Bitmap)Image.FromFile(imgTotalPath)
-                //Bitmap bmp = new Bitmap(b.Width, b.Height);
-                //Graphics g = Graphics.FromImage(bmp)
-                //g.DrawImage(b, 0, 0, b.Width, b.Height);
-                using (Graphics g = Graphics.FromImage(bmp))
-                {
-                    g.DrawImage(bmp, 0, 0, bmp.Width, bmp.Height);
-                    if (ConfigurationManager.AppSettings["IsDebugMode"] == "true")
-                    {
-                        g.DrawRectangle(new Pen(Brushes.Red), 0, 0, bmp.Width, bmp.Height);
-                        g.DrawString(imgFilePath, new Font("宋体", 20), Brushes.Red, 0, 0);
-                    }
-                }
-                byte[] bytes;
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    bytes = ms.ToArray();
-                }
-                return new MemoryStream(bytes);
-            }
-            else
-            {
-                return null;
-            }
-            //return imgTotalPath;
-        }
+        //    if (File.Exists(imgTotalPath))
+        //    {
+        //        using Bitmap bmp = (Bitmap)Image.FromFile(imgTotalPath);
+        //        //Bitmap b = (Bitmap)Image.FromFile(imgTotalPath)
+        //        //Bitmap bmp = new Bitmap(b.Width, b.Height);
+        //        //Graphics g = Graphics.FromImage(bmp)
+        //        //g.DrawImage(b, 0, 0, b.Width, b.Height);
+        //        using (Graphics g = Graphics.FromImage(bmp))
+        //        {
+        //            g.DrawImage(bmp, 0, 0, bmp.Width, bmp.Height);
+        //            if (ConfigurationManager.AppSettings["IsDebugMode"] == "true")
+        //            {
+        //                g.DrawRectangle(new Pen(Brushes.Red), 0, 0, bmp.Width, bmp.Height);
+        //                g.DrawString(imgFilePath, new Font("宋体", 20), Brushes.Red, 0, 0);
+        //            }
+        //        }
+        //        byte[] bytes;
+        //        using (MemoryStream ms = new MemoryStream())
+        //        {
+        //            bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+        //            bytes = ms.ToArray();
+        //        }
+        //        return new MemoryStream(bytes);
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //    //return imgTotalPath;
+        //}
         /// <summary>
         /// Navmap图像加载地址
         /// </summary>
@@ -116,15 +86,41 @@ namespace DST.PIMS.Framework.ScaleTileSource
             byte[] bytes = null;
             if (Directory.Exists(SamplePath))
             {
-                var fileInfo = DZIConstant.GetNavImg(new DirectoryInfo(SamplePath));
-                bytes = new byte[fileInfo.Length];
-                using var fs = fileInfo.OpenRead();
-                fs.Read(bytes, 0, bytes.Length);
+                bytes = DZIConstant.Cons.GetNavImg(SamplePath);
+                //bytes = new byte[fileInfo.Length];
+                //using var fs = fileInfo.OpenRead();
+                //fs.Read(bytes, 0, bytes.Length);
             }
             return bytes;
         }
 
 
-
+        protected override async Task<Stream> GetTileLayersAsync(int tileLevel, int tilePositionX, int tilePositionY)
+        {
+            MemoryStream ms = null;
+            //if (File.Exists(url))
+            //{
+            try
+            {
+                if (tileLevel > DZIConstant.Cons.DZIMinLevel) // 防止DZI阅片出现残影
+                {
+                    string imgFilePath = DZIConstant.Cons.GetTilePath(tileLevel, tilePositionX, tilePositionY);
+                    var url = $"{this.SamplePath}\\{DZIConstant.Cons.DZIFilesDir}\\{imgFilePath}";
+                    byte[] bytes;
+                    using (var fs = new FileStream(url, FileMode.Open, FileAccess.Read, FileShare.Read, 1024 * 1024, FileOptions.Asynchronous))
+                    {
+                        bytes = new byte[fs.Length];
+                        await fs.ReadAsync(bytes, 0, (int)fs.Length);
+                    }
+                    if (bytes != null)
+                    {
+                        ms = new MemoryStream(bytes);
+                    }
+                }
+            }
+            catch { }
+            //}
+            return ms;
+        }
     }
 }

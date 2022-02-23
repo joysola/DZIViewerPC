@@ -188,14 +188,15 @@ namespace DST.PIMS.Client.ViewModel
                 if (!string.IsNullOrEmpty(directory))
                 {
                     var topDir = new DirectoryInfo(directory);
-                    var fileInfos = topDir.EnumerateFiles("*.dst", SearchOption.AllDirectories).ToList();
-                    imgViewFiles = CreateImgViewTileList(fileInfos);
+                    // 1. 获取单文件
+                    var fileInfos = topDir.EnumerateFiles($"*{DZISingleConstant.Cons.FileExtension}", SearchOption.AllDirectories).ToList();
+                    imgViewFiles = DZISingleConstant.Cons.CreateImgViewTileList(fileInfos); // 创建表格
                     // 获取所有目录
                     var subDirects2 = topDir.EnumerateDirectories("*", SearchOption.AllDirectories).ToList();
-                    // 获取所有底层目录
-                    var bottomDirs = subDirects2.Where(x => DZIConstant.IsSliceDir(x.FullName)).ToList();
-                    // 表格
-                    imgViewFiles.AddRange(CreateImgViewTileList(bottomDirs));
+                    // 2. 获取所有底层目录
+                    var bottomDirs = subDirects2.Where(x => DZIConstant.Cons.IsSlice(x.FullName)).ToList();
+                    // 表格 中加入 目录型文件
+                    imgViewFiles.AddRange(DZIConstant.Cons.CreateImgViewTileList(bottomDirs));
                     // 获取根据底层而来的所有目录
                     var realDirs = subDirects2.Where(s => s.GetDirectories().Length > 0 ?
                                                         bottomDirs.Exists(b => b.FullName.Contains(s.FullName)) : bottomDirs.Exists(b => b.FullName == s.FullName)).ToList();
@@ -246,92 +247,5 @@ namespace DST.PIMS.Client.ViewModel
             }
             return (treeData, imgViewFiles);
         }
-
-        /// <summary>
-        /// 根据底层目录获取表格数据
-        /// </summary>
-        /// <param name="bottomDirs"></param>
-        /// <returns></returns>
-        private List<ImgViewFileInfo> CreateImgViewTileList(List<DirectoryInfo> bottomDirs)
-        {
-            var result = new List<ImgViewFileInfo>();
-            bottomDirs.ForEach(x =>
-            {
-                //var file = x.EnumerateDirectories().FirstOrDefault(d => d.Name == "1")?.EnumerateDirectories()?.FirstOrDefault(d => d.Name == "0")?
-                //                                    .GetFiles()?.FirstOrDefault(f => f.Name == "0.jpg");
-                var img = new ImgViewFileInfo
-                {
-                    QCodeImgUrl = DZIConstant.GetQCodeImg(x)?.FullName,
-                    SampleImgUrl = DZIConstant.GetNavImg(x)?.FullName,
-                    LocalFilePath = x.FullName,
-                    DicectoryName = x.Name,
-                };
-                result.Add(img);
-            });
-            return result;
-        }
-
-        private List<ImgViewFileInfo> CreateImgViewTileList(List<FileInfo> fileInfos)
-        {
-            var result = new List<ImgViewFileInfo>();
-            fileInfos.ForEach(x =>
-            {
-                //var dziModel = DZISingleConstant.Cons.LoadSingleFile(x.FullName).GetAwaiter().GetResult();
-                var img = new ImgViewFileInfo
-                {
-                    //QCodeImgUrl = DZIConstant.GetQCodeImg(x)?.FullName,
-                    //SampleImgUrl = DZIConstant.GetNavImg(x)?.FullName,
-                    LocalFilePath = x.FullName,
-                    DicectoryName = x.Name,
-                };
-                result.Add(img);
-            });
-            return result;
-        }
-        //private TreeViewData CreateTreeViewData(string baseDir)
-        //{
-        //    var result = new TreeViewData();
-
-        //    if (!string.IsNullOrEmpty(baseDir))
-        //    {
-        //        DirectoryInfo baseDirInfo = new DirectoryInfo(baseDir);
-        //        //
-        //        var subDirects = baseDirInfo.GetDirectories(); // 获取一级子目录
-        //        //var subDirects2 = baseDir.GetDirectories("*", SearchOption.AllDirectories); // 获取一级子目录
-        //        result = new TreeViewData();
-        //        var rootNode = new TreeNode { Label = baseDirInfo.Name, Level = 0 };
-        //        result.RootNodes.Add(rootNode);
-        //        foreach (var direct in subDirects)
-        //        {
-        //            var subNode = new TreeNode { Label = direct.Name, Level = 1, Tag = direct.FullName, Parent = rootNode };
-        //            rootNode.ChildNodes.Add(subNode);
-        //        }
-        //    }
-        //    return result;
-        //}
-
-
-        /// <summary>
-        /// 判断是否是切片目录
-        /// </summary>
-        /// <param name="baseDir"></param>
-        /// <returns></returns>
-        //private bool IsSliceDir(string baseDir)
-        //{
-        //    var isSilceDir = false;
-        //    //Func<DirectoryInfo, IEnumerable<DirectoryInfo>> func = dir => dir?.EnumerateDirectories();
-        //    if (!string.IsNullOrEmpty(baseDir))
-        //    {
-        //        var baseDirInfo = new DirectoryInfo(baseDir);
-        //        var sildeFile = baseDirInfo.EnumerateFiles().FirstOrDefault(f => f.Name == slideDatName); // 是否包含Slide.dat文件
-        //        if (sildeFile != null)
-        //        {
-        //            var sileCount = baseDirInfo.EnumerateDirectories().Join(_dirStdList, b => b.Name, s => s, (b, s) => b).ToList();
-        //            isSilceDir = sileCount.Count == _dirStdList.Count; // 是否包含1-9目录
-        //        }
-        //    }
-        //    return isSilceDir;
-        //}
-
     }
 }

@@ -13,13 +13,22 @@ namespace DST.PIMS.Framework.ScaleTileSource
     public abstract class DZIBaseLayerFromScaleTileSource : MultiScaleTileSource, IDisposable
     {
         public abstract void Dispose();
+        /// <summary>
+        /// 获取导航图片数据方法
+        /// </summary>
+        /// <returns></returns>
         public abstract byte[] GetThumbnailImg();
+        /// <summary>
+        /// 获取对应瓦片源
+        /// </summary>
+        /// <param name="imgViewFile"></param>
+        /// <returns></returns>
         public static DZIBaseLayerFromScaleTileSource GetTileSource(ImgViewFileInfo imgViewFile)
         {
-            if (imgViewFile.DicectoryName.EndsWith(".dst"))
+            if (imgViewFile.DicectoryName.EndsWith(DZISingleConstant.Cons.FileExtension))
             {
-                var model = DZISingleConstant.Cons.LoadSingleFile(imgViewFile.LocalFilePath).GetAwaiter().GetResult();
-                return new DZILayerFromDSTSingleTileSource(model);
+                //var model = DZISingleConstant.Cons.LoadSingleFile(imgViewFile.LocalFilePath).GetAwaiter().GetResult();
+                return new DZILayerFromDSTSingleTileSource(imgViewFile.DZI);
             }
             else
             {

@@ -26,7 +26,7 @@ namespace DST.Database.Model
         /// <summary>
         /// 数据文件头的长度
         /// </summary>
-        public int TitleDataLength { get; set; }
+        public int DataTitleLength { get; set; }
         /// <summary>
         /// 瓦片信息
         /// </summary>

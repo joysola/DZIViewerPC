@@ -932,7 +932,7 @@ namespace System.Windows.Controls
 		protected override Size ArrangeOverride(Size finalSize)
 		{
 			bool applyTransform = ApplyTransform;
-			Point point = applyTransform ? default(Point) : Offset;
+			Point point = applyTransform ? default : Offset;
 			double num = applyTransform ? 1.0 : Scale;
 			ChildrenExtent = Rect.Empty;
 			foreach (UIElement internalChild in base.InternalChildren)

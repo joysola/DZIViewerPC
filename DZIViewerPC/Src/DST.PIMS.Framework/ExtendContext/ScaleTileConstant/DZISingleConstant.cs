@@ -42,7 +42,14 @@ namespace DST.PIMS.Framework.ExtendContext
         public int DZIMinLevel { get; } = 6;
 
         public string SlideFile { get; } = "Slide.ini";
-
+        /// <summary>
+        /// 头部字节末位置
+        /// </summary>
+        private int TitleBytePos { get; } = 279;
+        /// <summary>
+        /// 文件后缀
+        /// </summary>
+        public string FileExtension { get; } = ".dst";
 
         public bool IsSlice(string baseDir)
         {
@@ -54,7 +61,25 @@ namespace DST.PIMS.Framework.ExtendContext
             return result;
         }
 
-
+        public List<ImgViewFileInfo> CreateImgViewTileList(IEnumerable<FileSystemInfo> infos)
+        {
+            var result = new List<ImgViewFileInfo>();
+            foreach (var fsi in infos)
+            {
+                var dziModel = LoadSingleFile(fsi.FullName).GetAwaiter().GetResult();
+                dziModel.FileName = fsi.Name;
+                var img = new ImgViewFileInfo
+                {
+                    //QCodeImgUrl = DZIConstant.GetQCodeImg(x)?.FullName,
+                    SampleImgUrl = GetNavImg(dziModel).GetAwaiter().GetResult(),
+                    LocalFilePath = fsi.FullName,
+                    DicectoryName = fsi.Name,
+                    DZI = dziModel,
+                };
+                result.Add(img);
+            }
+            return result;
+        }
         /// <summary>
         /// 获取瓦片路径
         /// </summary>
@@ -77,23 +102,25 @@ namespace DST.PIMS.Framework.ExtendContext
             {
                 result = new byte[info.Length];
                 using var fs = new FileStream(model.FilePath, FileMode.Open, FileAccess.Read, FileShare.Read, 1024 * 1024, true);
-                fs.Seek(279 + model.TitleDataLength + info.Postion, SeekOrigin.Begin);
+                fs.Seek(TitleBytePos + model.DataTitleLength + info.Postion, SeekOrigin.Begin);
                 await fs.ReadAsync(result, 0, info.Length).ConfigureAwait(false);
-                //using (var fs2 = new FileStream("xxx.jpg", FileMode.OpenOrCreate))
-                //{
-                //    fs2.Write(result, 0, result.Length);
-                //}
             }
             return result;
         }
-
+        /// <summary>
+        /// 获取瓦片数据
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="model"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public async Task<byte[]> GetTileData(Stream stream, DZIModel model, string key)
         {
             byte[] result = null;
             if (model.TileInfo.TryGetValue(key, out DZITileInfo tileInfo))
             {
                 result = new byte[tileInfo.Length];
-                stream.Seek(279 + model.TitleDataLength + tileInfo.Postion, SeekOrigin.Begin);
+                stream.Seek(TitleBytePos + model.DataTitleLength + tileInfo.Postion, SeekOrigin.Begin);
                 await stream.ReadAsync(result, 0, tileInfo.Length).ConfigureAwait(false);
             }
             return result;
@@ -138,7 +165,7 @@ namespace DST.PIMS.Framework.ExtendContext
                 var offd = int.Parse(off4, NumberStyles.HexNumber);
                 var offest = $"{offa}{offb}{offc}{offd}";
                 var titleDataLength = int.Parse(offest); // 数据的文件头最终长度
-                model.TitleDataLength = titleDataLength;
+                model.DataTitleLength = titleDataLength;
 
                 // key
                 byte[] tmpKeyBytes = new byte[128];
@@ -169,34 +196,24 @@ namespace DST.PIMS.Framework.ExtendContext
                 using var outputStream = new MemoryStream();
                 var aes = new AES_CTR(keyBytes, keyCountBytes);
                 await aes.DecryptStreamAsync(outputStream, new MemoryStream(dataInfoBytes));
-                using (var sr = new StreamReader(outputStream))
+                using var sr = new StreamReader(outputStream);
+                sr.BaseStream.Seek(0, SeekOrigin.Begin); // 流重新定位读取点
+                var data = await sr.ReadToEndAsync().ConfigureAwait(false);
+                var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
+                foreach (var keyValue in dict)
                 {
-                    sr.BaseStream.Seek(0, SeekOrigin.Begin); // 流重新定位读取点
-                    var data = await sr.ReadToEndAsync().ConfigureAwait(false);
-                    var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
-                    foreach (var keyValue in dict)
+                    var strArry = keyValue.Value.Split(','); // value 是aa,bb形式的字符串
+                    if (strArry?.Length == 2 && int.TryParse(strArry[0], out int postion) && int.TryParse(strArry[1], out int length))
                     {
-                        var strArry = keyValue.Value.Split(','); // value 是aa,bb形式的字符串
-                        if (strArry?.Length == 2 && int.TryParse(strArry[0], out int postion) && int.TryParse(strArry[1], out int length))
-                        {
-                            var dziInfo = new DZITileInfo { Length = length, Postion = postion };
-                            model.TileInfo.Add(keyValue.Key, dziInfo);
-                        }
+                        var dziInfo = new DZITileInfo { Length = length, Postion = postion };
+                        model.TileInfo.Add(keyValue.Key, dziInfo);
                     }
                 }
 
             }
-
-
             return model;
-            //var xx = dict["9/0_0.jpg"];
-
-            //fs.Seek(279 + totalTitleLength + yy[0], SeekOrigin.Begin);
-            //var bytes = new byte[yy[1]];
-            //await fs.ReadAsync(bytes, 0, yy[1]);
-            //using var fs2 = new FileStream("0_0.jpg", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 1024 * 1024, true);
-            //await fs2.WriteAsync(bytes, 0, bytes.Length);
-
         }
+
+
     }
 }

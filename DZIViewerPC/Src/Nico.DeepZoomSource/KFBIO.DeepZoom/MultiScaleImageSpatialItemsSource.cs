@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Nico.DeepZoom
 {
@@ -17,8 +19,11 @@ namespace Nico.DeepZoom
         private const int CacheCapacity = 0;
 
         private readonly Dictionary<string, BitmapSource> _tileCache = new Dictionary<string, BitmapSource>();
-
         private readonly Queue<string> _cachedTiles = new Queue<string>(0);
+
+        private readonly ConcurrentDictionary<string, BitmapSource> _conTileSourceCache = new ConcurrentDictionary<string, BitmapSource>();
+        private readonly ConcurrentQueue<string> _conTileIdCache = new ConcurrentQueue<string>();
+
 
         private readonly MultiScaleTileSource _tileSource;
 
@@ -47,6 +52,121 @@ namespace Nico.DeepZoom
             }
         }
 
+        #region 初版
+        //public object this[int i]
+        //{
+        //    get
+        //    {
+        //        double CenterX = 0.0;
+        //        double CenterY = 0.0;
+        //        double Angle = 0.0;
+        //        double OffsetX = 0.0;
+        //        double OffsetY = 0.0;
+        //        _tileSource.GetTileLayersAngle(ref CenterX, ref CenterY, ref Angle, ref OffsetX, ref OffsetY);
+        //        _tileSource.CenterX = CenterX;
+        //        _tileSource.CenterY = CenterY;
+        //        _tileSource.Angle = Angle;
+        //        _tileSource.OffsetX = OffsetX;
+        //        _tileSource.OffsetY = OffsetY;
+        //        Tile tile = _tileSource.TileFromIndex(i);
+        //        string tileId = tile.ToString();
+        //        //if (_tileCache.ContainsKey(tileId))
+        //        //{
+        //        //    return new VisualTile(tile, _tileSource, _tileCache[tileId]);
+        //        //}
+        //        if (_conTileSourceCache.TryGetValue(tileId, out BitmapSource source))
+        //        {
+        //            return new VisualTile(tile, _tileSource, source);
+        //        }
+        //        VisualTile tileVm = new VisualTile(tile, _tileSource);
+        //        object tileLayers = _tileSource.GetTileLayers(tile.Level, tile.Column, tile.Row);
+        //        Uri uri = tileLayers as Uri;
+        //        if (uri != null)
+        //        {
+        //            CancellationToken token = _currentCancellationTokenSource.Token;
+        //            Task.Factory.StartNew(delegate
+        //            {
+        //                BitmapSource bitmapSource = ImageLoader.LoadImage(uri);
+        //                if (bitmapSource != null)
+        //                {
+        //                    bitmapSource = ConCacheTile(tileId, bitmapSource);
+        //                }
+        //                return bitmapSource;
+        //            }, token, TaskCreationOptions.None, TaskScheduler.Default).ContinueWith(delegate (Task<BitmapSource> t)
+        //            {
+        //                if (t.Result != null)
+        //                {
+        //                    tileVm.Source = t.Result;
+        //                }
+        //            }, TaskContinuationOptions.OnlyOnRanToCompletion);
+        //        }
+        //        else if (tileLayers is string localUrl) // 本地local链接
+        //        {
+        //            Application.Current.Dispatcher.InvokeAsync(async () =>
+        //            {
+        //                using (var stream = (Stream)await _tileSource.ReadImgStream(localUrl))
+        //                {
+        //                    if (stream == null)
+        //                    {
+        //                        tileVm = null;
+        //                        return;
+        //                    }
+        //                    try
+        //                    {
+        //                        var bitmapImage = new BitmapImage();
+        //                        bitmapImage.BeginInit();
+        //                        bitmapImage.CreateOptions = BitmapCreateOptions.PreservePixelFormat; // 必须在BeginInit后设置
+        //                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+        //                        bitmapImage.StreamSource = stream;
+        //                        bitmapImage.EndInit();
+        //                        bitmapImage.Freeze();
+        //                        tileVm.Source = bitmapImage;
+        //                        ConCacheTile(tileId, bitmapImage);
+        //                    }
+        //                    catch (Exception)
+        //                    {
+        //                        tileVm = null;
+        //                    }
+        //                }
+        //                //var stream = (Stream)await _tileSource.ReadImgStream(localUrl/*, tile.Level, tile.Column, tile.Row*/);
+        //            });
+        //        }
+        //        else
+        //        {
+        //            var stream = tileLayers as Stream;
+        //            if (stream == null)
+        //            {
+        //                return null;
+        //            }
+        //            using (stream)
+        //            {
+        //                try
+        //                {
+        //                    BitmapImage bitmapImage = new BitmapImage();
+        //                    bitmapImage.BeginInit();
+        //                    bitmapImage.CreateOptions = BitmapCreateOptions.PreservePixelFormat; // 必须在BeginInit后设置
+        //                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+        //                    bitmapImage.StreamSource = stream;
+        //                    bitmapImage.EndInit();
+        //                    bitmapImage.Freeze();
+        //                    tileVm.Source = bitmapImage;
+        //                    //stream.Dispose();
+        //                    //stream.Close();
+        //                }
+        //                catch (Exception)
+        //                {
+        //                    tileVm = null;
+        //                }
+        //            }
+        //        }
+        //        return tileVm;
+        //    }
+        //    set
+        //    {
+        //    }
+        //}
+        #endregion
+
         public object this[int i]
         {
             get
@@ -64,9 +184,9 @@ namespace Nico.DeepZoom
                 _tileSource.OffsetY = OffsetY;
                 Tile tile = _tileSource.TileFromIndex(i);
                 string tileId = tile.ToString();
-                if (_tileCache.ContainsKey(tileId))
+                if (_conTileSourceCache.TryGetValue(tileId, out BitmapSource source))
                 {
-                    return new VisualTile(tile, _tileSource, _tileCache[tileId]);
+                    return new VisualTile(tile, _tileSource, source);
                 }
                 VisualTile tileVm = new VisualTile(tile, _tileSource);
                 object tileLayers = _tileSource.GetTileLayers(tile.Level, tile.Column, tile.Row);
@@ -79,7 +199,7 @@ namespace Nico.DeepZoom
                         BitmapSource bitmapSource = ImageLoader.LoadImage(uri);
                         if (bitmapSource != null)
                         {
-                            bitmapSource = CacheTile(tileId, bitmapSource);
+                            bitmapSource = ConCacheTile(tileId, bitmapSource);
                         }
                         return bitmapSource;
                     }, token, TaskCreationOptions.None, TaskScheduler.Default).ContinueWith(delegate (Task<BitmapSource> t)
@@ -90,17 +210,18 @@ namespace Nico.DeepZoom
                         }
                     }, TaskContinuationOptions.OnlyOnRanToCompletion);
                 }
-                else if (tileLayers is string localUrl) // 本地local链接
+                else
                 {
-                    Application.Current.Dispatcher.InvokeAsync(async () =>
+                    Application.Current.Dispatcher.Invoke(async () =>
                     {
-                        using (var stream = (Stream)await _tileSource.ReadImgStream(localUrl/*, tile.Level, tile.Column, tile.Row*/)/*.ConfigureAwait(false)*/)
+                        var stream = await _tileSource.GetTileLayersAsync(tile.Level, tile.Column, tile.Row);
+                        if (stream == null)
                         {
-                            if (stream == null)
-                            {
-                                tileVm = null;
-                                return;
-                            }
+                            tileVm = null;
+                            return;
+                        }
+                        using (stream)
+                        {
                             try
                             {
                                 var bitmapImage = new BitmapImage();
@@ -110,40 +231,18 @@ namespace Nico.DeepZoom
                                 bitmapImage.StreamSource = stream;
                                 bitmapImage.EndInit();
                                 bitmapImage.Freeze();
-
                                 tileVm.Source = bitmapImage;
+                                //stream.Dispose();
+                                //stream.Close();
                             }
                             catch (Exception)
                             {
                                 tileVm = null;
                             }
                         }
-                        //var stream = (Stream)await _tileSource.ReadImgStream(localUrl/*, tile.Level, tile.Column, tile.Row*/);
-                    });
-                }
-                else
-                {
-                    Stream stream = tileLayers as Stream;
-                    if (stream == null)
-                    {
-                        return null;
-                    }
-                    try
-                    {
-                        BitmapImage bitmapImage = new BitmapImage();
-                        bitmapImage.BeginInit();
-                        bitmapImage.CreateOptions = BitmapCreateOptions.PreservePixelFormat; // 必须在BeginInit后设置
-                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                        bitmapImage.StreamSource = stream;
-                        bitmapImage.EndInit();
-                        tileVm.Source = bitmapImage;
-                        stream.Dispose();
-                        stream.Close();
-                    }
-                    catch (Exception)
-                    {
-                        return null;
-                    }
+
+                    }, DispatcherPriority.Send);
+
                 }
                 return tileVm;
             }
@@ -209,6 +308,33 @@ namespace Nico.DeepZoom
                 return source;
             }
         }
+        /// <summary>
+        /// 并发缓存
+        /// </summary>
+        /// <param name="tileId"></param>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        private BitmapSource ConCacheTile(string tileId, BitmapSource source)
+        {
+            if (_conTileSourceCache.TryGetValue(tileId, out BitmapSource bitmapSource))
+            {
+                return bitmapSource;
+            }
+            else if (source != null)
+            {
+                if (_conTileIdCache.Count > 64)
+                {
+                    if (_conTileIdCache.TryDequeue(out string id))
+                    {
+                        _conTileSourceCache.TryRemove(id, out BitmapSource removeSource);
+                    }
+                }
+                _conTileIdCache.Enqueue(tileId);
+                _conTileSourceCache.TryAdd(tileId, source);
+            }
+            return source;
+        }
+
 
         int IList.Add(object value)
         {

@@ -14,11 +14,11 @@ namespace DST.Database.Model
         /// <summary>
         /// 切片二维码
         /// </summary>
-        public string QCodeImgUrl { get; set; }
+        public byte[] QCodeImgUrl { get; set; }
         /// <summary>
         /// 样本缩略图路径
         /// </summary>
-        public string SampleImgUrl { get; set; }
+        public byte[] SampleImgUrl { get; set; }
         /// <summary>
         /// 文件夹本地完整路径
         /// </summary>
@@ -31,6 +31,9 @@ namespace DST.Database.Model
         /// 是否选中
         /// </summary>
         public bool IsSelected { get; set; }
-
+        /// <summary>
+        /// 主要用于单文件
+        /// </summary>
+        public DZIModel DZI { get; set; }
     }
 }

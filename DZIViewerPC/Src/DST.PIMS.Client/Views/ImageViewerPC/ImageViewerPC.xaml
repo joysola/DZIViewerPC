@@ -23,6 +23,7 @@
             <cv:DataGridIndexConverter x:Key="DataGridIndexConverter" />
             <fcv:EmbedPrintStatusConverter x:Key="EmbedPrintStatusConverter" />
             <fcv:MaterialDelayBtnVisiConverter x:Key="MaterialDelayBtnVisiConverter" />
+            <fcv:DZINavImgConverter x:Key="DZINavImgConverter" />
             <SolidColorBrush x:Key="GridBackground"
                              Color="White" />
         </Grid.Resources>
@@ -118,10 +119,10 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal"
-                                            MaxHeight="100">
-                                    <Image Source="{Binding QCodeImgUrl}"
+                                            Height="100">
+                                    <Image Source="{Binding QCodeImgUrl,Converter={StaticResource DZINavImgConverter}}"
                                            Stretch="Uniform" />
-                                    <Image Source="{Binding SampleImgUrl}"
+                                    <Image Source="{Binding SampleImgUrl,Converter={StaticResource DZINavImgConverter}}"
                                            Stretch="Uniform" />
                                 </StackPanel>
                             </DataTemplate>

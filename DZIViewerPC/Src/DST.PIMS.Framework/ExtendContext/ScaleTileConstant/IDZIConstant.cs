@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DST.Database.Model;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +34,9 @@ namespace DST.PIMS.Framework.ExtendContext
         /// 最小层数显示
         /// </summary>
         public int DZIMinLevel { get; }
-
+        /// <summary>
+        /// 信息文件
+        /// </summary>
         public string SlideFile { get; }
         /// <summary>
         /// 是否是切片
@@ -47,5 +51,12 @@ namespace DST.PIMS.Framework.ExtendContext
         /// <param name="tilePositionY"></param>
         /// <returns></returns>
         public string GetTilePath(int tileLevel, int tilePositionX, int tilePositionY);
+
+        /// <summary>
+        /// 根据系统目录信息获取展示表格信息
+        /// </summary>
+        /// <param name="infos"></param>
+        /// <returns></returns>
+        public List<ImgViewFileInfo> CreateImgViewTileList(IEnumerable<FileSystemInfo> infos);
     }
 }
