@@ -126,14 +126,20 @@
                          MSI="{Binding ElementName=msi}"
                          MouseDown="CloseAllPopups" />
         </StackPanel>
-        <frm:Rotater x:Name="rotater"
-                     Grid.Row="1"
-                     Grid.Column="1"
-                     Margin="0,0,0,20"
-                     HorizontalAlignment="Right"
-                     VerticalAlignment="Bottom"
-                     Width="200"
-                     MouseDown="CloseAllPopups" />
+        <StackPanel Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,0,20">
+            <frm:RatioCtl Margin="2"
+                          CurScaleChange="RatioCtl_CurScaleChange"
+                          Curscale="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ImageViewer},Path=Curscale,Mode=OneWay}" />
+            <frm:Rotater x:Name="rotater"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Bottom"
+                         Width="200"
+                         MouseDown="CloseAllPopups" />
+        </StackPanel>
         <frm:ThumbsList Grid.Row="0"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
@@ -143,7 +149,8 @@
                         SelectedItem="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:ImageViewer},Path=CurAnnoBase,Mode=OneWayToSource}"
                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ImageViewer},Path=AnnoInfos.AnnoList,UpdateSourceTrigger=PropertyChanged}" />
         <StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,5,0,0">
                 <Button Style="{StaticResource ButtonPrimary}"
                         x:Name="AnnoListBtn"
                         Margin="5,0,5,0"

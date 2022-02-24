@@ -134,8 +134,19 @@ namespace DST.PIMS.Client.Views
         /// <summary>
         /// 当前倍率
         /// </summary>
-        public double Curscale { get; set; } // 触发NotifyPropertyChanged
+        //public double Curscale { get; set; } // 触发NotifyPropertyChanged
+        /// <summary>
+        /// 比例尺
+        /// </summary>
+        public double Curscale
+        {
+            get => (double)GetValue(CurscaleProperty);
+            set => SetValue(CurscaleProperty, value);
+        }
 
+        // Using a DependencyProperty as the backing store for CellWidth.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurscaleProperty =
+            DependencyProperty.Register(nameof(Curscale), typeof(double), typeof(ImageViewer), new PropertyMetadata(0.0));
 
         public ImageViewer()
         {
@@ -889,6 +900,15 @@ namespace DST.PIMS.Client.Views
             CloseAllPopups();
         }
 
-
+        private void RatioCtl_CurScaleChange(object sender, RoutedEventArgs e)
+        {
+            if (sender is RatioCtl ctl)
+            {
+                var position = new Point(msi.ActualWidth / 2, msi.ActualHeight / 2);
+                //msi.ZoomableCanvas.Scale = ctl.Curscale;
+                //msi.ZoomableCanvas.ApplyAnimationClock(ZoomableCanvas.OffsetProperty, null);
+                ZoomRatio(ctl.Curscale, position);
+            }
+        }
     }
 }

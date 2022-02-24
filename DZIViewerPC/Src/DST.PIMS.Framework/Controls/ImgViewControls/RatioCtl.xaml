@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="DST.PIMS.Framework.Controls.RatioCtl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DST.PIMS.Framework.Controls"
+             xmlns:cv="clr-namespace:DST.Controls.Converter;assembly=DST.Controls"
+             xmlns:fcv="clr-namespace:DST.PIMS.Framework.StyleConverters"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="260" d:DesignWidth="80">
+    <Grid>
+        <Grid.Resources>
+            <sys:Double x:Key="BtnWidth">40</sys:Double>
+        </Grid.Resources>
+        <WrapPanel Orientation="Vertical"  HorizontalAlignment="Center">
+            <TextBlock HorizontalAlignment="Center">
+                <Run Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:RatioCtl},Path=Curscale,Mode=OneWay, StringFormat={}{0:##.#}}"/>
+                <Run Text="x" /></TextBlock>
+            <Button Style="{StaticResource ButtonDashed}"
+                    Margin="0,5,0,0"
+                    Width="{StaticResource BtnWidth}"
+                    Content="40" 
+                    Click="BtnRatio_Click"/>
+            <Button Style="{StaticResource ButtonDashed}"
+                    Margin="0,5,0,0"
+                    Width="{StaticResource BtnWidth}"
+                    Content="20" 
+                    Click="BtnRatio_Click"/>
+            <Button Style="{StaticResource ButtonDashed}"
+                    Margin="0,5,0,0"
+                    Width="{StaticResource BtnWidth}"
+                    Content="10"
+                    Click="BtnRatio_Click" />
+            <Button Style="{StaticResource ButtonDashed}"
+                    Margin="0,5,0,0"
+                    Width="{StaticResource BtnWidth}"
+                    Content="4"
+                    Click="BtnRatio_Click" />
+            <Button Style="{StaticResource ButtonDashed}"
+                    Margin="0,5,0,0"
+                    Width="{StaticResource BtnWidth}"
+                    Content="2"
+                    Click="BtnRatio_Click" />
+            <Button Style="{StaticResource ButtonDashed}"
+                    Margin="0,5,0,0"
+                    Width="{StaticResource BtnWidth}"
+                    Content="1"
+                    Click="BtnRatio_Click" />
+        </WrapPanel>  
+    </Grid>
+</UserControl>
