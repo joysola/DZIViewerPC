@@ -75,18 +75,16 @@ namespace Nico.DeepZoom
 
         public MultiScaleImage()
         {
-            _levelChangeThrottle = new DispatcherTimer
+            _levelChangeThrottle = new DispatcherTimer(DispatcherPriority.Background)
             {
-                Interval = TimeSpan.FromMilliseconds(10.0),
+                Interval = TimeSpan.FromMilliseconds(100.0),
                 IsEnabled = false
             };
-            DispatcherTimer levelChangeThrottle = _levelChangeThrottle;
-            EventHandler value = delegate
+            _levelChangeThrottle.Tick += (s, e) =>
             {
                 _spatialSource.CurrentLevel = _desiredLevel;
                 _levelChangeThrottle.IsEnabled = false;
             };
-            levelChangeThrottle.Tick += value;
         }
 
         public override void OnApplyTemplate()
@@ -115,10 +113,7 @@ namespace Nico.DeepZoom
                 _zoomableCanvas.RealizationPriority = DispatcherPriority.Background;
                 _zoomableCanvas.RealizationRate = 10;
                 InitializeCanvas();
-                if (this.Ini != null)
-                {
-                    this.Ini(sender, e);
-                }
+                this.Ini?.Invoke(sender, e);
             }
         }
 
@@ -217,6 +212,7 @@ namespace Nico.DeepZoom
                 else
                 {
                     _spatialSource.CurrentLevel = level;
+
                 }
             }
             if (num == scale)

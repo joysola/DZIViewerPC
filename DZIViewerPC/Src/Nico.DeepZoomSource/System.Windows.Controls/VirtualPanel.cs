@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Specialized;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
@@ -223,15 +224,12 @@ namespace System.Windows.Controls
             return null;
         }
 
-        public void InvalidateReality2()
+        public void InvalidateReality()
         {
-            if (RealizeOperation != null)
-            {
-                RealizeOperation.Abort();
-            }
+            RealizeOperation?.Abort();
             object state = null;
             Action action = null;
-            action = delegate
+            action = () =>
             {
                 RealizeOperation = null;
                 state = RealizeCore(state);
@@ -244,7 +242,7 @@ namespace System.Windows.Controls
         }
 
         private static readonly SemaphoreSlim locker = new SemaphoreSlim(1, 1);
-        public async Task InvalidateReality()
+        public async Task InvalidateReality2()
         {
             await locker.WaitAsync();
             await this.Dispatcher.InvokeAsync(() =>
@@ -442,7 +440,6 @@ namespace System.Windows.Controls
                 return uIElement;
             }
         }
-
         public void VirtualizeItem(int itemIndex)
         {
             IItemContainerGenerator itemContainerGenerator = base.ItemContainerGenerator;

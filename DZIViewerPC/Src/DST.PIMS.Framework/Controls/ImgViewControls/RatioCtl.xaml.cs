@@ -50,8 +50,8 @@ namespace DST.PIMS.Framework.Controls
         {
             if (sender is Button button && button.Content is string ratio &&double.TryParse(ratio, out double scale))
             {
-                Curscale = scale;
-                RaiseEvent(new RoutedEventArgs(CurScaleChangeEvent, sender));
+                //Curscale = scale;
+                RaiseEvent(new RoutedEventArgs(CurScaleChangeEvent, scale));
             }
         }
     }

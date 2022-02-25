@@ -184,10 +184,10 @@ namespace Nico.DeepZoom
                 _tileSource.OffsetY = OffsetY;
                 Tile tile = _tileSource.TileFromIndex(i);
                 string tileId = tile.ToString();
-                if (_conTileSourceCache.TryGetValue(tileId, out BitmapSource source))
-                {
-                    return new VisualTile(tile, _tileSource, source);
-                }
+                //if (_conTileSourceCache.TryGetValue(tileId, out BitmapSource source))
+                //{
+                //    return new VisualTile(tile, _tileSource, source);
+                //}
                 VisualTile tileVm = new VisualTile(tile, _tileSource);
                 object tileLayers = _tileSource.GetTileLayers(tile.Level, tile.Column, tile.Row);
                 Uri uri = tileLayers as Uri;
@@ -212,9 +212,10 @@ namespace Nico.DeepZoom
                 }
                 else
                 {
+                    var token = _currentCancellationTokenSource.Token;
                     Application.Current.Dispatcher.Invoke(async () =>
                     {
-                        var stream = await _tileSource.GetTileLayersAsync(tile.Level, tile.Column, tile.Row);
+                        var stream = await _tileSource.GetTileLayersAsync(tile.Level, tile.Column, tile.Row).ConfigureAwait(false);
                         if (stream == null)
                         {
                             tileVm = null;
@@ -231,6 +232,7 @@ namespace Nico.DeepZoom
                                 bitmapImage.StreamSource = stream;
                                 bitmapImage.EndInit();
                                 bitmapImage.Freeze();
+                                //ConCacheTile(tileId, bitmapImage);
                                 tileVm.Source = bitmapImage;
                                 //stream.Dispose();
                                 //stream.Close();
@@ -241,7 +243,7 @@ namespace Nico.DeepZoom
                             }
                         }
 
-                    }, DispatcherPriority.Send);
+                    }, DispatcherPriority.Normal, token);
 
                 }
                 return tileVm;
@@ -322,7 +324,7 @@ namespace Nico.DeepZoom
             }
             else if (source != null)
             {
-                if (_conTileIdCache.Count > 64)
+                if (_conTileIdCache.Count > 32)
                 {
                     if (_conTileIdCache.TryDequeue(out string id))
                     {

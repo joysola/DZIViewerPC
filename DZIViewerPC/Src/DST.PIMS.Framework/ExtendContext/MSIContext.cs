@@ -31,10 +31,10 @@ namespace DST.PIMS.Framework.ExtendContext
         /// <summary>
         /// 缩放最大倍率
         /// </summary>
-        public static int MaxScale { get; } = 50;
+        public static int MaxScale { get; } = 42;
 
-        private static readonly double[] m_magV = new double[] { 320.0, 128.0, 60.0, 40.0, 30.0, 20.0, 10.0, 8.0, 5.0, 2.0, 1.5, 0.0 };
-        private static readonly double[] m_adjV = new double[] { 10.0, 5.0, 4.0, 3.0, 2.0, 1.5, 1.0, 0.7, 0.5, 0.4, 0.3, 0.2 };
+        private static readonly double[] m_magV = new double[] {320.0, 128.0, 60.0, 40.0, 30.0, 20.0, 10.0, 8.0, 5.0, 2.0, 1.5, 0.0 };
+        private static readonly double[] m_adjV = new double[] {10.0,  5.0,   4.0,  3.3,  2.0,  1.5,  1.0,  0.7, 0.5, 0.4, 0.3, 0.2 };
 
         public static double GetAdjustSplitScaleByCurScale(double curscale, int timeSpan)
         {
@@ -54,13 +54,13 @@ namespace DST.PIMS.Framework.ExtendContext
             return result * CalcSpeed(timeSpan);
         }
 
-        private static double CalcFixValueY(double x1, double x2, double y1, double y2, double x)
+        private static double CalcFixValueY(double secLess, double secGreat, double stepLess, double stepGreat, double curScale)
         {
-            double num = x2 - x1;
-            double num2 = x2 - x;
-            double num3 = y2 - y1;
-            double num4 = num3 * num2 / (1.0 * num);
-            return y2 - num4;
+            double secLength = secGreat - secLess;
+            double num2 = secGreat - curScale;
+            double stepLength = stepGreat - stepLess;
+            double num4 = stepLength * num2 / (1.0 * secLength);
+            return stepGreat - num4;
         }
         private static double CalcSpeed(int timeDelta)
         {

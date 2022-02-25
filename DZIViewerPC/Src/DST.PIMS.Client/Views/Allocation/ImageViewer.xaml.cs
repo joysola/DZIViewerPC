@@ -628,7 +628,7 @@ namespace DST.PIMS.Client.Views
         #region ZoomableCanvas
         private void ZoomableCanvas_Refresh(object sender, DependencyPropertyChangedEventArgs e)
         {
-            this.Refresh();
+            this.Dispatcher.InvokeAsync(() => this.Refresh());
         }
 
 
@@ -686,6 +686,19 @@ namespace DST.PIMS.Client.Views
                                                              //Point point3 = msi.ElementToLogicalPoint(pointM);
             msi.ZoomAboutLogicalPoint(zoom_ratio / Curscale, point3.X, point3.Y);
             Curscale = zoom_ratio;
+        }
+        /// <summary>
+        /// 倍率控件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RatioCtl_CurScaleChange(object sender, RoutedEventArgs e)
+        {
+            if (e.OriginalSource is double scale)
+            {
+                var position = new Point(msi.ActualWidth / 2, msi.ActualHeight / 2);
+                ZoomRatio(scale, position);
+            }
         }
         #endregion ZoomableCanvas
 
@@ -900,15 +913,5 @@ namespace DST.PIMS.Client.Views
             CloseAllPopups();
         }
 
-        private void RatioCtl_CurScaleChange(object sender, RoutedEventArgs e)
-        {
-            if (sender is RatioCtl ctl)
-            {
-                var position = new Point(msi.ActualWidth / 2, msi.ActualHeight / 2);
-                //msi.ZoomableCanvas.Scale = ctl.Curscale;
-                //msi.ZoomableCanvas.ApplyAnimationClock(ZoomableCanvas.OffsetProperty, null);
-                ZoomRatio(ctl.Curscale, position);
-            }
-        }
     }
 }

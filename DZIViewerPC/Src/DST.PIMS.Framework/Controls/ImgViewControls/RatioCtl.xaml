@@ -16,7 +16,7 @@
         </Grid.Resources>
         <WrapPanel Orientation="Vertical"  HorizontalAlignment="Center">
             <TextBlock HorizontalAlignment="Center">
-                <Run Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:RatioCtl},Path=Curscale,Mode=OneWay, StringFormat={}{0:##.#}}"/>
+                <Run Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:RatioCtl},Path=Curscale,StringFormat={}{0:##.#}}"/>
                 <Run Text="x" /></TextBlock>
             <Button Style="{StaticResource ButtonDashed}"
                     Margin="0,5,0,0"
