@@ -119,7 +119,7 @@
                     Height="{Binding ElementName=imgViewer,Path=ActualHeight}"
                     x:Name="lineBorder"
                     Background="{StaticResource PrimaryBrush}"
-                    Visibility="{Binding IsSpliting,Converter={StaticResource Boolean2VisibilityConverter},UpdateSourceTrigger=PropertyChanged}" /> 
+                    Visibility="{Binding IsSpliting,Converter={StaticResource Boolean2VisibilityConverter},UpdateSourceTrigger=PropertyChanged}" />
             <!---->
             <local:ImageViewer Grid.Column="3"
                                x:Name="imgViewer2"

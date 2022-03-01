@@ -219,11 +219,11 @@ namespace Nico.DeepZoom
             }
             if (level != currentLevel)
             {
-                if (level > currentLevel)
+                if (level > currentLevel) // ∑≈¥Û
                 {
                     ThrottleChangeLevel(level);
                 }
-                else
+                else // Àı–°
                 {
                     _spatialSource.CurrentLevel = level;
                 }

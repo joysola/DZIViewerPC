@@ -24,6 +24,7 @@ namespace DST.PIMS.Client.Views
     /// </summary>
     public partial class ImgVwMng : BaseUserControl
     {
+        private ContentWindow _contentWin;
         /// <summary>
         /// ImgViewer的Height属性绑定（自身）
         /// </summary>
@@ -39,8 +40,20 @@ namespace DST.PIMS.Client.Views
             // 加载完成后再加载白平衡的shaderEffect
             //this.Loaded += (s, e) => this.Dispatcher.InvokeAsync(() => this.imgViewer.msi.Effect = (ShaderEffect)this.grid.TryFindResource("shader"));
             this.RegisterMessage();
-
+            this.Loaded += ImgVwMng_Loaded;
+            this.Unloaded += (s, e) => _contentWin.KeyUp -= Move_KeyUp;
         }
+
+        private void ImgVwMng_Loaded(object sender, RoutedEventArgs e)
+        {
+            _contentWin = Application.Current.Windows?.OfType<ContentWindow>()?.FirstOrDefault();
+            if (_contentWin != null)
+            {
+                _contentWin.KeyUp += Move_KeyUp;
+            }
+        }
+
+
 
         private void RegisterMessage()
         {
@@ -140,6 +153,45 @@ namespace DST.PIMS.Client.Views
         private void AnnoList_Click(object sender, RoutedEventArgs e)
         {
             //this.AnnoListPop.IsOpen = !this.AnnoListPop.IsOpen;
+        }
+
+        private void Move_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Timestamp < 10 && e.IsDown)
+                return;
+            var x = 0.0;
+            var y = 0.0;
+            var xStep = 1.0 / 30 * this.imgViewer.msi.ZoomableCanvas.ActualWidth;
+            var yStep = 1.0 / 30 * this.imgViewer.msi.ZoomableCanvas.ActualHeight;
+            Action<double, double> action = (xOffest, yOffset) =>
+             {
+                 double xx = this.imgViewer.msi.ZoomableCanvas.Offset.X + xOffest;
+                 double yy = this.imgViewer.msi.ZoomableCanvas.Offset.Y + yOffset;
+                 this.imgViewer.msi.ZoomableCanvas.Offset = new Point(xx, yy);
+                 this.imgViewer.msi.ZoomableCanvas.ApplyAnimationClock(ZoomableCanvas.OffsetProperty, null);
+             };
+            switch (e.Key)
+            {
+                case Key.Up:
+                    y = yStep;
+                    action(x, y);
+                    break;
+                case Key.Down:
+                    y = -yStep;
+                    action(x, y);
+
+                    break;
+                case Key.Left:
+                    x = xStep;
+                    action(x, y);
+
+                    break;
+                case Key.Right:
+                    x = -xStep;
+                    action(x, y);
+
+                    break;
+            }
         }
     }
 }
