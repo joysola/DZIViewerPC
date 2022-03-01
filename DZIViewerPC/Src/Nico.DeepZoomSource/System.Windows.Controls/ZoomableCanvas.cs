@@ -1,6 +1,8 @@
+using Nico.Common;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -429,8 +431,7 @@ namespace System.Windows.Controls
 
         private static object CoerceActualViewbox(DependencyObject d, object value)
         {
-            ZoomableCanvas zoomableCanvas = d as ZoomableCanvas;
-            if (zoomableCanvas != null)
+            if (d is ZoomableCanvas zoomableCanvas)
             {
                 Point offset = zoomableCanvas.Offset;
                 double scale = zoomableCanvas.Scale;
@@ -442,9 +443,11 @@ namespace System.Windows.Controls
 
         private static void OnActualViewboxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as ZoomableCanvas)?.InvalidateReality();
-            IScrollInfo scrollInfo = d as IScrollInfo;
-            if (scrollInfo != null && scrollInfo.ScrollOwner != null)
+            if (d is ZoomableCanvas zoomableCanvas)
+            {
+                zoomableCanvas.InvalidateReality();
+            }
+            if (d is IScrollInfo scrollInfo && scrollInfo.ScrollOwner != null)
             {
                 scrollInfo.ScrollOwner.InvalidateScrollInfo();
             }
@@ -530,13 +533,11 @@ namespace System.Windows.Controls
 
         private static void OnOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            d.CoerceValue(ActualViewboxProperty);
-            var zoomableCanvas = d as ZoomableCanvas;
-            if (zoomableCanvas != null)
+            if (d is ZoomableCanvas zoomableCanvas)
             {
-                zoomableCanvas.OffsetOverride((Point)e.NewValue);
+                zoomableCanvas.OffsetOverride((Point)e.NewValue);// 先进行Transform变化，再进行真缩放InvalidateReality
                 ZoomableCanvas.Refresh?.Invoke(d, e);
-
+                d.CoerceValue(ActualViewboxProperty);
             }
         }
 
@@ -548,8 +549,7 @@ namespace System.Windows.Controls
         private static object CoerceScale(DependencyObject d, object value)
         {
             double num = (double)value;
-            ZoomableCanvas zoomableCanvas = d as ZoomableCanvas;
-            if (zoomableCanvas != null)
+            if (d is ZoomableCanvas zoomableCanvas)
             {
                 Size renderSize = zoomableCanvas.RenderSize;
                 if (renderSize.Width > 0.0 && renderSize.Height > 0.0)
@@ -577,19 +577,21 @@ namespace System.Windows.Controls
                         }
                     }
                 }
+
             }
+            //ZoomableCanvas zoomableCanvas = d as ZoomableCanvas;
+            //if (zoomableCanvas != null)
             return num;
         }
 
         private static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            d.CoerceValue(ActualViewboxProperty);
-            d.CoerceValue(OffsetProperty);
-            var zoomableCanvas = d as ZoomableCanvas;
-            if (zoomableCanvas != null)
+            if (d is ZoomableCanvas zoomableCanvas)
             {
-                zoomableCanvas.ScaleOverride((double)e.NewValue);
+                zoomableCanvas.ScaleOverride((double)e.NewValue); // 先进行Transform变化，再进行真缩放
                 ZoomableCanvas.Refresh?.Invoke(d, e);
+                d.CoerceValue(ActualViewboxProperty);
+                d.CoerceValue(OffsetProperty);
             }
         }
 
@@ -804,7 +806,10 @@ namespace System.Windows.Controls
             }
             return enumerator;
         }
-
+        /// <summary>
+        /// 核心
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator RealizeOverride()
         {
             if (SpatialIndex == null)
@@ -829,6 +834,7 @@ namespace System.Windows.Controls
             }
             LinkedListNode<int> lastNode = null;
             LinkedListNode<int> nextNode2 = RealizedItems.First;
+
             foreach (int index2 in query)
             {
                 LinkedListNode<int> node2 = RealizedItems.FindNext(lastNode, index2);
@@ -857,6 +863,7 @@ namespace System.Windows.Controls
                 yield return index2;
             }
             nextNode2 = RealizedItems.Last;
+
             while (nextNode2 != lastNode)
             {
                 LinkedListNode<int> node = nextNode2;
@@ -870,6 +877,7 @@ namespace System.Windows.Controls
                 }
                 yield return index;
             }
+
         }
 
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
@@ -893,7 +901,10 @@ namespace System.Windows.Controls
                 (parent as Canvas)?.InvalidateArrange();
             }
         }
-
+        /// <summary>
+        /// Scale的Transform变形
+        /// </summary>
+        /// <param name="scale"></param>
         protected virtual void ScaleOverride(double scale)
         {
             ScaleTransform appliedScaleTransform = AppliedScaleTransform;
@@ -907,7 +918,10 @@ namespace System.Windows.Controls
                 InvalidateArrange();
             }
         }
-
+        /// <summary>
+        /// Offset的Transform变形
+        /// </summary>
+        /// <param name="offset"></param>
         protected virtual void OffsetOverride(Point offset)
         {
             TranslateTransform appliedTranslateTransform = AppliedTranslateTransform;

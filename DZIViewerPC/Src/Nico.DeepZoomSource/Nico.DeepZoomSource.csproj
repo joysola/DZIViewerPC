@@ -95,5 +95,11 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Nico.Common\Nico.Common.csproj">
+      <Project>{23E4AD65-3294-4745-9F36-CE51C8F24495}</Project>
+      <Name>Nico.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

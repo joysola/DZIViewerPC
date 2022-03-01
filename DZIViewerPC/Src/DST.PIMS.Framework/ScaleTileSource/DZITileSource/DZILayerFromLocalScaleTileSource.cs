@@ -110,7 +110,7 @@ namespace DST.PIMS.Framework.ScaleTileSource
                     using (var fs = new FileStream(url, FileMode.Open, FileAccess.Read, FileShare.Read, 1024 * 1024, FileOptions.Asynchronous))
                     {
                         bytes = new byte[fs.Length];
-                        await fs.ReadAsync(bytes, 0, (int)fs.Length);
+                        await fs.ReadAsync(bytes, 0, (int)fs.Length).ConfigureAwait(false);
                     }
                     if (bytes != null)
                     {

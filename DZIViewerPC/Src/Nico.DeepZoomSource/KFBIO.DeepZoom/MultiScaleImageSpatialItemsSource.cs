@@ -1,7 +1,9 @@
+using Nico.Common;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -212,8 +214,7 @@ namespace Nico.DeepZoom
                 }
                 else
                 {
-                    var token = _currentCancellationTokenSource.Token;
-                    Application.Current.Dispatcher.Invoke(async () =>
+                    Application.Current.Dispatcher.InvokeAsync(async () =>
                     {
                         var stream = await _tileSource.GetTileLayersAsync(tile.Level, tile.Column, tile.Row).ConfigureAwait(false);
                         if (stream == null)
@@ -242,8 +243,7 @@ namespace Nico.DeepZoom
                                 tileVm = null;
                             }
                         }
-
-                    }, DispatcherPriority.Normal, token);
+                    }, DispatcherPriority.Normal);
 
                 }
                 return tileVm;

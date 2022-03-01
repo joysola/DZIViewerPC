@@ -1,5 +1,6 @@
 using Nico.Common;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -28,6 +29,7 @@ namespace Nico.DeepZoom
         private int _desiredLevel;
 
         private readonly DispatcherTimer _levelChangeThrottle;
+
 
         public static readonly DependencyProperty SourceProperty;
 
@@ -77,7 +79,7 @@ namespace Nico.DeepZoom
         {
             _levelChangeThrottle = new DispatcherTimer(DispatcherPriority.Background)
             {
-                Interval = TimeSpan.FromMilliseconds(100.0),
+                Interval = TimeSpan.FromMilliseconds(85.0),
                 IsEnabled = false
             };
             _levelChangeThrottle.Tick += (s, e) =>
@@ -107,13 +109,16 @@ namespace Nico.DeepZoom
 
         private void ZoomableCanvasLoaded(object sender, RoutedEventArgs e)
         {
-            _zoomableCanvas = (sender as ZoomableCanvas);
-            if (_zoomableCanvas != null && _zoomableCanvas.Children.Count == 0 && base.Tag != "1")
+            if (sender is ZoomableCanvas zoomableCanvas)
             {
-                _zoomableCanvas.RealizationPriority = DispatcherPriority.Background;
-                _zoomableCanvas.RealizationRate = 10;
-                InitializeCanvas();
-                this.Ini?.Invoke(sender, e);
+                _zoomableCanvas = zoomableCanvas;
+                if (_zoomableCanvas.Children.Count == 0 && base.Tag != "1")
+                {
+                    _zoomableCanvas.RealizationPriority = DispatcherPriority.Background;
+                    _zoomableCanvas.RealizationRate = 10;
+                    InitializeCanvas();
+                    this.Ini?.Invoke(sender, e);
+                }
             }
         }
 
@@ -186,11 +191,16 @@ namespace Nico.DeepZoom
                 if (!hasInited)
                 {
                     hasInited = true;
-                    this.Ini(this, null);
+                    this.Ini?.Invoke(this, null);
                 }
             }
         }
-
+        /// <summary>
+        /// Ëõ·ÅºËÐÄ
+        /// </summary>
+        /// <param name="relativeScale"></param>
+        /// <param name="center"></param>
+        /// <param name="animate"></param>
         public void ScaleCanvas(double relativeScale, Point center, bool animate = false)
         {
             double scale = _zoomableCanvas.Scale;
@@ -203,6 +213,10 @@ namespace Nico.DeepZoom
             double num = scale * relativeScale;
             int level = Source.GetLevel(num);
             int currentLevel = _spatialSource.CurrentLevel;
+            if (num == scale)
+            {
+                return;
+            }
             if (level != currentLevel)
             {
                 if (level > currentLevel)
@@ -212,12 +226,7 @@ namespace Nico.DeepZoom
                 else
                 {
                     _spatialSource.CurrentLevel = level;
-
                 }
-            }
-            if (num == scale)
-            {
-                return;
             }
             Vector vector = (Vector)center;
             Point point = (Point)((Vector)(_zoomableCanvas.Offset + vector) * relativeScale - vector);
@@ -231,12 +240,12 @@ namespace Nico.DeepZoom
                 {
                     relativeScale = 4.0;
                 }
-                double num2 = relativeScale * 100.0;
-                if (num2 < 0.0)
+                double millSecs = relativeScale * 100.0;
+                if (millSecs < 0.0)
                 {
-                    num2 = 1.0;
+                    millSecs = 1.0;
                 }
-                TimeSpan timeSpan = TimeSpan.FromMilliseconds(num2);
+                TimeSpan timeSpan = TimeSpan.FromMilliseconds(millSecs);
                 //TimeSpan timeSpan = TimeSpan.FromMilliseconds(1500);
                 var easingFunction = new CubicEase() { /*EasingMode = EasingMode.EaseIn*/ };
                 _zoomableCanvas.BeginAnimation(ZoomableCanvas.ScaleProperty, new DoubleAnimation(num, timeSpan)
@@ -265,5 +274,6 @@ namespace Nico.DeepZoom
             }
             _levelChangeThrottle.Start();
         }
+      
     }
 }

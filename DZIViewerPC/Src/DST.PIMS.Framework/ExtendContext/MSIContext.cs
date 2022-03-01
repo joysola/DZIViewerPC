@@ -34,7 +34,7 @@ namespace DST.PIMS.Framework.ExtendContext
         public static int MaxScale { get; } = 42;
 
         private static readonly double[] m_magV = new double[] {320.0, 128.0, 60.0, 40.0, 30.0, 20.0, 10.0, 8.0, 5.0, 2.0, 1.5, 0.0 };
-        private static readonly double[] m_adjV = new double[] {10.0,  5.0,   4.0,  3.3,  2.0,  1.5,  1.0,  0.7, 0.5, 0.4, 0.3, 0.2 };
+        private static readonly double[] m_adjV = new double[] {10.0,  5.0,   4.0,  3.0,  2.0,  1.5,  1.0,  0.7, 0.5, 0.4, 0.3, 0.2 };
 
         public static double GetAdjustSplitScaleByCurScale(double curscale, int timeSpan)
         {
