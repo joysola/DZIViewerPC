@@ -80,7 +80,7 @@ namespace DST.PIMS.Framework.ExtendContext
             return isSilceDir;
         }
 
-       
+
         public List<ImgViewFileInfo> CreateImgViewTileList(IEnumerable<FileSystemInfo> infos)
         {
             var result = new List<ImgViewFileInfo>();
@@ -116,9 +116,12 @@ namespace DST.PIMS.Framework.ExtendContext
                     var file = directoryInfo.EnumerateDirectories().FirstOrDefault(d => d.Name == DZIFilesDir)?
                                          .EnumerateDirectories()?.FirstOrDefault(d => d.Name == NavImgLevel)?
                                          .GetFiles()?.FirstOrDefault(f => f.Name == NavImgName);
-                    bytes = new byte[file.Length];
-                    using var fs = file.OpenRead();
-                    fs.Read(bytes, 0, bytes.Length);
+                    if (file != null)
+                    {
+                        bytes = new byte[file.Length];
+                        using var fs = file.OpenRead();
+                        fs.Read(bytes, 0, bytes.Length);
+                    }
                 }
             }
             return bytes;
@@ -138,9 +141,12 @@ namespace DST.PIMS.Framework.ExtendContext
                 if (directoryInfo.Exists)
                 {
                     var file = directoryInfo.EnumerateFiles().FirstOrDefault(f => f.Name == QCodeName);
-                    bytes = new byte[file.Length];
-                    using var fs = file.OpenRead();
-                    fs.Read(bytes, 0, bytes.Length);
+                    if (file != null)
+                    {
+                        bytes = new byte[file.Length];
+                        using var fs = file.OpenRead();
+                        fs.Read(bytes, 0, bytes.Length);
+                    }
                 }
             }
             return bytes;
