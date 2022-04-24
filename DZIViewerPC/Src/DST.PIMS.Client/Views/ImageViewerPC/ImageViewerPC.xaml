@@ -97,8 +97,8 @@
                     </Style>
                 </DataGrid.RowStyle>-->
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="*"
-                                            MaxWidth="100"
+                    <DataGridTemplateColumn Width="0.5*"
+                                            MaxWidth="250"
                                             Header="序号">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -111,7 +111,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="2*"
+                    <DataGridTextColumn Width="*"
                                         Header="文件名"
                                         Binding="{Binding DicectoryName}" />
                     <DataGridTemplateColumn Width="4*"
@@ -119,16 +119,21 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal"
-                                            MinHeight="100">
+                                            >
+                                    <!--<StackPanel.RenderTransform>
+                                        <ScaleTransform ScaleX="1.1"
+                                                        ScaleY="1.1" />
+                                    </StackPanel.RenderTransform>-->
                                     <Image Source="{Binding QCodeImgUrl,Converter={StaticResource DZINavImgConverter}}"
-                                           Stretch="Uniform" />
+                                           Stretch="UniformToFill" Height="350"></Image>
                                     <Image Source="{Binding SampleImgUrl,Converter={StaticResource DZINavImgConverter}}"
-                                           Stretch="Uniform" />
+                                           Stretch="Uniform"
+                                          />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="2*"
+                    <DataGridTemplateColumn Width="*"
                                             Header="本地路径">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -137,7 +142,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="*"
+                    <DataGridTemplateColumn Width="0.5*"
                                             Header="操作">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
